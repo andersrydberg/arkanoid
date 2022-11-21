@@ -11,11 +11,13 @@ class System {
 public:
     System();
     ~System();
+    SDL_Renderer* getRend() const;
 private:
     SDL_Window* window;
     SDL_Renderer* rend;
 };
 
+// declared as 'extern' because?
 extern System sys;
 
 #endif //PROGC_PROJEKT_SYSTEM_H

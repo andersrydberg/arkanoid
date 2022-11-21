@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include "Constants.h" //gResPath-contains the path to your resources.
+#include "System.h"
+#include "Session.h"
 
 // Alla dessa SDL inkluderingsfiler används inte i detta testprogram.
 // Bifogas endast för test av SDL installation! 
@@ -27,7 +29,8 @@
 //#define FPS 60
 
 
-int main(int argc, char* argv[]) {
-
+int main(int argc, char* argv[])
+{
+    Session ses;
 	return EXIT_SUCCESS;
 }
