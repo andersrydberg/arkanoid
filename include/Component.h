@@ -5,8 +5,17 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <SDL2/SDL.h>
 
 class Component {
+
+public:
+    virtual void draw() const = 0;
+    virtual void tick() {};
+    virtual void mouseDown(SDL_Event*) {};
+
+protected:
+    Component();
 
 };
 

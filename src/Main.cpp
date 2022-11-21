@@ -3,6 +3,7 @@
 #include "Constants.h" //gResPath-contains the path to your resources.
 #include "System.h"
 #include "Session.h"
+#include "Background.h"
 
 // Alla dessa SDL inkluderingsfiler används inte i detta testprogram.
 // Bifogas endast för test av SDL installation! 
@@ -26,11 +27,17 @@
 *   '/build/debug/', in that case change gResPath="./resources/"
 */
 
-//#define FPS 60
+Session ses;
 
 
-int main(int argc, char* argv[])
-{
-    Session ses;
+int main(int argc, char* argv[]) {
+    if (sys.initWithErrors())
+        return EXIT_FAILURE;
+
+    Background bg(constants::gResPath + "images/bg.jpg");
+
+    ses.add(&bg);
+    ses.run();
+
 	return EXIT_SUCCESS;
 }
