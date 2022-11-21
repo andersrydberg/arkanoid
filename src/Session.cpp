@@ -35,12 +35,13 @@ void Session::run() {
             comps.push_back(comp);
         addQueue.clear();
 
-        // remove any "dead" components
+        // remove any "dead" components, free memory
         for (Component* comp : removeQueue) {
             for (std::vector<Component*>::iterator iter = comps.begin();
             iter != comps.end(); iter++) {
                 if (*iter == comp) {
                     comps.erase(iter);
+                    delete comp;
                     break; // inner for (continue with the next comp)
                 }
             }
@@ -49,8 +50,6 @@ void Session::run() {
 
         // draw window
         SDL_RenderClear(sys.rend);
-        if (backgroundTexture)
-            SDL_RenderCopy(sys.rend, backgroundTexture, NULL, NULL);
         for (Component* comp : comps) {
             comp->draw();
         }
@@ -67,10 +66,4 @@ void Session::add(Component *comp) {
 
 void Session::remove(Component *comp) {
     removeQueue.push_back(comp);
-}
-
-void Session::setBackground(const std::string &filePath) {
-    SDL_Surface* surface = IMG_Load(filePath.c_str());
-    backgroundTexture = SDL_CreateTextureFromSurface(sys.rend, surface);
-    SDL_FreeSurface(surface);
 }

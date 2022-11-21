@@ -4,6 +4,7 @@
 #include "System.h"
 #include "Session.h"
 #include "Background.h"
+#include "Sprite.h"
 
 // Alla dessa SDL inkluderingsfiler används inte i detta testprogram.
 // Bifogas endast för test av SDL installation! 
@@ -29,14 +30,65 @@
 
 Session ses;
 
+class Bullet : public Sprite {
+
+public:
+    static Bullet* getInstance(int x, int y) {
+        return new Bullet(x, y);
+    }
+
+    ~Bullet() override {
+        SDL_DestroyTexture(texture);
+    }
+
+    void tick() override {
+        if (rect.y <= 0)
+            ses.remove(this);
+        rect.y--;
+    }
+
+    void draw() const override {
+        SDL_RenderCopy(sys.rend, texture, NULL, &rect);
+    }
+
+protected:
+    Bullet(int x, int y) : Sprite(x, y, 32, 32) {
+        SDL_Surface* surface =
+                IMG_Load((constants::gResPath + "images/donkey.png").c_str());
+        texture = SDL_CreateTextureFromSurface(sys.rend, surface);
+        SDL_FreeSurface(surface);
+    }
+
+private:
+    SDL_Texture* texture;
+};
+
+
+
+class Pistol : public Sprite {
+
+public:
+    Pistol() : Sprite() {
+    }
+
+    void mouseDown(SDL_Event* event) override {
+        int x = event->button.x;
+        int y = event->button.y;
+        ses.add(Bullet::getInstance(x, y));
+    }
+};
+
+
 
 int main(int argc, char* argv[]) {
     if (sys.initWithErrors())
         return EXIT_FAILURE;
 
-    Background bg(constants::gResPath + "images/bg.jpg");
+    Background* bg = Background::getInstance(constants::gResPath + "images/bg.jpg");
+    Pistol pistol;
 
-    ses.add(&bg);
+    ses.add(bg);
+    ses.add(&pistol);
     ses.run();
 
 	return EXIT_SUCCESS;

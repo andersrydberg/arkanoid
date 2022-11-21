@@ -13,10 +13,10 @@ public:
     virtual void draw() const = 0;
     virtual void tick() {};
     virtual void mouseDown(SDL_Event*) {};
+    virtual ~Component();
 
 protected:
     Component();
-
 };
 
 

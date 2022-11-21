@@ -8,3 +8,7 @@
 Component::Component() {
 
 }
+
+Component::~Component() {
+
+}

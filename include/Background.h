@@ -12,8 +12,11 @@
 class Background : public Component {
 
 public:
-    explicit Background(std::string filePath);
     void draw() const override;
+    static Background* getInstance(const std::string& filePath);
+
+protected:
+    explicit Background(const std::string& filePath);
 
 private:
     SDL_Texture* texture;

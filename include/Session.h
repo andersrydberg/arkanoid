@@ -16,13 +16,11 @@ public:
     void add(Component* comp);
     void remove(Component* comp);
 
-    void setBackground(const std::string& filePath);
 
 private:
     std::vector<Component*> comps;
     std::vector<Component*> addQueue;
     std::vector<Component*> removeQueue;
-    SDL_Texture* backgroundTexture;
 };
 
 
