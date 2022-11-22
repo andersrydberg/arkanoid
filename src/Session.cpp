@@ -3,16 +3,18 @@
 //
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include "System.h"
 #include "Session.h"
 
+#define FPS 60
 
 void Session::run() {
 
     bool quit = false;
+    int millisecs_per_tick = 1000 / FPS;
     while (!quit) {
 
+        Uint32 nextTick = SDL_GetTicks() + millisecs_per_tick;
         // poll events; if any - dispatch them to components to be handled
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -54,6 +56,11 @@ void Session::run() {
             comp->draw();
         }
         SDL_RenderPresent(sys.rend);
+
+        // sleep if
+        int diff = nextTick - SDL_GetTicks();
+        if (diff > 0)
+            SDL_Delay(diff);
 
     }
 
