@@ -24,6 +24,15 @@ int System::init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         return 1;
 
+
+#if __APPLE__
+    // necessary on my Mac system
+    // the default "metal" renderer is extremely laggy for some reason
+    // https://stackoverflow.com/questions/59700423/why-is-sdl-so-much-slower-on-mac-than-linux
+    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+#endif
+
+
     window = SDL_CreateWindow("Game",SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,600,400,0);
     if (!window)

@@ -44,7 +44,7 @@ public:
     void tick() override {
         if (rect.y <= 0)
             ses.remove(this);
-        rect.y--;
+        rect.y -= 10;
     }
 
     void draw() const override {
@@ -83,6 +83,10 @@ public:
 int main(int argc, char* argv[]) {
     if (sys.initWithErrors())
         return EXIT_FAILURE;
+
+    SDL_RendererInfo info;
+    SDL_GetRendererInfo(sys.rend, &info);
+    std::cout << info.name << std::endl;
 
     Background* bg = Background::getInstance(constants::gResPath + "images/bg.jpg");
     Pistol pistol;

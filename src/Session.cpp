@@ -57,7 +57,7 @@ void Session::run() {
         }
         SDL_RenderPresent(sys.rend);
 
-        // sleep if
+        // sleep the necessary amount of time left until next tick
         int diff = nextTick - SDL_GetTicks();
         if (diff > 0)
             SDL_Delay(diff);
