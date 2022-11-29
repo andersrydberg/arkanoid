@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include "System.h"
 #include "Session.h"
+#include <iostream>
 
 #define FPS 60
 
@@ -59,6 +60,7 @@ void Session::run() {
 
         // sleep the necessary amount of time left until next tick
         int diff = nextTick - SDL_GetTicks();
+        //std::cout << diff << std::endl;
         if (diff > 0)
             SDL_Delay(diff);
 

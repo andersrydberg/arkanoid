@@ -13,6 +13,7 @@
 #include <SDL2/SDL_image.h> 
 #include <SDL2/SDL_mixer.h> 
 #include <SDL2/SDL_ttf.h>
+#include <random>
 
 /*  PATH TO YOUR RESOURCE FOLDER 'resources'
 *   'gResPath' is a global constant defined in "Constants.h", 
@@ -30,6 +31,11 @@
 
 Session ses;
 
+const double distanceTravelledPerTick = 4.0;
+std::random_device rd;  // Will be used to obtain a seed for the random number engine
+std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+std::uniform_real_distribution<> dis(0.0, 8 * atan(1));  // 2 * pi
+
 class Bullet : public Sprite {
 
 public:
@@ -42,9 +48,12 @@ public:
     }
 
     void tick() override {
-        if (rect.y <= 0)
+        rect.x += distanceTravelledPerTick * cos(angle);
+        rect.y += distanceTravelledPerTick * sin(angle);
+
+        if (rect.y <= 0 || rect.x <= 0)
             ses.remove(this);
-        rect.y -= 10;
+        //rect.y -= 4;
     }
 
     void draw() const override {
@@ -57,10 +66,14 @@ protected:
                 IMG_Load((constants::gResPath + "images/donkey.png").c_str());
         texture = SDL_CreateTextureFromSurface(sys.rend, surface);
         SDL_FreeSurface(surface);
+        std::cout << angle << std::endl;
     }
 
 private:
     SDL_Texture* texture;
+
+    double angle = dis(gen);
+
 };
 
 
