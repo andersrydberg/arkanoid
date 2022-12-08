@@ -9,6 +9,14 @@
 
 #define FPS 60
 
+Session::Session() {
+    map = new Map();
+}
+
+Session::~Session() {
+    delete map;
+}
+
 void Session::run() {
 
     bool quit = false;
@@ -21,41 +29,19 @@ void Session::run() {
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_MOUSEBUTTONDOWN:
-                    for (Component* comp : comps)
-                        comp->mouseDown(&event);
-                    break;
+                    map->mouseDown(&event); break;
                 case SDL_QUIT:
                     quit = true; break;
             }
         }
 
         // tick all components
-        for (Component* comp : comps)
-            comp->tick();
+        map->tick();
 
-        // add any new components
-        for (Component* comp : addQueue)
-            comps.push_back(comp);
-        addQueue.clear();
-
-        // remove any "dead" components, free memory
-        for (Component* comp : removeQueue) {
-            for (std::vector<Component*>::iterator iter = comps.begin();
-            iter != comps.end(); iter++) {
-                if (*iter == comp) {
-                    comps.erase(iter);
-                    delete comp;
-                    break; // inner for (continue with the next comp)
-                }
-            }
-        }
-        removeQueue.clear();
 
         // draw window
         SDL_RenderClear(sys.rend);
-        for (Component* comp : comps) {
-            comp->draw();
-        }
+        map->draw();
         SDL_RenderPresent(sys.rend);
 
         // sleep the necessary amount of time left until next tick
@@ -68,11 +54,4 @@ void Session::run() {
 
 }
 
-
-void Session::add(Component *comp) {
-    addQueue.push_back(comp);
-}
-
-void Session::remove(Component *comp) {
-    removeQueue.push_back(comp);
-}
+Session ses;

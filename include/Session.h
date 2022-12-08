@@ -8,20 +8,22 @@
 #include <string>
 #include <vector>
 #include "Component.h"
+#include "Map.h"
 
 class Session {
 
 public:
+    Session();
+    ~Session();
     void run();
-    void add(Component* comp);
-    void remove(Component* comp);
 
+    Map* getMap() const {return map;}
 
 private:
-    std::vector<Component*> comps;
-    std::vector<Component*> addQueue;
-    std::vector<Component*> removeQueue;
+    Map* map;
 };
+
+extern Session ses;
 
 
 #endif

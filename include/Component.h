@@ -7,10 +7,11 @@
 
 #include <SDL2/SDL.h>
 
+
 class Component {
 
 public:
-    virtual void draw() const = 0;
+    virtual void draw() = 0;
     virtual void tick() {};
     virtual void mouseDown(SDL_Event*) {};
     virtual ~Component();

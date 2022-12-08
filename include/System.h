@@ -14,6 +14,10 @@ public:
     System();
     ~System();
     bool initWithErrors() const;
+
+    int getWindowWidth() const;
+    int getWindowHeight() const;
+
     void setWindowSize(int w, int h) const;
     void setWindowTitle(const std::string& title) const;
 
@@ -27,7 +31,8 @@ private:
     int initStatus;
 };
 
-// declared as 'extern' because?
+// declaration of global variable
+// needs to be defined (once) in cpp-files
 extern System sys;
 
 #endif

@@ -7,16 +7,23 @@
 
 
 #include "Component.h"
+#include "Map.h"
 
 class Sprite : public Component {
 
 public:
-    void draw() const {};
+    Sprite();
+    explicit Sprite(const std::string& filepath);
+    Sprite(const std::string& filepath, int x, int y, int w, int h);
+    ~Sprite();
+
+    void draw();
 
 protected:
-    Sprite();
-    Sprite(int x, int y, int w, int h);
-    SDL_Rect rect;
+    SDL_Rect* rect;
+    SDL_Texture* texture;
+    Map* map;
+
 };
 
 

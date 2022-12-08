@@ -45,6 +45,22 @@ int System::init() {
     return 0;
 }
 
+
+int System::getWindowWidth() const {
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    return w;
+}
+
+int System::getWindowHeight() const {
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    return h;
+}
+
+
+
+
 void System::setWindowSize(int w, int h) const {
     SDL_SetWindowSize(window, w, h);
     SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
