@@ -5,22 +5,39 @@
 #ifndef GROUP_H
 #define GROUP_H
 
+#include <SDL2/SDL.h>
 #include <vector>
 #include <string>
 #include "Component.h"
 
 class Group {
 public:
-    explicit Group(const std::string& name);
-    virtual ~Group();
+    friend class World;
+    virtual ~Group() = default;
+
+    virtual void tick();
+    virtual void draw() const;
+    virtual void mouseDown(SDL_Event* event);
 
     const std::string& getName() const {return name;}
     std::vector<Component*>& getContents() {return comps;}
 
-    void push_back(Component* comp);
+    void add(Component* comp);
+
+protected:
+    Group(World* world, const std::string& name) : world(world), name(name) {}
+
+    virtual void addComponents();
+    virtual void removeComponents();
+
 private:
+    World* world;
     std::string name;
     std::vector<Component*> comps;
+
+    std::vector<Component*> addQueue;
+    std::vector<Component*> removeQueue;
+
 };
 
 

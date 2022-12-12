@@ -7,7 +7,9 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <SDL2/SDL.h>
+#include "Group.h"
 
 class Component;
 
@@ -16,19 +18,20 @@ class World {
 public:
     void tick();
     void draw() const;
-    void add(Component* comp);
-    void remove(Component* comp);
+
+    void add(Component *comp, const std::string &group);
+    void removeGlobally(Component* comp);
+
+
     void mouseDown(SDL_Event* event);
 
     void setBackground(const std::string& filepath);
 
 private:
-    void addComponents();
-    void removeComponents();
+    World() = default;
 
-    std::vector<Component*> comps;
-    std::vector<Component*> addQueue;
-    std::vector<Component*> removeQueue;
+    std::vector<std::string> iterationOrder;
+    std::unordered_map<std::string, Group*> groups;
 
 };
 

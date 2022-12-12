@@ -9,6 +9,7 @@
 #include <random>
 #include <unordered_set>
 #include "Constants.h"
+#include "Group.h"
 
 const double distanceTravelledPerTick = 5.0;
 const double PI = 4 * atan(1);
@@ -18,9 +19,9 @@ std::uniform_real_distribution<> dis(0.0, 2 * PI);
 
 
 
-void Explosion::tick(World* world) {
+void Explosion::tick(Group *group) {
     if (ticksToLive-- == 0)
-        world->remove(this);
+        group->remove(this);
 }
 
 Explosion* Explosion::getInstance(int x, int y) {
@@ -36,7 +37,7 @@ Bullet* Bullet::getInstance(int x, int y) {
     return new Bullet(x, y);
 }
 
-void Bullet::tick(World* world) {
+void Bullet::tick(Group *group) {
     // if another bullet has already collided with this bullet, do nothing
     if (collided)
         return;
@@ -52,12 +53,12 @@ void Bullet::tick(World* world) {
             continue;
 
         if(SDL_IntersectRect(&new_rect, b->rect, &intersection)) {
-            world->add(Explosion::getInstance(intersection.x + (intersection.w / 2),
-                                           intersection.y + (intersection.h / 2)));
+            world->add(nullptr, Explosion::getInstance(intersection.x + (intersection.w / 2),
+                                                       intersection.y + (intersection.h / 2)));
             collided = true;
             b->collided = true;
-            world->remove(this);
-            world->remove(b);
+            world->removeGlobally(this);
+            world->removeGlobally(b);
             bullets.erase(this);
             bullets.erase(b);
             return;
@@ -91,9 +92,9 @@ Bullet::Bullet(int x, int y) : Sprite(constants::gResPath + "images/donkey.png",
 
 
 
-void Pistol::mouseDown(World* world, SDL_Event* event) {
+void Pistol::mouseDown(Group *group, SDL_Event *event) {
     int x = event->button.x;
     int y = event->button.y;
-    world->add(Bullet::getInstance(x, y));
+    world->add(nullptr, Bullet::getInstance(x, y));
 }
 

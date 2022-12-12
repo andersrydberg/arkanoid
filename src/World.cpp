@@ -9,57 +9,32 @@
 #include "System.h"
 
 void World::draw() const {
-    for (Component* comp : comps)
-        comp->draw();
-}
-
-void World::mouseDown(SDL_Event* event) {
-    for (Component* comp : comps)
-        comp->mouseDown(this, event);
+    for (std::string name : iterationOrder)
+        groups.at(name)->draw();
 }
 
 void World::tick() {
-    for (Component* comp : comps)
-        comp->tick(this);
-
-    // add any new components generated in the tick-loop
-    addComponents();
-
-    // remove any "dead" components, free memory
-    removeComponents();
+    for (std::string name : iterationOrder)
+        groups.at(name)->tick();
 }
 
-void World::addComponents() {
-    for (Component* comp : addQueue)
-        comps.push_back(comp);
-    addQueue.clear();
-}
-
-void World::removeComponents() {
-    for (Component* comp : removeQueue) {
-        for (auto iter = comps.begin();
-             iter != comps.end(); iter++) {
-            if (*iter == comp) {
-                comps.erase(iter);
-                delete comp;
-                break; // inner for (continue with the next comp)
-            }
-        }
-    }
-    removeQueue.clear();
-
+void World::mouseDown(SDL_Event* event) {
+    for (std::string name : iterationOrder)
+        groups.at(name)->mouseDown(event);
 }
 
 
-void World::add(Component *comp) {
+
+void World::add(Component *comp, const std::string &group) {
+
     addQueue.push_back(comp);
 }
 
-void World::remove(Component *comp) {
+void World::removeGlobally(Component *comp) {
     removeQueue.push_back(comp);
 }
 
 void World::setBackground(const std::string& filepath) {
     auto* background = new Sprite(filepath);
-    add(background);
+    add(nullptr, background);
 }

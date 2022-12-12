@@ -6,18 +6,18 @@
 #define COMPONENT_H
 
 #include <SDL2/SDL.h>
+#include "Group.h"
 
-class World;
 
 class Component {
 
 public:
     virtual void draw() = 0;
-    virtual void tick(World* world) {};
-    virtual void mouseDown(World* world, SDL_Event*) {};
+    virtual void tick(Group *group) {};
+    virtual void mouseDown(Group *group, SDL_Event *event) {};
     virtual ~Component();
 
-    bool bRemove {false};
+    bool bRemove {false};   // perhaps not needed
 
 protected:
     Component();

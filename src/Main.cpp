@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     world->setBackground(constants::gResPath + "images/bg.jpg");
 
     Pistol pistol;
-    world->add(&pistol);
+    world->add(nullptr, &pistol);
 
     ses.run();
 
