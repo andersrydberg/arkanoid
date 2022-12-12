@@ -2,15 +2,16 @@
 // Created by Anders Rydberg on 2022-12-07.
 //
 
-#ifndef MAP_H
-#define MAP_H
+#ifndef WORLD_H
+#define WORLD_H
 
 #include <string>
 #include <vector>
-#include "Component.h"
+#include <SDL2/SDL.h>
 
+class Component;
 
-class Map {
+class World {
 
 public:
     void tick();

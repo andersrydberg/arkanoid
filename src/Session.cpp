@@ -7,46 +7,42 @@
 #include "Session.h"
 #include <iostream>
 
-#define FPS 60
-
 Session::Session() {
-    map = new Map();
+    world = new World();
 }
 
 Session::~Session() {
-    delete map;
+    delete world;
 }
 
 void Session::run() {
 
-    bool quit = false;
-    int millisecs_per_tick = 1000 / FPS;
-    while (!quit) {
+    int millisecondsPerTick = 1000 / fps;
+    while (!bQuit) {
 
-        Uint32 nextTick = SDL_GetTicks() + millisecs_per_tick;
+        Uint32 nextTick = SDL_GetTicks() + millisecondsPerTick;
         // poll events; if any - dispatch them to components to be handled
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_MOUSEBUTTONDOWN:
-                    map->mouseDown(&event); break;
+                    world->mouseDown(&event); break;
                 case SDL_QUIT:
-                    quit = true; break;
+                    bQuit = true; break;
             }
         }
 
         // tick all components
-        map->tick();
+        world->tick();
 
 
         // draw window
         SDL_RenderClear(sys.rend);
-        map->draw();
+        world->draw();
         SDL_RenderPresent(sys.rend);
 
         // sleep the necessary amount of time left until next tick
         int diff = nextTick - SDL_GetTicks();
-        //std::cout << diff << std::endl;
         if (diff > 0)
             SDL_Delay(diff);
 

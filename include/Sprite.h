@@ -5,9 +5,8 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-
+#include <string>
 #include "Component.h"
-#include "Map.h"
 
 class Sprite : public Component {
 
@@ -15,14 +14,13 @@ public:
     Sprite();
     explicit Sprite(const std::string& filepath);
     Sprite(const std::string& filepath, int x, int y, int w, int h);
-    ~Sprite();
+    ~Sprite() override;
 
-    void draw();
+    void draw() override;
 
 protected:
     SDL_Rect* rect;
     SDL_Texture* texture;
-    Map* map;
 
 };
 

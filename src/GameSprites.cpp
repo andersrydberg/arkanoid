@@ -4,6 +4,7 @@
 
 #include "GameSprites.h"
 #include "System.h"
+#include "Session.h"
 #include <SDL2/SDL_image.h>
 #include <random>
 #include <unordered_set>
@@ -17,9 +18,9 @@ std::uniform_real_distribution<> dis(0.0, 2 * PI);
 
 
 
-void Explosion::tick() {
+void Explosion::tick(World* world) {
     if (ticksToLive-- == 0)
-        map->remove(this);
+        world->remove(this);
 }
 
 Explosion* Explosion::getInstance(int x, int y) {
@@ -35,7 +36,7 @@ Bullet* Bullet::getInstance(int x, int y) {
     return new Bullet(x, y);
 }
 
-void Bullet::tick() {
+void Bullet::tick(World* world) {
     // if another bullet has already collided with this bullet, do nothing
     if (collided)
         return;
@@ -51,12 +52,12 @@ void Bullet::tick() {
             continue;
 
         if(SDL_IntersectRect(&new_rect, b->rect, &intersection)) {
-            map->add(Explosion::getInstance(intersection.x + (intersection.w / 2),
+            world->add(Explosion::getInstance(intersection.x + (intersection.w / 2),
                                            intersection.y + (intersection.h / 2)));
             collided = true;
             b->collided = true;
-            map->remove(this);
-            map->remove(b);
+            world->remove(this);
+            world->remove(b);
             bullets.erase(this);
             bullets.erase(b);
             return;
@@ -90,9 +91,9 @@ Bullet::Bullet(int x, int y) : Sprite(constants::gResPath + "images/donkey.png",
 
 
 
-void Pistol::mouseDown(SDL_Event* event) {
+void Pistol::mouseDown(World* world, SDL_Event* event) {
     int x = event->button.x;
     int y = event->button.y;
-    map->add(Bullet::getInstance(x, y));
+    world->add(Bullet::getInstance(x, y));
 }
 

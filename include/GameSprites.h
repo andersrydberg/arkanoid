@@ -12,7 +12,7 @@
 class Explosion : public Sprite {
 
 public:
-    void tick() override;
+    void tick(World* world) override;
     static Explosion* getInstance(int x, int y);
 
 protected:
@@ -29,7 +29,7 @@ class Bullet : public Sprite {
 public:
     static Bullet* getInstance(int x, int y);
 
-    void tick() override;
+    void tick(World* world) override;
 
 
 private:
@@ -48,7 +48,7 @@ class Pistol : public Sprite {
 public:
     Pistol() = default;
 
-    void mouseDown(SDL_Event* event) override;
+    void mouseDown(World* world, SDL_Event* event) override;
 };
 
 

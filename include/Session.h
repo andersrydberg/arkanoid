@@ -5,22 +5,27 @@
 #ifndef SESSION_H
 #define SESSION_H
 
-#include <string>
-#include <vector>
 #include "Component.h"
-#include "Map.h"
+#include "World.h"
 
 class Session {
 
 public:
     Session();
     ~Session();
-    void run();
 
-    Map* getMap() const {return map;}
+    void run();
+    void quit() {bQuit = true;}
+
+    World* getWorld() const {return world;}
+    int getFPS() const {return fps;}
+
+    void setFPS(int framesPerSecond) {fps = framesPerSecond;}
 
 private:
-    Map* map;
+    bool bQuit {false};
+    int fps {60};
+    World* world;
 };
 
 extern Session ses;

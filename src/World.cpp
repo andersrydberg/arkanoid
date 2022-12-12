@@ -2,24 +2,25 @@
 // Created by Anders Rydberg on 2022-12-07.
 //
 
+#include "World.h"
 #include <SDL2/SDL_image.h>
-#include "Map.h"
+#include "Component.h"
 #include "Sprite.h"
 #include "System.h"
 
-void Map::draw() const {
+void World::draw() const {
     for (Component* comp : comps)
         comp->draw();
 }
 
-void Map::mouseDown(SDL_Event* event) {
+void World::mouseDown(SDL_Event* event) {
     for (Component* comp : comps)
-        comp->mouseDown(event);
+        comp->mouseDown(this, event);
 }
 
-void Map::tick() {
+void World::tick() {
     for (Component* comp : comps)
-        comp->tick();
+        comp->tick(this);
 
     // add any new components generated in the tick-loop
     addComponents();
@@ -28,13 +29,13 @@ void Map::tick() {
     removeComponents();
 }
 
-void Map::addComponents() {
+void World::addComponents() {
     for (Component* comp : addQueue)
         comps.push_back(comp);
     addQueue.clear();
 }
 
-void Map::removeComponents() {
+void World::removeComponents() {
     for (Component* comp : removeQueue) {
         for (auto iter = comps.begin();
              iter != comps.end(); iter++) {
@@ -50,17 +51,15 @@ void Map::removeComponents() {
 }
 
 
-void Map::add(Component *comp) {
+void World::add(Component *comp) {
     addQueue.push_back(comp);
 }
 
-void Map::remove(Component *comp) {
+void World::remove(Component *comp) {
     removeQueue.push_back(comp);
 }
 
-void Map::setBackground(const std::string& filepath) {
+void World::setBackground(const std::string& filepath) {
     auto* background = new Sprite(filepath);
-
     add(background);
-
 }
