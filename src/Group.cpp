@@ -3,6 +3,7 @@
 //
 
 #include "Group.h"
+#include "Component.h"
 
 
 void Group::tick() {
@@ -17,7 +18,7 @@ void Group::draw() const {
 
 void Group::mouseDown(SDL_Event *event) {
     for (Component* comp : comps)
-        comp->mouseDown(event);
+        comp->mouseDown(this, event);
 }
 
 void Group::add(Component *comp) {

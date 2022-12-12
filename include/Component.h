@@ -12,15 +12,17 @@
 class Component {
 
 public:
+    virtual ~Component() = default;
+
     virtual void draw() = 0;
     virtual void tick(Group *group) {};
+
     virtual void mouseDown(Group *group, SDL_Event *event) {};
-    virtual ~Component();
 
     bool bRemove {false};   // perhaps not needed
 
 protected:
-    Component();
+    Component() = default;
 };
 
 

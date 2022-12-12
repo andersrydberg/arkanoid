@@ -57,8 +57,8 @@ void Bullet::tick(Group *group) {
                                                        intersection.y + (intersection.h / 2)));
             collided = true;
             b->collided = true;
-            world->removeGlobally(this);
-            world->removeGlobally(b);
+            world->deleteGlobally(this);
+            world->deleteGlobally(b);
             bullets.erase(this);
             bullets.erase(b);
             return;
