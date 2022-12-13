@@ -35,7 +35,6 @@ Sprite::~Sprite() {
 
 
 void Sprite::draw() {
-    if (!texture)
-        return;
-    SDL_RenderCopy(sys.rend, texture, nullptr, rect);
+    if (texture && bVisible)
+        SDL_RenderCopy(sys.rend, texture, nullptr, rect);
 }

@@ -8,6 +8,13 @@
 #include "Group.h"
 #include "System.h"
 
+World::~World() {
+    for (const auto& pair: groups)
+        delete pair.second;
+}
+
+
+
 void World::draw() const {
     for (const std::string& name : iterationOrder)
         groups.at(name)->draw();
@@ -44,7 +51,7 @@ void World::add(Component* comp, const std::string& group) {
  * If such a group already exists, returns nullptr.
  */
 Group* World::addGroup(const std::string& name) {
-    if (groups.count(name) == 0)
+    if (groups.count(name) != 0)
         return nullptr;
 
     auto newGroup = new Group(this, name);
@@ -59,7 +66,7 @@ Group* World::addGroup(const std::string& name) {
  * to the end of the iteration order.
  */
 Group* World::addGroup(const std::string& name, const std::string& upper) {
-    if (groups.count(name) == 0)
+    if (groups.count(name) != 0)
         return nullptr;
 
     auto iter = iterationOrder.begin();
@@ -72,35 +79,54 @@ Group* World::addGroup(const std::string& name, const std::string& upper) {
 }
 
 
-void World::deleteGroup(const std::string& name) {
+void World::removeGroup(const std::string& name) {
     auto iter = groups.find(name);
     if (iter == groups.end()) return;
-    deleteGroup(iter->second);
+    removeGroup(iter->second);
 }
 
-void World::deleteGroup(Group* group) {
+void World::removeGroup(Group* group) {
     groupDeleteQueue.push_back(group);
 }
 
-void World::mergeGroups(const std::string& first, const std::string& second) {
 
+/**
+ * Merges the second group into the first. If any or both of these are missing,
+ * does nothing.
+ */
+void World::mergeGroups(const std::string& first, const std::string& second) {
+    auto iterFirst = groups.find(first);
+    auto iterSecond = groups.find(second);
+    if (iterFirst == groups.end() || iterSecond == groups.end())
+        return;
+    mergeGroups(iterFirst->second, iterSecond->second);
 }
 
 void World::mergeGroups(Group* first, const std::string& second) {
-
+    auto iterSecond = groups.find(second);
+    if (iterSecond == groups.end()) return;
+    mergeGroups(first, iterSecond->second);
 }
 
+// TODO: needs to be queued and done at the end of iteration
 void World::mergeGroups(Group* first, Group* second) {
+    auto firstComps = first->getContents();
+    auto secondComps = second->getContents();
+    for (Component* comp: secondComps)
+        firstComps.push_back(comp);
+    secondComps.clear();
 
+    groups.erase(second->getName());
+    iterationOrder.remove(second->getName());
+    delete second;
 }
 
 
 
 void World::deleteGroups() {
     for (Group* group: groupDeleteQueue) {
-        auto comps= group->getContents();
-        for (Component* comp: comps)
-            delete comp;
+        groups.erase(group->getName());
+        iterationOrder.remove(group->getName());
         delete group;
     }
     groupDeleteQueue.clear();

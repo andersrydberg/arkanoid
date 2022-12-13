@@ -6,6 +6,7 @@
 #define WORLD_H
 
 #include <string>
+#include <list>
 #include <vector>
 #include <unordered_map>
 #include <SDL2/SDL.h>
@@ -16,6 +17,9 @@ class Group;
 class World {
 
 public:
+    friend class Session;
+    ~World();
+
     void tick();
     void draw() const;
 
@@ -27,14 +31,16 @@ public:
     // inserts group before group "upper"
     Group* addGroup(const std::string& name, const std::string& upper);
 
-    // removes and deletes all components before removing and deleting the group
-    void deleteGroup(const std::string& name);
-    void deleteGroup(Group* group);
+    void removeGroup(const std::string& name);
+    void removeGroup(Group* group);
 
     // merges second group into first
     void mergeGroups(const std::string& first, const std::string& second);
     void mergeGroups(Group* first, const std::string& second);
     void mergeGroups(Group* first, Group* second);
+
+
+
 
     void mouseDown(SDL_Event* event);
 
@@ -42,7 +48,7 @@ public:
 private:
     World() = default;
 
-    std::vector<std::string> iterationOrder;
+    std::list<std::string> iterationOrder;
     std::unordered_map<std::string, Group*> groups;
 
     std::vector<Group*> groupDeleteQueue;

@@ -6,14 +6,25 @@
 #include "Component.h"
 
 
+Group::~Group() {
+    for (Component* comp: comps)
+        delete comp;
+}
+
+
 void Group::tick() {
     for (Component* comp : comps)
         comp->tick(this);
+
+    removeComponents();
+    addComponents();
 }
 
 void Group::draw() const {
-    for (Component* comp : comps)
-        comp->draw();
+    if (bVisible) {
+        for (Component* comp: comps)
+            comp->draw();
+    }
 }
 
 void Group::mouseDown(SDL_Event *event) {
@@ -22,10 +33,12 @@ void Group::mouseDown(SDL_Event *event) {
 }
 
 void Group::add(Component *comp) {
-    comps.push_back(comp);
+    addQueue.push_back(comp);
 }
 
-
+void Group::remove(Component *comp) {
+    removeQueue.push_back(comp);
+}
 
 
 void Group::addComponents() {
@@ -46,6 +59,5 @@ void Group::removeComponents() {
         }
     }
     removeQueue.clear();
-
 }
 
