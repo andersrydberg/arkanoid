@@ -76,6 +76,7 @@ Group* World::addGroup(const std::string& name, const std::string& upper) {
     auto newGroup = new Group(this, name);
     iterationOrder.insert(iter, name);
     groups.insert(std::make_pair(name, newGroup));
+    return newGroup;
 }
 
 
@@ -113,7 +114,6 @@ void World::mergeGroups(Group *first, Group *second) {
 }
 
 
-// TODO: needs to be queued and done at the end of iteration
 void World::_mergeGroups() {
     for (auto pair: groupMergeQueue) {
         auto firstVector = pair.first->getContents();
@@ -126,10 +126,11 @@ void World::_mergeGroups() {
         iterationOrder.remove(pair.second->getName());
         delete pair.second;
     }
+    groupMergeQueue.clear();
 }
 
 
-void World::_deleteGroups() {
+void World::_removeGroups() {
     for (Group* group: groupDeleteQueue) {
         groups.erase(group->getName());
         iterationOrder.remove(group->getName());

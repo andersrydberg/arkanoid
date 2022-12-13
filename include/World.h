@@ -55,8 +55,9 @@ private:
     std::vector<Group*> groupDeleteQueue;
     std::vector<std::pair<Group*, Group*>> groupMergeQueue;
 
+    void _addGroups();
     void _mergeGroups();
-    void _deleteGroups();
+    void _removeGroups();
 
 };
 

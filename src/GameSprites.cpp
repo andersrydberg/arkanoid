@@ -38,8 +38,8 @@ Bullet* Bullet::getInstance(int x, int y) {
 }
 
 void Bullet::tick(Group *group) {
-    // if another bullet has already collided with this bullet, do nothing
-    if (collided)
+    // if another bullet has already bCollided with this bullet, do nothing
+    if (bCollided)
         return;
 
     auto new_rect = SDL_Rect{static_cast<int>(rect->x + xVelocity),
@@ -48,20 +48,21 @@ void Bullet::tick(Group *group) {
 
     // detect collisions
     SDL_Rect intersection;
-    for (Bullet* b : bullets) {
-        if (b == this || b->collided)
-            continue;
+    for (Component* comp: group->getContents()) {
+        if (Bullet* b = dynamic_cast<Bullet*>(comp)) {
+            if (b == this || b->bCollided)
+                continue;
 
-        if(SDL_IntersectRect(&new_rect, b->rect, &intersection)) {
-            world->add(nullptr, Explosion::getInstance(intersection.x + (intersection.w / 2),
-                                                       intersection.y + (intersection.h / 2)));
-            collided = true;
-            b->collided = true;
-            world->deleteGlobally(this);
-            world->deleteGlobally(b);
-            bullets.erase(this);
-            bullets.erase(b);
-            return;
+            if (SDL_IntersectRect(&new_rect, b->rect, &intersection)) {
+                Explosion* explosion = Explosion::getInstance(intersection.x + (intersection.w / 2),intersection.y + (intersection.h / 2));
+                group->add(explosion,"explosions");
+
+                bCollided = true;
+                b->bCollided = true;
+                group->remove(this);
+                group->remove(b);
+                return;
+            }
         }
     }
 
@@ -81,12 +82,10 @@ void Bullet::tick(Group *group) {
 
 Bullet::Bullet(int x, int y) : Sprite(constants::gResPath + "images/donkey.png",
                               x, y, 32, 32) {
-
     double angle = dis(gen);
     xVelocity = distanceTravelledPerTick * cos(angle);
     yVelocity = distanceTravelledPerTick * sin(angle);
-    collided = false;
-    bullets.insert(this);
+    bCollided = false;
 }
 
 
@@ -95,6 +94,6 @@ Bullet::Bullet(int x, int y) : Sprite(constants::gResPath + "images/donkey.png",
 void Pistol::mouseDown(Group *group, SDL_Event *event) {
     int x = event->button.x;
     int y = event->button.y;
-    world->add(nullptr, Bullet::getInstance(x, y));
+    group->add(Bullet::getInstance(x, y), "bullets");
 }
 

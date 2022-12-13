@@ -36,6 +36,11 @@ void Group::add(Component *comp) {
     addQueue.push_back(comp);
 }
 
+void Group::add(Component* comp, const std::string& name) {
+    world->add(comp, name);
+}
+
+
 void Group::remove(Component *comp) {
     removeQueue.push_back(comp);
 }

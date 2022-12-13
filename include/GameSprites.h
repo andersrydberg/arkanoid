@@ -36,9 +36,7 @@ private:
     Bullet(int x, int y);
 
     double xVelocity, yVelocity;
-    bool collided;
-
-    inline static std::unordered_set<Bullet*> bullets;
+    bool bCollided;
 };
 
 

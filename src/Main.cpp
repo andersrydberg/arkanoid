@@ -27,8 +27,10 @@ int main(int argc, char* argv[]) {
     World* world = ses.getWorld();
     world->add(new Sprite(constants::gResPath + "images/bg.jpg"), "background");
 
-    Pistol pistol;
-    //world->add(nullptr, &pistol);
+    Pistol* pistol = new Pistol;
+    world->add(pistol, "pistol");
+    world->addGroup("bullets");
+    world->addGroup("explosions");
 
     ses.run();
 

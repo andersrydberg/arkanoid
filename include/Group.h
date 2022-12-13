@@ -24,21 +24,23 @@ public:
     virtual void mouseDown(SDL_Event* event);
 
     const std::string& getName() const {return name;}
+    std::vector<Component*>& getContents() {return comps;}
 
     bool bCanCollide {true};
     bool bVisible {true};
 
+    // add to this group
     void add(Component* comp);
+    // add to another group
+    void add(Component* comp, const std::string& name);
     void remove(Component* comp);
 
 protected:
     Group(World* world, const std::string& name) : world(world), name(name) {}
-    std::vector<Component*>& getContents() {return comps;}
 
     virtual void addComponents();
     virtual void removeComponents();
 
-private:
     World* world;
     std::string name;
     std::vector<Component*> comps;
