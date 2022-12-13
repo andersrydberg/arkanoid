@@ -8,6 +8,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <utility>
 #include <unordered_map>
 #include <SDL2/SDL.h>
 
@@ -52,8 +53,10 @@ private:
     std::unordered_map<std::string, Group*> groups;
 
     std::vector<Group*> groupDeleteQueue;
+    std::vector<std::pair<Group*, Group*>> groupMergeQueue;
 
-    void deleteGroups();
+    void _mergeGroups();
+    void _deleteGroups();
 
 };
 

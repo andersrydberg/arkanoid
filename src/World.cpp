@@ -108,22 +108,28 @@ void World::mergeGroups(Group* first, const std::string& second) {
     mergeGroups(first, iterSecond->second);
 }
 
-// TODO: needs to be queued and done at the end of iteration
-void World::mergeGroups(Group* first, Group* second) {
-    auto firstComps = first->getContents();
-    auto secondComps = second->getContents();
-    for (Component* comp: secondComps)
-        firstComps.push_back(comp);
-    secondComps.clear();
-
-    groups.erase(second->getName());
-    iterationOrder.remove(second->getName());
-    delete second;
+void World::mergeGroups(Group *first, Group *second) {
+    groupMergeQueue.emplace_back(first, second);
 }
 
 
+// TODO: needs to be queued and done at the end of iteration
+void World::_mergeGroups() {
+    for (auto pair: groupMergeQueue) {
+        auto firstVector = pair.first->getContents();
+        auto secondVector = pair.second->getContents();
+        for (Component *comp: secondVector)
+            firstVector.push_back(comp);
+        secondVector.clear();
 
-void World::deleteGroups() {
+        groups.erase(pair.second->getName());
+        iterationOrder.remove(pair.second->getName());
+        delete pair.second;
+    }
+}
+
+
+void World::_deleteGroups() {
     for (Group* group: groupDeleteQueue) {
         groups.erase(group->getName());
         iterationOrder.remove(group->getName());
