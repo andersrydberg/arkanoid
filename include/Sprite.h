@@ -19,19 +19,14 @@ public:
 
     void draw() override;
 
-    bool canCollide() const {return bCanCollide;}
-    bool isVisible() const {return bVisible;}
-
-    void setCanCollide(bool value) {bCanCollide = value;}
-    void setVisible(bool value) {bVisible = value;}
+    bool bCanCollide {true};
+    bool bVisible {true};
 
 protected:
     SDL_Rect* rect;
     SDL_Texture* texture;
 
 private:
-    bool bCanCollide {true};
-    bool bVisible {true};
 };
 
 

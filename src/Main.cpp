@@ -25,10 +25,10 @@ int main(int argc, char* argv[]) {
     ses.setFPS(100);
 
     World* world = ses.getWorld();
-    world->setBackground(constants::gResPath + "images/bg.jpg");
+    world->add(new Sprite(constants::gResPath + "images/bg.jpg"), "background");
 
     Pistol pistol;
-    world->add(nullptr, &pistol);
+    //world->add(nullptr, &pistol);
 
     ses.run();
 
