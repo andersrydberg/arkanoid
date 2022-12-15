@@ -11,8 +11,8 @@
 class Session {
 
 public:
-    Session();
     ~Session();
+    static Session& getInstance(System& sys);
 
     void run();
     void quit() {bQuit = true;}
@@ -23,12 +23,13 @@ public:
     void setFPS(int framesPerSecond) {fps = framesPerSecond;}
 
 private:
+    Session(System& sys);
+
+    System& sys;
+
     bool bQuit {false};
     int fps {60};
     World* world;
 };
-
-extern Session ses;
-
 
 #endif

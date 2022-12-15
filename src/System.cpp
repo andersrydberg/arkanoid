@@ -5,8 +5,13 @@
 #include "System.h"
 #include <SDL2/SDL.h>
 
-System::System() {
-    initStatus = init();
+System::System(const std::string& title, int windowW, int windowH) {
+    bInitWithErrors = init(title, windowW, windowH);
+}
+
+System& System::getInstance(const std::string& title, int windowW, int windowH) {
+    static System sys(title, windowW, windowH);
+    return sys;
 }
 
 System::~System() {
@@ -17,13 +22,13 @@ System::~System() {
 
 
 bool System::initWithErrors() const {
-    return initStatus;
+    return bInitWithErrors;
 }
 
-int System::init() {
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-        return 1;
 
+int System::init(const std::string& title, int windowW, int windowH) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+        return true;
 
 #if __APPLE__
     // necessary on my Mac
@@ -32,17 +37,16 @@ int System::init() {
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
 #endif
 
-
-    window = SDL_CreateWindow("",SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED,600,400,0);
+    window = SDL_CreateWindow(title.c_str(),SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,windowW,windowH,0);
     if (!window)
-        return 1;
+        return true;
 
     rend = SDL_CreateRenderer(window,-1,0);
     if (!rend)
-        return 1;
+        return true;
 
-    return 0;
+    return false;
 }
 
 
@@ -59,16 +63,6 @@ int System::getWindowHeight() const {
 }
 
 
-
-
-void System::setWindowSize(int w, int h) const {
-    SDL_SetWindowSize(window, w, h);
-    SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-}
-
 void System::setWindowTitle(const std::string &title) const {
     SDL_SetWindowTitle(window, title.c_str());
 }
-
-
-System sys;

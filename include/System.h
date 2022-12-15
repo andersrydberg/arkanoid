@@ -11,14 +11,15 @@
 class System {
 
 public:
-    System();
     ~System();
+    static System& getInstance(const std::string& title, int windowW, int windowH);
+
+
     bool initWithErrors() const;
 
     int getWindowWidth() const;
     int getWindowHeight() const;
 
-    void setWindowSize(int w, int h) const;
     void setWindowTitle(const std::string& title) const;
 
     SDL_Window* window;
@@ -26,13 +27,11 @@ public:
 
 
 private:
-    int init();
+    System(const std::string& title, int windowW, int windowH);
 
-    int initStatus;
+    int init(const std::string& title, int windowW, int windowH);
+
+    bool bInitWithErrors;
 };
-
-// declaration of global variable
-// needs to be defined (once) in cpp-files
-extern System sys;
 
 #endif

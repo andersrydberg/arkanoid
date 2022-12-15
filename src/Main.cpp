@@ -12,23 +12,20 @@ const int windowH = 720;
 
 
 int main(int argc, char* argv[]) {
+    System& sys = System::getInstance("Game", windowW, windowH);
     if (sys.initWithErrors())
         return EXIT_FAILURE;
-
-    sys.setWindowTitle("Game");
-    sys.setWindowSize(windowW, windowH);
 
 //    SDL_RendererInfo info;
 //    SDL_GetRendererInfo(sys.rend, &info);
 //    std::cout << info.name << std::endl;
 
+    Session& ses = Session::getInstance(sys);
     ses.setFPS(100);
 
     World* world = ses.getWorld();
     world->add(new Sprite(constants::gResPath + "images/bg.jpg"), "background");
-
-    Pistol* pistol = new Pistol;
-    world->add(pistol, "pistol");
+    world->add(new Pistol, "pistol");
     world->addGroup("bullets");
     world->addGroup("explosions");
 

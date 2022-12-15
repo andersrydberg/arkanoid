@@ -7,8 +7,13 @@
 #include "Session.h"
 #include <iostream>
 
-Session::Session() {
+Session::Session(System& sys) : sys(sys) {
     world = new World();
+}
+
+Session& Session::getInstance(System& sys) {
+    static Session ses(sys);
+    return ses;
 }
 
 Session::~Session() {
@@ -28,7 +33,7 @@ void Session::run() {
                 case SDL_MOUSEBUTTONDOWN:
                     world->mouseDown(&event); break;
                 case SDL_QUIT:
-                    bQuit = true; break;
+                    quit(); break;
             }
         }
 
@@ -49,5 +54,3 @@ void Session::run() {
     }
 
 }
-
-Session ses;
