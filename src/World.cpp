@@ -6,7 +6,7 @@
 #include <SDL2/SDL_image.h>
 #include "Component.h"
 #include "Group.h"
-#include "System.h"
+#include "GameEngine.h"
 
 World::~World() {
     for (const auto& pair: groups)
@@ -15,19 +15,19 @@ World::~World() {
 
 
 
-void World::draw() const {
+void World::draw(GameEngine& sys) const {
     for (const std::string& name : iterationOrder)
-        groups.at(name)->draw();
+        groups.at(name)->draw(sys);
 }
 
-void World::tick() {
+void World::tick(GameEngine& sys) {
     for (const std::string& name : iterationOrder)
-        groups.at(name)->tick();
+        groups.at(name)->tick(sys);
 }
 
-void World::mouseDown(SDL_Event* event) {
+void World::mouseDown(GameEngine& sys, SDL_Event* event) {
     for (const std::string& name : iterationOrder)
-        groups.at(name)->mouseDown(event);
+        groups.at(name)->mouseDown(sys, event);
 }
 
 

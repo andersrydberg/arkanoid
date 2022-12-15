@@ -3,54 +3,15 @@
 //
 
 #include <SDL2/SDL.h>
-#include "System.h"
+#include "GameEngine.h"
 #include "Session.h"
 #include <iostream>
 
-Session::Session(System& sys) : sys(sys) {
-    world = new World();
-}
-
-Session& Session::getInstance(System& sys) {
-    static Session ses(sys);
-    return ses;
+Session::Session(GameEngine& sys) : sys(sys) {
+    world = new World(sys);
 }
 
 Session::~Session() {
     delete world;
 }
 
-void Session::run() {
-
-    int millisecondsPerTick = 1000 / fps;
-    while (!bQuit) {
-
-        Uint32 nextTick = SDL_GetTicks() + millisecondsPerTick;
-        // poll events; if any - dispatch them to components to be handled
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_MOUSEBUTTONDOWN:
-                    world->mouseDown(&event); break;
-                case SDL_QUIT:
-                    quit(); break;
-            }
-        }
-
-        // tick all components
-        world->tick();
-
-
-        // draw window
-        SDL_RenderClear(sys.rend);
-        world->draw();
-        SDL_RenderPresent(sys.rend);
-
-        // sleep the necessary amount of time left until next tick
-        int diff = nextTick - SDL_GetTicks();
-        if (diff > 0)
-            SDL_Delay(diff);
-
-    }
-
-}

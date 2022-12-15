@@ -19,9 +19,9 @@ public:
     Group(const Group& other) = delete;
     Group& operator=(const Group& other) = delete;
 
-    virtual void tick();
-    virtual void draw() const;
-    virtual void mouseDown(SDL_Event* event);
+    virtual void tick(GameEngine& sys);
+    virtual void draw(GameEngine& sys) const;
+    virtual void mouseDown(GameEngine& sys, SDL_Event* event);
 
     const std::string& getName() const {return name;}
     std::vector<Component*>& getContents() {return comps;}

@@ -14,10 +14,10 @@ class Component {
 public:
     virtual ~Component() = default;
 
-    virtual void draw() = 0;
-    virtual void tick(Group *group) {};
+    virtual void draw(GameEngine& sys) = 0;
+    virtual void tick(GameEngine& sys, Group *group) {};
 
-    virtual void mouseDown(Group *group, SDL_Event *event) {};
+    virtual void mouseDown(GameEngine& sys, Group *group, SDL_Event *event) {};
 
     bool bRemove {false};   // perhaps not needed
 

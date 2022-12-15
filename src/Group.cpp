@@ -12,24 +12,24 @@ Group::~Group() {
 }
 
 
-void Group::tick() {
+void Group::tick(GameEngine& sys) {
     for (Component* comp : comps)
-        comp->tick(this);
+        comp->tick(sys, this);
 
     removeComponents();
     addComponents();
 }
 
-void Group::draw() const {
+void Group::draw(GameEngine& sys) const {
     if (bVisible) {
         for (Component* comp: comps)
-            comp->draw();
+            comp->draw(sys);
     }
 }
 
-void Group::mouseDown(SDL_Event *event) {
+void Group::mouseDown(GameEngine& sys, SDL_Event* event) {
     for (Component* comp : comps)
-        comp->mouseDown(this, event);
+        comp->mouseDown(sys, this, event);
 }
 
 void Group::add(Component *comp) {

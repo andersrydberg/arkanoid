@@ -12,7 +12,7 @@
 class Explosion : public Sprite {
 
 public:
-    void tick(Group *group) override;
+    void tick(GameEngine& sys, Group* group) override;
     static Explosion* getInstance(int x, int y);
 
 protected:
@@ -29,7 +29,7 @@ class Bullet : public Sprite {
 public:
     static Bullet* getInstance(int x, int y);
 
-    void tick(Group *group) override;
+    void tick(GameEngine& sys, Group *group) override;
 
 
 private:
@@ -46,7 +46,7 @@ class Pistol : public Sprite {
 public:
     Pistol() = default;
 
-    void mouseDown(Group *group, SDL_Event *event) override;
+    void mouseDown(GameEngine& sys, Group* group, SDL_Event* event) override;
 };
 
 

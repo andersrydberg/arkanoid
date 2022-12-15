@@ -3,7 +3,7 @@
 //
 
 #include "GameSprites.h"
-#include "System.h"
+#include "GameEngine.h"
 #include "Session.h"
 #include <SDL2/SDL_image.h>
 #include <random>
@@ -19,7 +19,7 @@ std::uniform_real_distribution<> dis(0.0, 2 * PI);
 
 
 
-void Explosion::tick(Group *group) {
+void Explosion::tick(GameEngine& sys, Group* group) {
     if (ticksToLive-- == 0)
         group->remove(this);
 }
@@ -37,7 +37,7 @@ Bullet* Bullet::getInstance(int x, int y) {
     return new Bullet(x, y);
 }
 
-void Bullet::tick(Group *group) {
+void Bullet::tick(GameEngine& sys, Group *group) {
     // if another bullet has already bCollided with this bullet, do nothing
     if (bCollided)
         return;
@@ -91,7 +91,7 @@ Bullet::Bullet(int x, int y) : Sprite(constants::gResPath + "images/donkey.png",
 
 
 
-void Pistol::mouseDown(Group *group, SDL_Event *event) {
+void Pistol::mouseDown(GameEngine& sys, Group* group, SDL_Event* event) {
     int x = event->button.x;
     int y = event->button.y;
     group->add(Bullet::getInstance(x, y), "bullets");

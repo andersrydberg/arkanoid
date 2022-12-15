@@ -11,6 +11,7 @@
 #include <utility>
 #include <unordered_map>
 #include <SDL2/SDL.h>
+#include "GameEngine.h"
 
 class Component;
 class Group;
@@ -18,11 +19,12 @@ class Group;
 class World {
 
 public:
-    friend class Session;
+    World(GameEngine& sys) : sys(sys) {}
     ~World();
 
-    void tick();
-    void draw() const;
+    void tick(GameEngine& sys);
+    void draw(GameEngine& sys) const;
+    void mouseDown(GameEngine& sys, SDL_Event* event);
 
     // adds component to group "group"
     void add(Component *comp, const std::string& group);
@@ -42,12 +44,8 @@ public:
 
 
 
-
-    void mouseDown(SDL_Event* event);
-
-
 private:
-    World() = default;
+    GameEngine& sys;
 
     std::list<std::string> iterationOrder;
     std::unordered_map<std::string, Group*> groups;

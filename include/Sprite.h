@@ -17,7 +17,7 @@ public:
     Sprite(const std::string& filepath, int x, int y, int w, int h);
     ~Sprite() override;
 
-    void draw() override;
+    void draw(GameEngine& sys) override;
 
     bool bCanCollide {true};
     bool bVisible {true};

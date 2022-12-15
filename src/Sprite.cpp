@@ -2,7 +2,7 @@
 // Created by Anders Rydberg on 2022-11-21.
 //
 
-#include "System.h"
+#include "GameEngine.h"
 #include "Sprite.h"
 #include "Session.h"
 #include <SDL2/SDL_image.h>
@@ -34,7 +34,7 @@ Sprite::~Sprite() {
 }
 
 
-void Sprite::draw() {
+void Sprite::draw(GameEngine& sys) {
     if (texture && bVisible)
         SDL_RenderCopy(sys.rend, texture, nullptr, rect);
 }
