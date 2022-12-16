@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
 
 //    SDL_RendererInfo info;
-//    SDL_GetRendererInfo(sys.rend, &info);
+//    SDL_GetRendererInfo(engine.rend, &info);
 //    std::cout << info.name << std::endl;
 
     engine.setFPS(100);

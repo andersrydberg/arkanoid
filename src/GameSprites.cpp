@@ -4,7 +4,6 @@
 
 #include "GameSprites.h"
 #include "GameEngine.h"
-#include "Session.h"
 #include <SDL2/SDL_image.h>
 #include <random>
 #include <unordered_set>
@@ -19,7 +18,7 @@ std::uniform_real_distribution<> dis(0.0, 2 * PI);
 
 
 
-void Explosion::tick(GameEngine& sys, Group* group) {
+void Explosion::tick(GameEngine& engine, Group* group) {
     if (ticksToLive-- == 0)
         group->remove(this);
 }
@@ -37,7 +36,7 @@ Bullet* Bullet::getInstance(int x, int y) {
     return new Bullet(x, y);
 }
 
-void Bullet::tick(GameEngine& sys, Group *group) {
+void Bullet::tick(GameEngine& engine, Group *group) {
     // if another bullet has already bCollided with this bullet, do nothing
     if (bCollided)
         return;
@@ -67,8 +66,8 @@ void Bullet::tick(GameEngine& sys, Group *group) {
     }
 
     // handle bounce
-    int windowW = sys.getWindowWidth();
-    int windowH = sys.getWindowHeight();
+    int windowW = engine.getWindowWidth();
+    int windowH = engine.getWindowHeight();
     if (new_rect.x < 0 || new_rect.x + rect->w > windowW) {
         xVelocity *= -1;
     } else if (new_rect.y < 0 || new_rect.y + rect->h > windowH) {
@@ -91,7 +90,7 @@ Bullet::Bullet(int x, int y) : Sprite(constants::gResPath + "images/donkey.png",
 
 
 
-void Pistol::mouseDown(GameEngine& sys, Group* group, SDL_Event* event) {
+void Pistol::mouseDown(GameEngine& engine, Group* group, SDL_Event* event) {
     int x = event->button.x;
     int y = event->button.y;
     group->add(Bullet::getInstance(x, y), "bullets");

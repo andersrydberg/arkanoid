@@ -13,21 +13,19 @@ World::~World() {
         delete pair.second;
 }
 
-
-
-void World::draw(GameEngine& sys) const {
+void World::draw() const {
     for (const std::string& name : iterationOrder)
-        groups.at(name)->draw(sys);
+        groups.at(name)->draw(engine);
 }
 
-void World::tick(GameEngine& sys) {
+void World::tick() {
     for (const std::string& name : iterationOrder)
-        groups.at(name)->tick(sys);
+        groups.at(name)->tick(engine);
 }
 
-void World::mouseDown(GameEngine& sys, SDL_Event* event) {
+void World::mouseDown(SDL_Event* event) {
     for (const std::string& name : iterationOrder)
-        groups.at(name)->mouseDown(sys, event);
+        groups.at(name)->mouseDown(engine, event);
 }
 
 

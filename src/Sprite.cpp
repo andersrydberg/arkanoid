@@ -4,7 +4,6 @@
 
 #include "GameEngine.h"
 #include "Sprite.h"
-#include "Session.h"
 #include <SDL2/SDL_image.h>
 
 // has neither texture nor rect
@@ -14,7 +13,7 @@ Sprite::Sprite() : rect {nullptr}, texture {nullptr} {
 // has texture but no rect (fill window)
 Sprite::Sprite(const std::string& filepath) : rect {nullptr} {
     SDL_Surface* surface = IMG_Load(filepath.c_str());
-    texture = SDL_CreateTextureFromSurface(sys.rend, surface);
+    texture = SDL_CreateTextureFromSurface(engine.rend, surface);
     SDL_FreeSurface(surface);
 }
 
@@ -23,7 +22,7 @@ Sprite::Sprite(const std::string& filepath, int x, int y, int w, int h) {
     rect = new SDL_Rect {x, y, w, h};
 
     SDL_Surface* surface = IMG_Load(filepath.c_str());
-    texture = SDL_CreateTextureFromSurface(sys.rend, surface);
+    texture = SDL_CreateTextureFromSurface(engine.rend, surface);
     SDL_FreeSurface(surface);
 }
 
@@ -34,7 +33,7 @@ Sprite::~Sprite() {
 }
 
 
-void Sprite::draw(GameEngine& sys) {
+void Sprite::draw(GameEngine& engine) {
     if (texture && bVisible)
-        SDL_RenderCopy(sys.rend, texture, nullptr, rect);
+        SDL_RenderCopy(engine.rend, texture, nullptr, rect);
 }

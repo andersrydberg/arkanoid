@@ -11,20 +11,20 @@
 #include <utility>
 #include <unordered_map>
 #include <SDL2/SDL.h>
-#include "GameEngine.h"
 
 class Component;
 class Group;
+class GameEngine;
 
 class World {
 
 public:
-    World(GameEngine& sys) : sys(sys) {}
+    World(GameEngine& engine) : engine(engine) {}
     ~World();
 
-    void tick(GameEngine& sys);
-    void draw(GameEngine& sys) const;
-    void mouseDown(GameEngine& sys, SDL_Event* event);
+    void tick();
+    void draw() const;
+    void mouseDown(SDL_Event* event);
 
     // adds component to group "group"
     void add(Component *comp, const std::string& group);
@@ -45,7 +45,7 @@ public:
 
 
 private:
-    GameEngine& sys;
+    GameEngine& engine;
 
     std::list<std::string> iterationOrder;
     std::unordered_map<std::string, Group*> groups;

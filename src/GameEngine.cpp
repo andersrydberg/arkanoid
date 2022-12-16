@@ -3,21 +3,19 @@
 //
 
 #include "GameEngine.h"
+#include "World.h"
 #include <SDL2/SDL.h>
 
-GameEngine::GameEngine(const std::string& title, int windowW, int windowH) {
-    bInitWithErrors = init(title, windowW, windowH);
-}
-
-void GameEngine::initialize(const std::string& title, int windowW, int windowH) {
-    bInitWithErrors = init(title, windowW, windowH);
-}
 
 GameEngine& GameEngine::getInstance(const std::string& title, int windowW, int windowH) {
-    static GameEngine sys(title, windowW, windowH);
-    return sys;
+    static GameEngine engine(title, windowW, windowH);
+    return engine;
 }
 
+GameEngine::GameEngine(const std::string& title, int windowW, int windowH) :
+title(title), windowW(windowW), windowH(windowH), window(nullptr), rend(nullptr), world(nullptr) {
+    bInitialized = init();
+}
 
 GameEngine::~GameEngine() {
     SDL_DestroyRenderer(rend);
@@ -26,55 +24,33 @@ GameEngine::~GameEngine() {
     delete world;
 }
 
-
-bool GameEngine::initWithErrors() const {
-    return bInitWithErrors;
-}
-
-
-int GameEngine::init(const std::string& title, int windowW, int windowH) {
+bool GameEngine::init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-        return true;
+        return false;
 
 #if __APPLE__
-    // necessary on my Mac
-    // the default "metal" renderer is extremely laggy for some reason
-    // https://stackoverflow.com/questions/59700423/why-is-sdl-so-much-slower-on-mac-than-linux
+// necessary on my Mac
+// the default "metal" renderer is extremely laggy for some reason
+// https://stackoverflow.com/questions/59700423/why-is-sdl-so-much-slower-on-mac-than-linux
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
 #endif
 
     window = SDL_CreateWindow(title.c_str(),SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,windowW,windowH,0);
     if (!window)
-        return true;
+        return false;
 
     rend = SDL_CreateRenderer(window,-1,0);
     if (!rend)
-        return true;
+        return false;
 
-    return false;
-}
-
-int GameEngine::getWindowWidth() const {
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    return w;
-}
-
-int GameEngine::getWindowHeight() const {
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    return h;
-}
-
-
-
-
-void GameEngine::setTitle(const std::string &title) const {
-    SDL_SetWindowTitle(window, title.c_str());
+    world = new World(*this);
+    return true;
 }
 
 void GameEngine::run() {
+    if (!bInitialized)
+        ;// throw error
 
     int millisecondsPerTick = 1000 / fps;
     while (!bQuit) {
@@ -85,7 +61,7 @@ void GameEngine::run() {
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_MOUSEBUTTONDOWN:
-                    world->mouseDown(sys, &event);
+                    world->mouseDown(&event);
                     break;
                 case SDL_QUIT:
                     quit();
@@ -94,13 +70,13 @@ void GameEngine::run() {
         }
 
         // tick all components
-        world->tick(sys);
+        world->tick();
 
 
         // draw window
-        SDL_RenderClear(sys.rend);
-        world->draw(sys);
-        SDL_RenderPresent(sys.rend);
+        SDL_RenderClear(rend);
+        world->draw();
+        SDL_RenderPresent(rend);
 
         // sleep the necessary amount of time left until next tick
         int diff = nextTick - SDL_GetTicks();
@@ -108,4 +84,17 @@ void GameEngine::run() {
             SDL_Delay(diff);
 
     }
+}
+
+bool GameEngine::initWithErrors() const {
+    return !bInitialized;
+}
+
+void GameEngine::setTitle(const std::string &newTitle) {
+    title = newTitle;
+    SDL_SetWindowTitle(window, newTitle.c_str());
+}
+
+void GameEngine::quit() {
+    bQuit = true;
 }

@@ -13,13 +13,13 @@ class Component {
 
 public:
     virtual ~Component() = default;
+    Component(const Component& other) = delete;
+    Component& operator=(const Component& other) = delete;
 
-    virtual void draw(GameEngine& sys) = 0;
-    virtual void tick(GameEngine& sys, Group *group) {};
+    virtual void draw(GameEngine& engine) = 0;
+    virtual void tick(GameEngine& engine, Group *group) {};
 
-    virtual void mouseDown(GameEngine& sys, Group *group, SDL_Event *event) {};
-
-    bool bRemove {false};   // perhaps not needed
+    virtual void mouseDown(GameEngine& engine, Group *group, SDL_Event *event) {};
 
 protected:
     Component() = default;

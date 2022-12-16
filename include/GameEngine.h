@@ -14,20 +14,21 @@ class GameEngine {
 
 public:
     ~GameEngine();
-    static void initialize(const std::string&, int windowW, int windowH);
     static GameEngine& getInstance(const std::string& title, int windowW, int windowH);
 
+    void run();
+    void quit();
 
     bool initWithErrors() const;
 
-    int getWindowWidth() const;
-    int getWindowHeight() const;
+    int getWindowWidth() const {return windowW;}
+    int getWindowHeight() const {return windowH;}
+    const std::string& getTitle() const {return title;}
 
-    void setTitle(const std::string& title) const;
-    void run();
+    void setTitle(const std::string& newTitle);
 
-    void quit() {bQuit = true;}
-
+    SDL_Window* getWindow() const {return window;}
+    SDL_Renderer* getRenderer() const {return rend;}
     World* getWorld() const {return world;}
     int getFPS() const {return fps;}
 
@@ -38,14 +39,18 @@ public:
 
 private:
     GameEngine(const std::string& title, int windowW, int windowH);
-    static int init(const std::string& title, int windowW, int windowH);
+    bool init();
+
+    std::string title;
+    int windowW;
+    int windowH;
 
     SDL_Window* window;
     SDL_Renderer* rend;
 
     World* world;
 
-    static bool bInitWithErrors;
+    bool bInitialized;
 
     bool bQuit {false};
     int fps {60};

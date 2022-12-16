@@ -17,7 +17,7 @@ public:
     Sprite(const std::string& filepath, int x, int y, int w, int h);
     ~Sprite() override;
 
-    void draw(GameEngine& sys) override;
+    void draw(GameEngine& engine) override;
 
     bool bCanCollide {true};
     bool bVisible {true};
@@ -25,8 +25,6 @@ public:
 protected:
     SDL_Rect* rect;
     SDL_Texture* texture;
-
-private:
 };
 
 
