@@ -23,17 +23,19 @@ void Explosion::tick(GameEngine& engine, Group* group) {
         group->remove(this);
 }
 
-Explosion* Explosion::getInstance(int x, int y) {
-    return new Explosion(x, y);
+Explosion* Explosion::getInstance(GameEngine& engine, int x, int y) {
+    return new Explosion(engine, x, y);
 }
 
 
-Explosion::Explosion(int x, int y) : Sprite(constants::gResPath + "images/explosion.png",
-                                     x, y, 40, 40), ticksToLive{10} {}
+Explosion::Explosion(GameEngine& engine, int x, int y) :
+Sprite(engine, constants::gResPath + "images/explosion.png",
+       x, y, 40, 40), ticksToLive{10} {
+}
 
 
-Bullet* Bullet::getInstance(int x, int y) {
-    return new Bullet(x, y);
+Bullet* Bullet::getInstance(GameEngine& engine, int x, int y) {
+    return new Bullet(engine, x, y);
 }
 
 void Bullet::tick(GameEngine& engine, Group *group) {
@@ -53,7 +55,8 @@ void Bullet::tick(GameEngine& engine, Group *group) {
                 continue;
 
             if (SDL_IntersectRect(&new_rect, b->rect, &intersection)) {
-                Explosion* explosion = Explosion::getInstance(intersection.x + (intersection.w / 2),intersection.y + (intersection.h / 2));
+                Explosion* explosion = Explosion::getInstance(engine, intersection.x + (intersection.w / 2),
+                                                              intersection.y + (intersection.h / 2));
                 group->add(explosion,"explosions");
 
                 bCollided = true;
@@ -66,8 +69,6 @@ void Bullet::tick(GameEngine& engine, Group *group) {
     }
 
     // handle bounce
-    int windowW = engine.getWindowWidth();
-    int windowH = engine.getWindowHeight();
     if (new_rect.x < 0 || new_rect.x + rect->w > windowW) {
         xVelocity *= -1;
     } else if (new_rect.y < 0 || new_rect.y + rect->h > windowH) {
@@ -79,12 +80,15 @@ void Bullet::tick(GameEngine& engine, Group *group) {
 }
 
 
-Bullet::Bullet(int x, int y) : Sprite(constants::gResPath + "images/donkey.png",
-                              x, y, 32, 32) {
+Bullet::Bullet(GameEngine& engine, int x, int y) :
+Sprite(engine, constants::gResPath + "images/donkey.png",
+       x, y, 32, 32) {
     double angle = dis(gen);
     xVelocity = distanceTravelledPerTick * cos(angle);
     yVelocity = distanceTravelledPerTick * sin(angle);
     bCollided = false;
+    windowW = engine.getWindowWidth();
+    windowH = engine.getWindowHeight();
 }
 
 
@@ -93,6 +97,6 @@ Bullet::Bullet(int x, int y) : Sprite(constants::gResPath + "images/donkey.png",
 void Pistol::mouseDown(GameEngine& engine, Group* group, SDL_Event* event) {
     int x = event->button.x;
     int y = event->button.y;
-    group->add(Bullet::getInstance(x, y), "bullets");
+    group->add(Bullet::getInstance(engine, x, y), "bullets");
 }
 

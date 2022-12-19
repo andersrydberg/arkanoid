@@ -13,8 +13,8 @@ class Sprite : public Component {
 
 public:
     Sprite();
-    explicit Sprite(const std::string& filepath);
-    Sprite(const std::string& filepath, int x, int y, int w, int h);
+    Sprite(GameEngine& engine, const std::string& filepath);
+    Sprite(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h);
     ~Sprite() override;
 
     void draw(GameEngine& engine) override;

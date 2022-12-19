@@ -66,3 +66,7 @@ void Group::removeComponents() {
     removeQueue.clear();
 }
 
+Group* Group::getInstance(World* world, const std::string& name) {
+    return new Group(world, name);
+}
+

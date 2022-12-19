@@ -14,7 +14,7 @@ class Component;
 
 class Group {
 public:
-    friend class World;
+    static Group* getInstance(World* world, const std::string& name);
     virtual ~Group();
     Group(const Group& other) = delete;
     Group& operator=(const Group& other) = delete;

@@ -31,8 +31,10 @@ public:
 
     // appends group to the end of the iteration order
     Group* addGroup(const std::string& name);
+    void addGroup(Group* group);
     // inserts group before group "upper"
     Group* addGroup(const std::string& name, const std::string& upper);
+    void addGroup(Group* group, const std::string& upper);
 
     void removeGroup(const std::string& name);
     void removeGroup(Group* group);

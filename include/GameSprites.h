@@ -13,12 +13,10 @@ class Explosion : public Sprite {
 
 public:
     void tick(GameEngine& engine, Group* group) override;
-    static Explosion* getInstance(int x, int y);
-
-protected:
-    Explosion(int x, int y);
+    static Explosion* getInstance(GameEngine& engine, int x, int y);
 
 private:
+    Explosion(GameEngine& engine, int x, int y);
     int ticksToLive;
 };
 
@@ -27,14 +25,12 @@ private:
 class Bullet : public Sprite {
 
 public:
-    static Bullet* getInstance(int x, int y);
-
     void tick(GameEngine& engine, Group *group) override;
-
+    static Bullet* getInstance(GameEngine& engine, int x, int y);
 
 private:
-    Bullet(int x, int y);
-
+    Bullet(GameEngine& engine, int x, int y);
+    int windowW, windowH;
     double xVelocity, yVelocity;
     bool bCollided;
 };

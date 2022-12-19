@@ -34,8 +34,7 @@ public:
 
     void setFPS(int framesPerSecond) {fps = framesPerSecond;}
 
-
-
+    SDL_Texture* getTextureFromImage(const std::string& filepath);
 
 private:
     GameEngine(const std::string& title, int windowW, int windowH);

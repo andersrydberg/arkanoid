@@ -5,6 +5,7 @@
 #include "GameEngine.h"
 #include "World.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 
 GameEngine& GameEngine::getInstance(const std::string& title, int windowW, int windowH) {
@@ -97,4 +98,13 @@ void GameEngine::setTitle(const std::string &newTitle) {
 
 void GameEngine::quit() {
     bQuit = true;
+}
+
+
+
+SDL_Texture* GameEngine::getTextureFromImage(const std::string& filepath) {
+    SDL_Surface* surface = IMG_Load(filepath.c_str());
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(rend, surface);
+    SDL_FreeSurface(surface);
+    return texture;
 }

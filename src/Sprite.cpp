@@ -11,19 +11,14 @@ Sprite::Sprite() : rect {nullptr}, texture {nullptr} {
 }
 
 // has texture but no rect (fill window)
-Sprite::Sprite(const std::string& filepath) : rect {nullptr} {
-    SDL_Surface* surface = IMG_Load(filepath.c_str());
-    texture = SDL_CreateTextureFromSurface(engine.rend, surface);
-    SDL_FreeSurface(surface);
+Sprite::Sprite(GameEngine& engine, const std::string& filepath) : rect {nullptr} {
+    texture = engine.getTextureFromImage(filepath);
 }
 
 // has texture and rect (typical sprite)
-Sprite::Sprite(const std::string& filepath, int x, int y, int w, int h) {
+Sprite::Sprite(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h) {
     rect = new SDL_Rect {x, y, w, h};
-
-    SDL_Surface* surface = IMG_Load(filepath.c_str());
-    texture = SDL_CreateTextureFromSurface(engine.rend, surface);
-    SDL_FreeSurface(surface);
+    texture = engine.getTextureFromImage(filepath);
 }
 
 
@@ -35,5 +30,5 @@ Sprite::~Sprite() {
 
 void Sprite::draw(GameEngine& engine) {
     if (texture && bVisible)
-        SDL_RenderCopy(engine.rend, texture, nullptr, rect);
+        SDL_RenderCopy(engine.getRenderer(), texture, nullptr, rect);
 }

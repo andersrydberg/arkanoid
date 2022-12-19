@@ -52,10 +52,18 @@ Group* World::addGroup(const std::string& name) {
     if (groups.count(name) != 0)
         return nullptr;
 
-    auto newGroup = new Group(this, name);
+    auto newGroup = Group::getInstance(this, name);
     iterationOrder.push_back(name);
     groups.insert(std::make_pair(name, newGroup));
     return newGroup;
+}
+
+void World::addGroup(Group* group) {
+
+}
+
+void World::addGroup(Group* group, const std::string& upper) {
+
 }
 
 /**
@@ -71,7 +79,7 @@ Group* World::addGroup(const std::string& name, const std::string& upper) {
     for (; iter != iterationOrder.end(); iter++)
         if (*iter == upper) break;
 
-    auto newGroup = new Group(this, name);
+    auto newGroup = Group::getInstance(this, name);
     iterationOrder.insert(iter, name);
     groups.insert(std::make_pair(name, newGroup));
     return newGroup;

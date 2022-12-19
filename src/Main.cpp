@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     engine.setFPS(100);
 
     World* world = engine.getWorld();
-    world->add(new Sprite(constants::gResPath + "images/bg.jpg"), "background");
+    world->add(new Sprite(engine, constants::gResPath + "images/bg.jpg"), "background");
     world->add(new Pistol, "pistol");
     world->addGroup("bullets");
     world->addGroup("explosions");
