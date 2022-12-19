@@ -6,19 +6,44 @@
 #include "Component.h"
 
 
+Group* Group::getInstance(World* world, const std::string& name) {
+    return new Group(world, name);
+}
+
+
 Group::~Group() {
     for (Component* comp: comps)
         delete comp;
 }
 
-
 void Group::tick(GameEngine& engine) {
     for (Component* comp : comps)
         comp->tick(engine, this);
 
-    removeComponents();
-    addComponents();
+    _removeComponents();
+    _addComponents();
 }
+
+void Group::checkCollisions(GameEngine& engine) {
+    if (bCanCollideInternally) {
+        for (Component* firstComp: comps) {
+            for (Component* secondComp: comps) {
+                if (firstComp != secondComp)
+                    firstComp->checkCollision(engine, this, secondComp, this);
+            }
+        }
+    }
+}
+
+void Group::checkCollisions(GameEngine& engine, Group* otherGroup) {
+    if (bCanCollideExternally && otherGroup->bCanCollideExternally) {
+        for (Component* internalComp: comps) {
+            for (Component* externalComp: otherGroup->getContents())
+                internalComp->checkCollision(engine, this, externalComp, otherGroup);
+        }
+    }
+}
+
 
 void Group::draw(GameEngine& engine) const {
     if (bVisible) {
@@ -36,8 +61,9 @@ void Group::add(Component *comp) {
     addQueue.push_back(comp);
 }
 
-void Group::add(Component* comp, const std::string& name) {
-    world->add(comp, name);
+
+void Group::add(Component* comp, const std::string& groupName) {
+    world->add(comp, groupName);
 }
 
 
@@ -45,14 +71,22 @@ void Group::remove(Component *comp) {
     removeQueue.push_back(comp);
 }
 
+void Group::move(Component* comp, const std::string& groupName) {
+    removeQueue.push_back(comp);
+    world->add(comp, groupName);
+}
 
-void Group::addComponents() {
+
+
+//// protected
+
+void Group::_addComponents() {
     for (Component* comp : addQueue)
         comps.push_back(comp);
     addQueue.clear();
 }
 
-void Group::removeComponents() {
+void Group::_removeComponents() {
     for (Component* comp : removeQueue) {
         for (auto iter = comps.begin();
              iter != comps.end(); iter++) {
@@ -64,9 +98,5 @@ void Group::removeComponents() {
         }
     }
     removeQueue.clear();
-}
-
-Group* Group::getInstance(World* world, const std::string& name) {
-    return new Group(world, name);
 }
 

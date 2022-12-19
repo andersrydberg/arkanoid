@@ -13,14 +13,27 @@ World::~World() {
         delete pair.second;
 }
 
-void World::draw() const {
-    for (const std::string& name : iterationOrder)
-        groups.at(name)->draw(engine);
-}
-
 void World::tick() {
     for (const std::string& name : iterationOrder)
         groups.at(name)->tick(engine);
+}
+
+void World::checkCollisions() {
+    for (const auto& groupNameFirst: iterationOrder) {
+        Group* firstGroup = groups.find(groupNameFirst)->second;
+        for (const auto& groupNameSecond: iterationOrder) {
+            Group* secondGroup = groups.find(groupNameSecond)->second;
+            if (firstGroup == secondGroup)
+                firstGroup->checkCollisions(engine);
+            else
+                firstGroup->checkCollisions(engine, secondGroup);
+        }
+    }
+}
+
+void World::draw() const {
+    for (const std::string& name : iterationOrder)
+        groups.at(name)->draw(engine);
 }
 
 void World::mouseDown(SDL_Event* event) {
@@ -44,6 +57,13 @@ void World::add(Component* comp, const std::string& group) {
 }
 
 
+
+
+
+
+//// public functions for group creation and manipulation
+
+/// not queued (considered "tick-safe")
 /**
  * Appends an empty group with the specified name to the end of the iteration order.
  * If such a group already exists, returns nullptr.
@@ -59,30 +79,28 @@ Group* World::addGroup(const std::string& name) {
 }
 
 void World::addGroup(Group* group) {
+    const std::string& name = group->getName();
+    if (groups.count(name) == 0) {
+        iterationOrder.push_back(name);
+        groups.insert(std::make_pair(name, group));
+    }
+}
 
+/// queued (not safe to perform during iteration)
+/**
+ * Inserts an empty group with the specified "name" before the group "upper". If a group
+ * "name" already exists, does nothing. If a group "upper" does not exist, appends the group
+ * to the end of the iteration order.
+ */
+void World::addGroup(const std::string& name, const std::string& upper) {
+    if (groups.count(name) == 0) {
+        auto newGroup = Group::getInstance(this, name);
+        addGroup(newGroup, upper);
+    }
 }
 
 void World::addGroup(Group* group, const std::string& upper) {
-
-}
-
-/**
- * Inserts an empty group with the specified "name" before the group "upper". If a group
- * "name" already exists, returns nullptr. If a group "upper" does not exist, appends the group
- * to the end of the iteration order.
- */
-Group* World::addGroup(const std::string& name, const std::string& upper) {
-    if (groups.count(name) != 0)
-        return nullptr;
-
-    auto iter = iterationOrder.begin();
-    for (; iter != iterationOrder.end(); iter++)
-        if (*iter == upper) break;
-
-    auto newGroup = Group::getInstance(this, name);
-    iterationOrder.insert(iter, name);
-    groups.insert(std::make_pair(name, newGroup));
-    return newGroup;
+    groupAddQueue.insert(std::make_pair(group, upper));
 }
 
 
@@ -111,14 +129,21 @@ void World::mergeGroups(const std::string& first, const std::string& second) {
 
 void World::mergeGroups(Group* first, const std::string& second) {
     auto iterSecond = groups.find(second);
-    if (iterSecond == groups.end()) return;
-    mergeGroups(first, iterSecond->second);
+    if (iterSecond != groups.end())
+        mergeGroups(first, iterSecond->second);
 }
 
 void World::mergeGroups(Group *first, Group *second) {
-    groupMergeQueue.emplace_back(first, second);
+    groupMergeQueue.insert(std::make_pair(first, second));
 }
 
+
+
+
+
+
+
+//// private
 
 void World::_mergeGroups() {
     for (auto pair: groupMergeQueue) {
@@ -143,4 +168,20 @@ void World::_removeGroups() {
         delete group;
     }
     groupDeleteQueue.clear();
+}
+
+void World::_addGroups() {
+    for (auto pair: groupAddQueue) {
+        Group* group = pair.first;
+        const std::string& name = group->getName();
+        std::string& upper = pair.second;
+
+        auto iter = iterationOrder.begin();
+        for (; iter != iterationOrder.end(); iter++)
+            if (*iter == upper) break;
+
+        iterationOrder.insert(iter, name);
+        groups.insert(std::make_pair(name, group));
+    }
+    groupAddQueue.clear();
 }

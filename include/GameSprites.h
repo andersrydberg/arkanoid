@@ -26,6 +26,7 @@ class Bullet : public Sprite {
 
 public:
     void tick(GameEngine& engine, Group *group) override;
+    void checkCollision(GameEngine& engine, Group* group, Component* other, Group* otherGroup) override;
     static Bullet* getInstance(GameEngine& engine, int x, int y);
 
 private:

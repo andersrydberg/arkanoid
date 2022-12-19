@@ -23,6 +23,7 @@ public:
     ~World();
 
     void tick();
+    void checkCollisions();
     void draw() const;
     void mouseDown(SDL_Event* event);
 
@@ -33,7 +34,7 @@ public:
     Group* addGroup(const std::string& name);
     void addGroup(Group* group);
     // inserts group before group "upper"
-    Group* addGroup(const std::string& name, const std::string& upper);
+    void addGroup(const std::string& name, const std::string& upper);
     void addGroup(Group* group, const std::string& upper);
 
     void removeGroup(const std::string& name);
@@ -52,8 +53,9 @@ private:
     std::list<std::string> iterationOrder;
     std::unordered_map<std::string, Group*> groups;
 
+    std::unordered_map<Group*, std::string> groupAddQueue;
     std::vector<Group*> groupDeleteQueue;
-    std::vector<std::pair<Group*, Group*>> groupMergeQueue;
+    std::unordered_map<Group*, Group*> groupMergeQueue;
 
     void _addGroups();
     void _mergeGroups();

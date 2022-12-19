@@ -72,6 +72,7 @@ void GameEngine::run() {
 
         // tick all components
         world->tick();
+        world->checkCollisions();
 
 
         // draw window

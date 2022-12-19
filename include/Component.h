@@ -16,8 +16,9 @@ public:
     Component(const Component& other) = delete;
     Component& operator=(const Component& other) = delete;
 
-    virtual void draw(GameEngine& engine) = 0;
     virtual void tick(GameEngine& engine, Group *group) {};
+    virtual void checkCollision(GameEngine& engine, Group* group, Component* other, Group* otherGroup) {};
+    virtual void draw(GameEngine& engine) = 0;
 
     virtual void mouseDown(GameEngine& engine, Group *group, SDL_Event *event) {};
 

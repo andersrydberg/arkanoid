@@ -18,9 +18,9 @@ std::uniform_real_distribution<> dis(0.0, 2 * PI);
 
 
 
-void Explosion::tick(GameEngine& engine, Group* group) {
-    if (ticksToLive-- == 0)
-        group->remove(this);
+Explosion::Explosion(GameEngine& engine, int x, int y)
+        : Sprite(engine, constants::gResPath + "images/explosion.png",
+                 x, y, 40, 40), ticksToLive {10} {
 }
 
 Explosion* Explosion::getInstance(GameEngine& engine, int x, int y) {
@@ -28,15 +28,29 @@ Explosion* Explosion::getInstance(GameEngine& engine, int x, int y) {
 }
 
 
-Explosion::Explosion(GameEngine& engine, int x, int y) :
-Sprite(engine, constants::gResPath + "images/explosion.png",
-       x, y, 40, 40), ticksToLive{10} {
+void Explosion::tick(GameEngine& engine, Group* group) {
+    if (ticksToLive-- == 0)
+        group->remove(this);
 }
 
+
+
+
+Bullet::Bullet(GameEngine& engine, int x, int y)
+        : Sprite(engine, constants::gResPath + "images/donkey.png",
+                 x, y, 32, 32) {
+    double angle = dis(gen);
+    xVelocity = distanceTravelledPerTick * cos(angle);
+    yVelocity = distanceTravelledPerTick * sin(angle);
+    bCollided = false;
+    windowW = engine.getWindowWidth();
+    windowH = engine.getWindowHeight();
+}
 
 Bullet* Bullet::getInstance(GameEngine& engine, int x, int y) {
     return new Bullet(engine, x, y);
 }
+
 
 void Bullet::tick(GameEngine& engine, Group *group) {
     // if another bullet has already bCollided with this bullet, do nothing
@@ -46,27 +60,6 @@ void Bullet::tick(GameEngine& engine, Group *group) {
     auto new_rect = SDL_Rect{static_cast<int>(rect->x + xVelocity),
                              static_cast<int>(rect->y + yVelocity),
                              rect->w, rect->h};
-
-    // detect collisions
-    SDL_Rect intersection;
-    for (Component* comp: group->getContents()) {
-        if (Bullet* b = dynamic_cast<Bullet*>(comp)) {
-            if (b == this || b->bCollided)
-                continue;
-
-            if (SDL_IntersectRect(&new_rect, b->rect, &intersection)) {
-                Explosion* explosion = Explosion::getInstance(engine, intersection.x + (intersection.w / 2),
-                                                              intersection.y + (intersection.h / 2));
-                group->add(explosion,"explosions");
-
-                bCollided = true;
-                b->bCollided = true;
-                group->remove(this);
-                group->remove(b);
-                return;
-            }
-        }
-    }
 
     // handle bounce
     if (new_rect.x < 0 || new_rect.x + rect->w > windowW) {
@@ -79,18 +72,24 @@ void Bullet::tick(GameEngine& engine, Group *group) {
 
 }
 
+void Bullet::checkCollision(GameEngine& engine, Group* group, Component* other, Group* otherGroup) {
+    if (Bullet* b = dynamic_cast<Bullet*>(other)) {
+        if (b->bCollided)
+            return;
 
-Bullet::Bullet(GameEngine& engine, int x, int y) :
-Sprite(engine, constants::gResPath + "images/donkey.png",
-       x, y, 32, 32) {
-    double angle = dis(gen);
-    xVelocity = distanceTravelledPerTick * cos(angle);
-    yVelocity = distanceTravelledPerTick * sin(angle);
-    bCollided = false;
-    windowW = engine.getWindowWidth();
-    windowH = engine.getWindowHeight();
+        SDL_Rect intersection;
+        if (SDL_IntersectRect(rect, b->rect, &intersection)) {
+            Explosion* explosion = Explosion::getInstance(engine, intersection.x + (intersection.w / 2),
+                                                          intersection.y + (intersection.h / 2));
+            group->add(explosion,"explosions");
+
+            bCollided = true;
+            b->bCollided = true;
+            group->remove(this);
+            group->remove(b);
+        }
+    }
 }
-
 
 
 
