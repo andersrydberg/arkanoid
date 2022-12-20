@@ -41,6 +41,30 @@ void World::mousePressed(SDL_Event* event) {
         groups.at(name)->mouseDown(engine, event);
 }
 
+void World::mouseReleased(SDL_Event* event) {
+
+}
+
+void World::mouseMoved(SDL_Event* event) {
+
+}
+
+void World::upKeyPressed(SDL_Event* event) {
+
+}
+
+void World::downKeyPressed(SDL_Event* event) {
+
+}
+
+void World::leftKeyPressed(SDL_Event* event) {
+
+}
+
+void World::rightKeyPressed(SDL_Event* event) {
+
+}
+
 
 /**
  * Adds component to group "group". If such a group does not yet exist,
@@ -137,8 +161,9 @@ void World::mergeGroups(Group *first, Group *second) {
     groupMergeQueue.insert(std::make_pair(first, second));
 }
 
-
-
+Group* World::getGroup(const std::string& groupName) {
+    return groups.find(groupName)->second;
+}
 
 
 

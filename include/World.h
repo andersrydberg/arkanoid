@@ -26,6 +26,14 @@ public:
     void checkCollisions();
     void draw() const;
     void mousePressed(SDL_Event* event);
+    void mouseReleased(SDL_Event* event);
+    void mouseMoved(SDL_Event* event);
+    void upKeyPressed(SDL_Event* event);
+    void downKeyPressed(SDL_Event* event);
+    void leftKeyPressed(SDL_Event* event);
+    void rightKeyPressed(SDL_Event* event);
+
+
 
     // adds component to group "group"
     void add(Component *comp, const std::string& group);
@@ -44,6 +52,8 @@ public:
     void mergeGroups(const std::string& first, const std::string& second);
     void mergeGroups(Group* first, const std::string& second);
     void mergeGroups(Group* first, Group* second);
+
+    Group* getGroup(const std::string& groupName);
 
 
 

@@ -34,6 +34,19 @@ void Explosion::tick(GameEngine& engine, Group* group) {
 }
 
 
+void BulletGroup::tick(GameEngine& engine) {
+    if (!bPaused)
+        Group::tick(engine);
+}
+
+void BulletGroup::pause() {
+    bPaused = !bPaused;
+}
+
+BulletGroup* BulletGroup::getInstance(World* world, const std::string& name) {
+    return new BulletGroup(world, name);
+}
+
 
 
 Bullet::Bullet(GameEngine& engine, int x, int y)

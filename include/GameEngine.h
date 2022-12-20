@@ -36,6 +36,8 @@ public:
 
     SDL_Texture* getTextureFromImage(const std::string& filepath);
 
+    void addShortcut(const std::string& key, void(* func)(World*, SDL_Event*));
+
 private:
     GameEngine(const std::string& title, int windowW, int windowH);
     bool init();
@@ -54,7 +56,7 @@ private:
     bool bQuit {false};
     int fps {60};
 
-    std::unordered_map<std::string, void (*)(SDL_Event*)> functionMap;
+    std::unordered_map<std::string, void (*)(World*, SDL_Event*)> functionMap;
 };
 
 #endif

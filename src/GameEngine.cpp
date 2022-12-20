@@ -87,7 +87,7 @@ void GameEngine::run() {
                         default:
                             auto iter = functionMap.find(SDL_GetKeyName(event.key.keysym.sym));
                             if (iter != functionMap.end())
-                                iter->second(&event);
+                                iter->second(world, &event);
                     }
                     break;
                 case SDL_QUIT:
@@ -134,4 +134,9 @@ SDL_Texture* GameEngine::getTextureFromImage(const std::string& filepath) {
     SDL_Texture* texture = SDL_CreateTextureFromSurface(rend, surface);
     SDL_FreeSurface(surface);
     return texture;
+}
+
+void GameEngine::addShortcut(const std::string& key, void(* func)(World*, SDL_Event*)) {
+    if (functionMap.count(key) == 0)
+        functionMap.insert(std::make_pair(key, func));
 }
