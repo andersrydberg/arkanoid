@@ -25,7 +25,7 @@ public:
     void tick();
     void checkCollisions();
     void draw() const;
-    void mouseDown(SDL_Event* event);
+    void mousePressed(SDL_Event* event);
 
     // adds component to group "group"
     void add(Component *comp, const std::string& group);

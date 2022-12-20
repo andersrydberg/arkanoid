@@ -32,7 +32,7 @@ public:
 private:
     Bullet(GameEngine& engine, int x, int y);
     int windowW, windowH;
-    double xVelocity, yVelocity;
+    double internalX, internalY, xVelocity, yVelocity;
     bool bCollided;
 };
 

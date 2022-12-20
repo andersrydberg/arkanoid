@@ -54,6 +54,7 @@ private:
     bool bQuit {false};
     int fps {60};
 
+    std::unordered_map<std::string, void (*)(SDL_Event*)> functionMap;
 };
 
 #endif

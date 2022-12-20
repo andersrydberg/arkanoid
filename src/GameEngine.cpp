@@ -62,7 +62,33 @@ void GameEngine::run() {
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_MOUSEBUTTONDOWN:
-                    world->mouseDown(&event);
+                    world->mousePressed(&event);
+                    break;
+                case SDL_MOUSEBUTTONUP:
+                    world->mouseReleased(&event);
+                    break;
+                case SDL_MOUSEMOTION:
+                    world->mouseMoved(&event);
+                    break;
+                case SDL_KEYDOWN:
+                    switch(event.key.keysym.sym) {
+                        case SDLK_UP:
+                            world->upKeyPressed(&event);
+                            break;
+                        case SDLK_DOWN:
+                            world->downKeyPressed(&event);
+                            break;
+                        case SDLK_LEFT:
+                            world->leftKeyPressed(&event);
+                            break;
+                        case SDLK_RIGHT:
+                            world->rightKeyPressed(&event);
+                            break;
+                        default:
+                            auto iter = functionMap.find(SDL_GetKeyName(event.key.keysym.sym));
+                            if (iter != functionMap.end())
+                                iter->second(&event);
+                    }
                     break;
                 case SDL_QUIT:
                     quit();

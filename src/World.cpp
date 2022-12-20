@@ -36,7 +36,7 @@ void World::draw() const {
         groups.at(name)->draw(engine);
 }
 
-void World::mouseDown(SDL_Event* event) {
+void World::mousePressed(SDL_Event* event) {
     for (const std::string& name : iterationOrder)
         groups.at(name)->mouseDown(engine, event);
 }

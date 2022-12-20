@@ -40,6 +40,8 @@ Bullet::Bullet(GameEngine& engine, int x, int y)
         : Sprite(engine, constants::gResPath + "images/donkey.png",
                  x, y, 32, 32) {
     double angle = dis(gen);
+    internalX = x;
+    internalY = y;
     xVelocity = distanceTravelledPerTick * cos(angle);
     yVelocity = distanceTravelledPerTick * sin(angle);
     bCollided = false;
@@ -57,8 +59,10 @@ void Bullet::tick(GameEngine& engine, Group *group) {
     if (bCollided)
         return;
 
-    auto new_rect = SDL_Rect{static_cast<int>(rect->x + xVelocity),
-                             static_cast<int>(rect->y + yVelocity),
+    double newX = internalX + xVelocity;
+    double newY = internalY + yVelocity;
+    auto new_rect = SDL_Rect{static_cast<int>(std::round(newX)),
+                             static_cast<int>(std::round(newY)),
                              rect->w, rect->h};
 
     // handle bounce
@@ -67,6 +71,8 @@ void Bullet::tick(GameEngine& engine, Group *group) {
     } else if (new_rect.y < 0 || new_rect.y + rect->h > windowH) {
         yVelocity *= -1;
     } else {
+        internalX = newX;
+        internalY = newY;
         *rect = new_rect;
     }
 
