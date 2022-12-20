@@ -21,10 +21,21 @@ Sprite::Sprite(GameEngine& engine, const std::string& filepath, int x, int y, in
     texture = engine.getTextureFromImage(filepath);
 }
 
-
 Sprite::~Sprite() {
     SDL_DestroyTexture(texture);
     delete rect;
+}
+
+Sprite* Sprite::getInstance() {
+    return new Sprite;
+}
+
+Sprite* Sprite::getInstance(GameEngine& engine, const std::string& filepath) {
+    return new Sprite(engine, filepath);
+}
+
+Sprite* Sprite::getInstance(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h) {
+    return new Sprite(engine, filepath, x, y, w, h);
 }
 
 

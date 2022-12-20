@@ -35,8 +35,13 @@ void Explosion::tick(GameEngine& engine, Group* group) {
 
 
 void BulletGroup::tick(GameEngine& engine) {
-    if (!bPaused)
-        Group::tick(engine);
+    if (!bPaused) {
+        for (Component* comp : comps)
+            comp->tick(engine, this);
+    }
+    _removeComponents();
+    _addComponents();
+    engine.setTitle("Number of bullets: " + std::to_string(comps.size()));
 }
 
 void BulletGroup::pause() {

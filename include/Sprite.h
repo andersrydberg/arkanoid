@@ -12,10 +12,10 @@
 class Sprite : public Component {
 
 public:
-    Sprite();
-    Sprite(GameEngine& engine, const std::string& filepath);
-    Sprite(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h);
     ~Sprite() override;
+    static Sprite* getInstance();
+    static Sprite* getInstance(GameEngine& engine, const std::string& filepath);
+    static Sprite* getInstance(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h);
 
     void draw(GameEngine& engine) override;
 
@@ -23,6 +23,10 @@ public:
     bool bVisible {true};
 
 protected:
+    Sprite();
+    Sprite(GameEngine& engine, const std::string& filepath);
+    Sprite(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h);
+
     SDL_Rect* rect;
     SDL_Texture* texture;
 };

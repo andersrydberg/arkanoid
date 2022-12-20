@@ -5,7 +5,6 @@
 #ifndef GAMESPRITES_H
 #define GAMESPRITES_H
 
-#include <unordered_set>
 #include "Sprite.h"
 #include "Constants.h"
 
