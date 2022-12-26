@@ -16,16 +16,16 @@ public:
     static Sprite* getInstance(GameEngine& engine, const std::string& filepath);
     static Sprite* getInstance(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h);
     static Sprite* getInstance(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h,
-                               bool canCollide, bool visible);
+                               bool collide, bool visible);
 
     void draw(GameEngine& engine) override;
 
-    bool bCanCollide {true};
-    bool bVisible {true};
+    bool bCanCollide;
+    bool bVisible;
 
 protected:
     Sprite(GameEngine& engine, const std::string& filepath, int x=0, int y=0, int w=0, int h=0,
-           bool canCollide=true, bool visible=true);
+           bool collide=true, bool visible=true);
 
     SDL_Rect* rect;
     SDL_Texture* texture;

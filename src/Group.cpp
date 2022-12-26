@@ -10,6 +10,16 @@ Group* Group::getInstance(World* world, const std::string& name) {
     return new Group(world, name);
 }
 
+Group* Group::getInstance(World* world, const std::string& name, bool collideInternally, bool collideExternally,
+                          bool visible) {
+    return new Group(world, name, collideInternally, collideExternally, visible);
+}
+
+Group::Group(World* world, const std::string& name, bool collideInternally, bool collideExternally, bool visible)
+: bCanCollideInternally(collideInternally), bCanCollideExternally(collideExternally), bVisible(visible), world(world),
+  name(name) {
+
+}
 
 Group::~Group() {
     for (Component* comp: comps)

@@ -48,11 +48,6 @@ void BulletGroup::pause() {
     bPaused = !bPaused;
 }
 
-BulletGroup* BulletGroup::getInstance(World* world, const std::string& name) {
-    return new BulletGroup(world, name);
-}
-
-
 
 Bullet::Bullet(GameEngine& engine, int x, int y)
         : Sprite(engine, constants::gResPath + "images/donkey.png",

@@ -47,23 +47,28 @@ void World::mouseReleased(SDL_Event* event) {
 }
 
 void World::mouseMoved(SDL_Event* event) {
-
+    for (const std::string& name: iterationOrder)
+        groups.at(name)->mouseMoved(engine, event);
 }
 
 void World::upKeyPressed(SDL_Event* event) {
-
+    for (const std::string& name: iterationOrder)
+        groups.at(name)->upKeyPressed(engine, event);
 }
 
 void World::downKeyPressed(SDL_Event* event) {
-
+    for (const std::string& name: iterationOrder)
+        groups.at(name)->downKeyPressed(engine, event);
 }
 
 void World::leftKeyPressed(SDL_Event* event) {
-
+    for (const std::string& name: iterationOrder)
+        groups.at(name)->leftKeyPressed(engine, event);
 }
 
 void World::rightKeyPressed(SDL_Event* event) {
-
+    for (const std::string& name: iterationOrder)
+        groups.at(name)->rightKeyPressed(engine, event);
 }
 
 
