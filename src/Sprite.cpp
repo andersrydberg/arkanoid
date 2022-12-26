@@ -6,18 +6,16 @@
 #include "Sprite.h"
 #include <SDL2/SDL_image.h>
 
-// has neither texture nor rect
-Sprite::Sprite() : rect {nullptr}, texture {nullptr} {
-}
 
-// has texture but no rect (fill window)
-Sprite::Sprite(GameEngine& engine, const std::string& filepath) : rect {nullptr} {
-    texture = engine.getTextureFromImage(filepath);
-}
-
-// has texture and rect (typical sprite)
-Sprite::Sprite(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h) {
-    rect = new SDL_Rect {x, y, w, h};
+Sprite::Sprite(GameEngine& engine, const std::string& filepath,
+               int x, int y, int w, int h,
+               bool canCollide, bool visible) {
+    if (x == 0 && y == 0 && w == 0 && h == 0)
+        rect = nullptr;
+    else
+        rect = new SDL_Rect {x, y, w, h};
+    bCanCollide = canCollide;
+    bVisible = visible;
     texture = engine.getTextureFromImage(filepath);
 }
 
@@ -26,20 +24,26 @@ Sprite::~Sprite() {
     delete rect;
 }
 
-Sprite* Sprite::getInstance() {
-    return new Sprite;
-}
 
+// returns a sprite that stretches to fill the entire window
 Sprite* Sprite::getInstance(GameEngine& engine, const std::string& filepath) {
     return new Sprite(engine, filepath);
 }
 
-Sprite* Sprite::getInstance(GameEngine& engine, const std::string& filepath, int x, int y, int w, int h) {
+// returns a "typical" sprite with a size and relative position
+Sprite* Sprite::getInstance(GameEngine& engine, const std::string& filepath,
+                            int x, int y, int w, int h) {
     return new Sprite(engine, filepath, x, y, w, h);
+}
+
+Sprite* Sprite::getInstance(GameEngine& engine, const std::string& filepath,
+                            int x, int y, int w, int h,
+                            bool canCollide, bool visible) {
+    return new Sprite(engine, filepath, x, y, w, h, canCollide, visible);
 }
 
 
 void Sprite::draw(GameEngine& engine) {
     if (texture && bVisible)
-        SDL_RenderCopy(engine.getRenderer(), texture, nullptr, rect);
+        engine.drawTextureToRenderer(texture, rect);
 }

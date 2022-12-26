@@ -34,9 +34,10 @@ public:
 
     void setFPS(int framesPerSecond) {fps = framesPerSecond;}
 
-    SDL_Texture* getTextureFromImage(const std::string& filepath);
-
     void addShortcut(const std::string& key, void(* func)(World*, SDL_Event*));
+
+    SDL_Texture* getTextureFromImage(const std::string& filepath);
+    void drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* rect);
 
 private:
     GameEngine(const std::string& title, int windowW, int windowH);

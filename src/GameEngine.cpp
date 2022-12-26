@@ -127,7 +127,14 @@ void GameEngine::quit() {
     bQuit = true;
 }
 
+void GameEngine::addShortcut(const std::string& key, void(* func)(World*, SDL_Event*)) {
+    if (functionMap.count(key) == 0)
+        functionMap.insert(std::make_pair(key, func));
+}
 
+
+
+//// convenience methods
 
 SDL_Texture* GameEngine::getTextureFromImage(const std::string& filepath) {
     SDL_Surface* surface = IMG_Load(filepath.c_str());
@@ -136,7 +143,6 @@ SDL_Texture* GameEngine::getTextureFromImage(const std::string& filepath) {
     return texture;
 }
 
-void GameEngine::addShortcut(const std::string& key, void(* func)(World*, SDL_Event*)) {
-    if (functionMap.count(key) == 0)
-        functionMap.insert(std::make_pair(key, func));
+void GameEngine::drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* rect) {
+    SDL_RenderCopy(rend, texture, nullptr, rect);
 }

@@ -25,21 +25,28 @@ public:
     // group-external collision check
     virtual void checkCollisions(GameEngine& engine, Group* otherGroup);
     virtual void draw(GameEngine& engine) const;
-    virtual void mouseDown(GameEngine& engine, SDL_Event* event);
+    virtual void mousePressed(GameEngine& engine, SDL_Event* event);
+    virtual void mouseReleased(GameEngine& engine, SDL_Event* event);
+    virtual void mouseMoved(GameEngine& engine, SDL_Event* event);
+    virtual void upKeyPressed(GameEngine& engine, SDL_Event* event);
+    virtual void downKeyPressed(GameEngine& engine, SDL_Event* event);
+    virtual void leftKeyPressed(GameEngine& engine, SDL_Event* event);
+    virtual void rightKeyPressed(GameEngine& engine, SDL_Event* event);
 
-    const std::string& getName() const {return name;}
-    std::vector<Component*>& getContents() {return comps;}
+
+    virtual const std::string& getName() const {return name;}
+    virtual std::vector<Component*>& getContents() {return comps;}
 
     bool bCanCollideInternally {true};
     bool bCanCollideExternally {true};
     bool bVisible {true};
 
     // add to this group
-    void add(Component* comp);
+    virtual void add(Component* comp);
     // add to another group
-    void add(Component* comp, const std::string& groupName);
-    void remove(Component* comp);
-    void move(Component* comp, const std::string& groupName);
+    virtual void add(Component* comp, const std::string& groupName);
+    virtual void remove(Component* comp);
+    virtual void move(Component* comp, const std::string& groupName);
 
 protected:
     Group(World* world, const std::string& name) : world(world), name(name) {}

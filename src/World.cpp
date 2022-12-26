@@ -32,17 +32,18 @@ void World::checkCollisions() {
 }
 
 void World::draw() const {
-    for (const std::string& name : iterationOrder)
+    for (const std::string& name: iterationOrder)
         groups.at(name)->draw(engine);
 }
 
 void World::mousePressed(SDL_Event* event) {
-    for (const std::string& name : iterationOrder)
-        groups.at(name)->mouseDown(engine, event);
+    for (const std::string& name: iterationOrder)
+        groups.at(name)->mousePressed(engine, event);
 }
 
 void World::mouseReleased(SDL_Event* event) {
-
+    for (const std::string& name: iterationOrder)
+        groups.at(name)->mouseReleased(engine, event);
 }
 
 void World::mouseMoved(SDL_Event* event) {

@@ -50,7 +50,7 @@ private:
 
 
 
-class Pistol : public Sprite {
+class Pistol : public Component {
 
 public:
     Pistol() = default;

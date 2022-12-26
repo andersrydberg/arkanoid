@@ -1,5 +1,5 @@
 #include <string>
-#include "Constants.h" //gResPath-contains the path to your resources.
+#include "Constants.h"
 #include "GameEngine.h"
 #include "GameSprites.h"
 

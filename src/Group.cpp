@@ -52,10 +52,42 @@ void Group::draw(GameEngine& engine) const {
     }
 }
 
-void Group::mouseDown(GameEngine& engine, SDL_Event* event) {
+void Group::mousePressed(GameEngine& engine, SDL_Event* event) {
     for (Component* comp : comps)
         comp->mouseDown(engine, this, event);
 }
+
+void Group::mouseReleased(GameEngine& engine, SDL_Event* event) {
+    for (Component* comp: comps)
+        comp->mouseReleased(engine, this, event);
+}
+
+void Group::mouseMoved(GameEngine& engine, SDL_Event* event) {
+    for (Component* comp: comps)
+        comp->mouseMoved(engine, this, event);
+}
+
+void Group::upKeyPressed(GameEngine& engine, SDL_Event* event) {
+    for (Component* comp: comps)
+        comp->upKeyPressed(engine, this, event);
+}
+
+void Group::downKeyPressed(GameEngine& engine, SDL_Event* event) {
+    for (Component* comp: comps)
+        comp->downKeyPressed(engine, this, event);
+}
+
+void Group::leftKeyPressed(GameEngine& engine, SDL_Event* event) {
+    for (Component* comp: comps)
+        comp->leftKeyPressed(engine, this, event);
+}
+
+void Group::rightKeyPressed(GameEngine& engine, SDL_Event* event) {
+    for (Component* comp: comps)
+        comp->rightKeyPressed(engine, this, event);
+}
+
+
 
 void Group::add(Component *comp) {
     addQueue.push_back(comp);
