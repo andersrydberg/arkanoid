@@ -15,6 +15,8 @@ class Component;
 class Group {
 public:
     static Group* getInstance(World* world, const std::string& name);
+    static Group* getInstance(World* world, const std::string& name, bool collideInternally,
+                              bool collideExternally, bool visible);
     virtual ~Group();
     Group(const Group& other) = delete;
     Group& operator=(const Group& other) = delete;
@@ -37,9 +39,9 @@ public:
     virtual const std::string& getName() const {return name;}
     virtual std::vector<Component*>& getContents() {return comps;}
 
-    bool bCanCollideInternally {true};
-    bool bCanCollideExternally {true};
-    bool bVisible {true};
+    bool bCanCollideInternally;
+    bool bCanCollideExternally;
+    bool bVisible;
 
     // add to this group
     virtual void add(Component* comp);
@@ -49,7 +51,8 @@ public:
     virtual void move(Component* comp, const std::string& groupName);
 
 protected:
-    Group(World* world, const std::string& name) : world(world), name(name) {}
+    Group(World* world, const std::string& name, bool collideInternally=true,
+          bool collideExternally=true, bool visible=true);
 
     virtual void _addComponents();
     virtual void _removeComponents();

@@ -25,11 +25,9 @@ class BulletGroup : public Group {
 public:
     void tick(GameEngine& engine) override;
     void pause();
-    static BulletGroup* getInstance(World* world, const std::string& name);
+    BulletGroup(World* world, const std::string& name): Group(world, name), bPaused(false) {}
 
 private:
-    BulletGroup(World* world, const std::string& name)
-    : Group(world, name), bPaused(false) {}
     bool bPaused;
 };
 

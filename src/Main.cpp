@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
     World* world = engine.getWorld();
     world->add(Sprite::getInstance(engine, constants::gResPath + "images/bg.jpg"), "background");
     world->add(new Pistol, "pistol");
-    world->addGroup(BulletGroup::getInstance(world, "bullets"));
+    world->addGroup(new BulletGroup(world, "bullets"));
     world->addGroup("explosions");
     engine.addShortcut("P", pauseBullets);
 
