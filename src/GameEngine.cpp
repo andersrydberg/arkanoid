@@ -7,14 +7,15 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+using namespace std;
 
-GameEngine& GameEngine::getInstance(const std::string& title, int windowW, int windowH) {
+GameEngine& GameEngine::getInstance(const string& title, int windowW, int windowH) {
     static GameEngine engine(title, windowW, windowH);
     return engine;
 }
 
-GameEngine::GameEngine(const std::string& title, int windowW, int windowH) :
-title(title), windowW(windowW), windowH(windowH), window(nullptr), rend(nullptr), world(nullptr) {
+GameEngine::GameEngine(const string& title, int windowW, int windowH)
+: title(title), windowW(windowW), windowH(windowH), window(nullptr), rend(nullptr), world(nullptr) {
     bInitialized = init();
 }
 
@@ -118,7 +119,7 @@ bool GameEngine::initWithErrors() const {
     return !bInitialized;
 }
 
-void GameEngine::setTitle(const std::string &newTitle) {
+void GameEngine::setTitle(const string &newTitle) {
     title = newTitle;
     SDL_SetWindowTitle(window, newTitle.c_str());
 }
@@ -127,16 +128,16 @@ void GameEngine::quit() {
     bQuit = true;
 }
 
-void GameEngine::addShortcut(const std::string& key, void(* func)(World*, SDL_Event*)) {
+void GameEngine::addShortcut(const string& key, void(* func)(World*, SDL_Event*)) {
     if (functionMap.count(key) == 0)
-        functionMap.insert(std::make_pair(key, func));
+        functionMap.insert(make_pair(key, func));
 }
 
 
 
 //// convenience methods
 
-SDL_Texture* GameEngine::getTextureFromImage(const std::string& filepath) {
+SDL_Texture* GameEngine::getTextureFromImage(const string& filepath) {
     SDL_Surface* surface = IMG_Load(filepath.c_str());
     SDL_Texture* texture = SDL_CreateTextureFromSurface(rend, surface);
     SDL_FreeSurface(surface);
@@ -144,5 +145,11 @@ SDL_Texture* GameEngine::getTextureFromImage(const std::string& filepath) {
 }
 
 void GameEngine::drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* rect) {
-    SDL_RenderCopy(rend, texture, nullptr, rect);
+    drawTextureToRenderer(texture, nullptr, rect);
 }
+
+void GameEngine::drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* sRect, SDL_Rect* dRect) {
+    SDL_RenderCopy(rend, texture, sRect, dRect);
+}
+
+// void getTickNumber()

@@ -7,6 +7,8 @@
 
 #include "Sprite.h"
 
+using namespace std;
+
 class AnimatedSprite : public Sprite {
 
 public:
@@ -17,8 +19,8 @@ public:
 protected:
     AnimatedSprite();
 
-    std::unordered_map<std::string, SDL_Texture*> textures;
-    std::string currentTexture;
+    unordered_map<string, SDL_Texture*> textures;
+    string currentTexture;
 };
 
 

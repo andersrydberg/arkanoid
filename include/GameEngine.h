@@ -9,12 +9,13 @@
 #include <string>
 #include "World.h"
 
+using namespace std;
 
 class GameEngine {
 
 public:
     ~GameEngine();
-    static GameEngine& getInstance(const std::string& title, int windowW, int windowH);
+    static GameEngine& getInstance(const string& title, int windowW, int windowH);
 
     void run();
     void quit();
@@ -23,9 +24,9 @@ public:
 
     int getWindowWidth() const {return windowW;}
     int getWindowHeight() const {return windowH;}
-    const std::string& getTitle() const {return title;}
+    const string& getTitle() const {return title;}
 
-    void setTitle(const std::string& newTitle);
+    void setTitle(const string& newTitle);
 
     SDL_Window* getWindow() const {return window;}
     SDL_Renderer* getRenderer() const {return rend;}
@@ -34,16 +35,18 @@ public:
 
     void setFPS(int framesPerSecond) {fps = framesPerSecond;}
 
-    void addShortcut(const std::string& key, void(* func)(World*, SDL_Event*));
+    void addShortcut(const string& key, void(* func)(World*, SDL_Event*));
 
-    SDL_Texture* getTextureFromImage(const std::string& filepath);
+    SDL_Texture* getTextureFromImage(const string& filepath);
     void drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* rect);
+    void drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* sRect, SDL_Rect* dRect);
+
 
 private:
-    GameEngine(const std::string& title, int windowW, int windowH);
+    GameEngine(const string& title, int windowW, int windowH);
     bool init();
 
-    std::string title;
+    string title;
     int windowW;
     int windowH;
 
@@ -57,7 +60,7 @@ private:
     bool bQuit {false};
     int fps {60};
 
-    std::unordered_map<std::string, void (*)(World*, SDL_Event*)> functionMap;
+    unordered_map<string, void (*)(World*, SDL_Event*)> functionMap;
 };
 
 #endif

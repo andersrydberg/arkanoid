@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <SDL2/SDL.h>
 
+using namespace std;
+
 class Component;
 class Group;
 class GameEngine;
@@ -36,36 +38,36 @@ public:
 
 
     // adds component to group "group"
-    void add(Component *comp, const std::string& group);
+    void add(Component *comp, const string& group);
 
     // appends group to the end of the iteration order
-    Group* addGroup(const std::string& name);
+    Group* addGroup(const string& name);
     void addGroup(Group* group);
     // inserts group before group "upper"
-    void addGroup(const std::string& name, const std::string& upper);
-    void addGroup(Group* group, const std::string& upper);
+    void addGroup(const string& name, const string& upper);
+    void addGroup(Group* group, const string& upper);
 
-    void removeGroup(const std::string& name);
+    void removeGroup(const string& name);
     void removeGroup(Group* group);
 
     // merges second group into first
-    void mergeGroups(const std::string& first, const std::string& second);
-    void mergeGroups(Group* first, const std::string& second);
+    void mergeGroups(const string& first, const string& second);
+    void mergeGroups(Group* first, const string& second);
     void mergeGroups(Group* first, Group* second);
 
-    Group* getGroup(const std::string& groupName);
+    Group* getGroup(const string& groupName);
 
 
 
 private:
     GameEngine& engine;
 
-    std::list<std::string> iterationOrder;
-    std::unordered_map<std::string, Group*> groups;
+    list<string> iterationOrder;
+    unordered_map<string, Group*> groups;
 
-    std::unordered_map<Group*, std::string> groupAddQueue;
-    std::vector<Group*> groupDeleteQueue;
-    std::unordered_map<Group*, Group*> groupMergeQueue;
+    unordered_map<Group*, string> groupAddQueue;
+    vector<Group*> groupDeleteQueue;
+    unordered_map<Group*, Group*> groupMergeQueue;
 
     void _addGroups();
     void _mergeGroups();
