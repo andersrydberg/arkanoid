@@ -65,7 +65,7 @@ void Group::draw(GameEngine& engine) const {
 
 void Group::mousePressed(GameEngine& engine, SDL_Event* event) {
     for (Component* comp : comps)
-        comp->mouseDown(engine, this, event);
+        comp->mousePressed(engine, this, event);
 }
 
 void Group::mouseReleased(GameEngine& engine, SDL_Event* event) {

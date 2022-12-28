@@ -20,7 +20,7 @@ public:
     virtual void checkCollision(GameEngine& engine, Group* group, Component* other, Group* otherGroup) {};
     virtual void draw(GameEngine& engine) {};
 
-    virtual void mouseDown(GameEngine& engine, Group* group, SDL_Event* event) {};
+    virtual void mousePressed(GameEngine& engine, Group* group, SDL_Event* event) {};
     virtual void mouseReleased(GameEngine& engine, Group* group, SDL_Event* event) {};
     virtual void mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) {};
     virtual void upKeyPressed(GameEngine& engine, Group* group, SDL_Event* event) {};
