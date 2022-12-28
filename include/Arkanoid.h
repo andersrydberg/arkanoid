@@ -19,8 +19,13 @@ public:
     ~SpriteSheet();
 
     SDL_Texture* getTexture() const;
-    const SDL_Rect ball1x1 {32, 128, 16, 16};
+    const SDL_Rect ball0x0 {32, 128, 16, 16};
     const SDL_Rect bluePaddle4 {58, 302, 90, 30};
+    const SDL_Rect vertSilverWall {190, 148, 18, 56};
+    const SDL_Rect horSilverWall {190, 204, 56, 18};
+    const SDL_Rect silverWallCorner0x0 {134, 148, 20,20};
+    const SDL_Rect neonWallVert {64, 0, 26, 32};
+    const SDL_Rect neonWallHor {64, 32, 32, 26};
 
 private:
     SDL_Texture* texture;
@@ -54,14 +59,12 @@ public:
     Ball(SpriteSheet* sheet, const SDL_Rect* sourceRect, Paddle* paddle);
     void mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) override;
     void mousePressed(GameEngine& engine, Group* group, SDL_Event* event) override;
+    void tick(GameEngine& engine, Group* group) override;
 
 private:
     Paddle* paddle;     // not used after the ball is released
     bool bReleased {false};
-    int distancePerTick {0};
-    double xVelocity, yVelocity {0.0};
-
-    void setDistancePerTick(int n);
+    double velocity, xVel, yVel {0.0};
 };
 
 #endif

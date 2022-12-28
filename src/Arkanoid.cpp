@@ -74,13 +74,15 @@ void Ball::mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) {
 
 void Ball::mousePressed(GameEngine& engine, Group* group, SDL_Event* event) {
     if (!bReleased) {
-        setDistancePerTick(3);
+        velocity = 10.0;
+        double initialAngle = PI * 1.75;
+        xVel = velocity * cos(initialAngle);
+        yVel = velocity * sin(initialAngle);
         bReleased = true;
     }
 }
 
-void Ball::setDistancePerTick(int n) {
-    distancePerTick = n;
-    double newXVelocity = distancePerTick * cos(angle);
-    yVelocity = distanceTravelledPerTick * sin(angle);
+void Ball::tick(GameEngine& engine, Group* group) {
+    dRect->x += static_cast<int>(std::round(xVel));
+    dRect->y += static_cast<int>(std::round(yVel));
 }
