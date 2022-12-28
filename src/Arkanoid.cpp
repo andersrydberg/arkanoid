@@ -49,10 +49,10 @@ void SpriteFromSheet::draw(GameEngine& engine) {
 
 void Paddle::mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) {
     int newX = event->motion.x - dRect->w / 2;     // align mouse to the center of the paddle
-    int maxX = windowW - dRect->w;
+    int maxX = 920 - dRect->w;
 
-    if (newX < 0)
-        dRect->x = 0;
+    if (newX < 104)
+        dRect->x = 104;
     else if (newX > maxX)
         dRect->x = maxX;
     else
