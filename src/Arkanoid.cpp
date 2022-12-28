@@ -25,16 +25,18 @@ SDL_Texture* SpriteSheet::getTexture() const {
 
 /// SpriteFromSheet
 
-SpriteFromSheet::SpriteFromSheet(SpriteSheet* sheet, SDL_Rect* sRect, int x, int y)
-: SpriteFromSheet(sheet, sRect, x, y, sRect->w, sRect->h) {
+SpriteFromSheet::SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y)
+: SpriteFromSheet(sheet, sourceRect, x, y, sourceRect->w, sourceRect->h) {
 }
 
-SpriteFromSheet::SpriteFromSheet(SpriteSheet* sheet, SDL_Rect* sRect, int x, int y, int w, int h)
-: sheet(sheet), sRect(sRect) {
+SpriteFromSheet::SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y, int w, int h)
+: sheet(sheet) {
+    sRect = sourceRect ? new SDL_Rect(*sourceRect) : nullptr;
     dRect = new SDL_Rect {x, y, w, h};
 }
 
 SpriteFromSheet::~SpriteFromSheet() {
+    delete sRect;
     delete dRect;
 }
 
@@ -60,8 +62,8 @@ void Paddle::mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) {
 
 //// Ball
 
-Ball::Ball(SpriteSheet* sheet, SDL_Rect* sRect, Paddle* paddle)
-: SpriteFromSheet(sheet, sRect, paddle->dRect->x + 20, paddle->dRect->y - sRect->h), paddle(paddle) {
+Ball::Ball(SpriteSheet* sheet, const SDL_Rect* sourceRect, Paddle* paddle)
+: SpriteFromSheet(sheet, sourceRect, paddle->dRect->x + 20, paddle->dRect->y - sourceRect->h), paddle(paddle) {
 }
 
 void Ball::mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) {
@@ -72,6 +74,13 @@ void Ball::mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) {
 
 void Ball::mousePressed(GameEngine& engine, Group* group, SDL_Event* event) {
     if (!bReleased) {
+        setDistancePerTick(3);
         bReleased = true;
     }
+}
+
+void Ball::setDistancePerTick(int n) {
+    distancePerTick = n;
+    double newXVelocity = distancePerTick * cos(angle);
+    yVelocity = distanceTravelledPerTick * sin(angle);
 }
