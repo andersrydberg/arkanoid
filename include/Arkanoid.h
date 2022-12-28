@@ -55,7 +55,7 @@ public:
     void mousePressed(GameEngine& engine, Group* group, SDL_Event* event) override;
 
 private:
-    Paddle* paddle;
+    Paddle* paddle;     // not used after the ball is released
     bool bReleased {false};
 };
 
