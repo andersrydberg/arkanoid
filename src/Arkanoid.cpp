@@ -5,13 +5,12 @@
 #include "Arkanoid.h"
 #include "GameEngine.h"
 #include "Constants.h"
-#include "SDL2/SDL.h"
 
 
 //// SpriteSheet
 
-SpriteSheet::SpriteSheet(GameEngine& engine) {
-    texture = engine.getTextureFromImage(constants::gResPath + constants::spriteSheetRelPath);
+SpriteSheet::SpriteSheet(GameEngine* engine) {
+    texture = engine->getTextureFromImage(constants::gResPath + constants::spriteSheetRelPath);
 }
 
 SpriteSheet::~SpriteSheet() {
@@ -40,14 +39,14 @@ SpriteFromSheet::~SpriteFromSheet() {
     delete dRect;
 }
 
-void SpriteFromSheet::draw(GameEngine& engine) {
-    engine.drawTextureToRenderer(sheet->getTexture(), sRect, dRect);
+void SpriteFromSheet::draw(GameEngine* engine) {
+    engine->drawTextureToRenderer(sheet->getTexture(), sRect, dRect);
 }
 
 
 //// Paddle
 
-void Paddle::mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) {
+void Paddle::mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) {
     int newX = event->motion.x - dRect->w / 2;     // align mouse to the center of the paddle
     int maxX = 920 - dRect->w;
 
@@ -66,13 +65,13 @@ Ball::Ball(SpriteSheet* sheet, const SDL_Rect* sourceRect, Paddle* paddle)
 : SpriteFromSheet(sheet, sourceRect, paddle->dRect->x + 20, paddle->dRect->y - sourceRect->h), paddle(paddle) {
 }
 
-void Ball::mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) {
+void Ball::mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) {
     if (!bReleased) {
         dRect->x = paddle->dRect->x + 20;
     }
 }
 
-void Ball::mousePressed(GameEngine& engine, Group* group, SDL_Event* event) {
+void Ball::mousePressed(GameEngine* engine, Group* group, SDL_Event* event) {
     if (!bReleased) {
         velocity = 10.0;
         double initialAngle = PI * 1.75;
@@ -82,7 +81,7 @@ void Ball::mousePressed(GameEngine& engine, Group* group, SDL_Event* event) {
     }
 }
 
-void Ball::tick(GameEngine& engine, Group* group) {
+void Ball::tick(GameEngine* engine, Group* group) {
     dRect->x += static_cast<int>(std::round(xVel));
     dRect->y += static_cast<int>(std::round(yVel));
 }

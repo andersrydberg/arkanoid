@@ -10,6 +10,6 @@ AnimatedSprite::~AnimatedSprite() {
         SDL_DestroyTexture(pair.second);
 }
 
-void AnimatedSprite::draw(GameEngine& engine) {
-    engine.drawTextureToRenderer(textures.at(currentTexture), rect);
+void AnimatedSprite::draw(GameEngine* engine) {
+    engine->drawTextureToRenderer(textures.at(currentTexture), rect);
 }

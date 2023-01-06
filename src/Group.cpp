@@ -27,7 +27,7 @@ Group::~Group() {
         delete comp;
 }
 
-void Group::tick(GameEngine& engine) {
+void Group::tick(GameEngine* engine) {
     for (Component* comp : comps)
         comp->tick(engine, this);
 
@@ -35,7 +35,7 @@ void Group::tick(GameEngine& engine) {
     _addComponents();
 }
 
-void Group::checkCollisions(GameEngine& engine) {
+void Group::checkCollisions(GameEngine* engine) {
     if (bCanCollideInternally) {
         for (Component* firstComp: comps) {
             for (Component* secondComp: comps) {
@@ -46,7 +46,7 @@ void Group::checkCollisions(GameEngine& engine) {
     }
 }
 
-void Group::checkCollisions(GameEngine& engine, Group* otherGroup) {
+void Group::checkCollisions(GameEngine* engine, Group* otherGroup) {
     if (bCanCollideExternally && otherGroup->bCanCollideExternally) {
         for (Component* internalComp: comps) {
             for (Component* externalComp: otherGroup->getContents())
@@ -56,44 +56,44 @@ void Group::checkCollisions(GameEngine& engine, Group* otherGroup) {
 }
 
 
-void Group::draw(GameEngine& engine) const {
+void Group::draw(GameEngine* engine) const {
     if (bVisible) {
         for (Component* comp: comps)
             comp->draw(engine);
     }
 }
 
-void Group::mousePressed(GameEngine& engine, SDL_Event* event) {
+void Group::mousePressed(GameEngine* engine, SDL_Event* event) {
     for (Component* comp : comps)
         comp->mousePressed(engine, this, event);
 }
 
-void Group::mouseReleased(GameEngine& engine, SDL_Event* event) {
+void Group::mouseReleased(GameEngine* engine, SDL_Event* event) {
     for (Component* comp: comps)
         comp->mouseReleased(engine, this, event);
 }
 
-void Group::mouseMoved(GameEngine& engine, SDL_Event* event) {
+void Group::mouseMoved(GameEngine* engine, SDL_Event* event) {
     for (Component* comp: comps)
         comp->mouseMoved(engine, this, event);
 }
 
-void Group::upKeyPressed(GameEngine& engine, SDL_Event* event) {
+void Group::upKeyPressed(GameEngine* engine, SDL_Event* event) {
     for (Component* comp: comps)
         comp->upKeyPressed(engine, this, event);
 }
 
-void Group::downKeyPressed(GameEngine& engine, SDL_Event* event) {
+void Group::downKeyPressed(GameEngine* engine, SDL_Event* event) {
     for (Component* comp: comps)
         comp->downKeyPressed(engine, this, event);
 }
 
-void Group::leftKeyPressed(GameEngine& engine, SDL_Event* event) {
+void Group::leftKeyPressed(GameEngine* engine, SDL_Event* event) {
     for (Component* comp: comps)
         comp->leftKeyPressed(engine, this, event);
 }
 
-void Group::rightKeyPressed(GameEngine& engine, SDL_Event* event) {
+void Group::rightKeyPressed(GameEngine* engine, SDL_Event* event) {
     for (Component* comp: comps)
         comp->rightKeyPressed(engine, this, event);
 }
@@ -119,6 +119,14 @@ void Group::move(Component* comp, const string& groupName) {
     world->add(comp, groupName);
 }
 
+void Group::message(const string& message) {
+    for (Component* comp: comps)
+        comp->receiveMessage(this, message);
+}
+
+void Group::message(const string& message, const string& group) {
+    world->message(message, group);
+}
 
 
 //// protected

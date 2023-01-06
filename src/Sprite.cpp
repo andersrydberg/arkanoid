@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Sprite::Sprite(GameEngine& engine, const std::string& filepath,
+Sprite::Sprite(GameEngine* engine, const std::string& filepath,
                int x, int y, int w, int h,
                bool collide, bool visible) {
     if (x == 0 && y == 0 && w == 0 && h == 0)
@@ -17,7 +17,7 @@ Sprite::Sprite(GameEngine& engine, const std::string& filepath,
         rect = new SDL_Rect {x, y, w, h};
     bCanCollide = collide;
     bVisible = visible;
-    texture = engine.getTextureFromImage(filepath);
+    texture = engine->getTextureFromImage(filepath);
 }
 
 Sprite::~Sprite() {
@@ -27,24 +27,24 @@ Sprite::~Sprite() {
 
 
 // returns a sprite that stretches to fill the entire window
-Sprite* Sprite::getInstance(GameEngine& engine, const string& filepath) {
+Sprite* Sprite::getInstance(GameEngine* engine, const string& filepath) {
     return new Sprite(engine, filepath);
 }
 
 // returns a "typical" sprite with a size and relative position
-Sprite* Sprite::getInstance(GameEngine& engine, const string& filepath,
+Sprite* Sprite::getInstance(GameEngine* engine, const string& filepath,
                             int x, int y, int w, int h) {
     return new Sprite(engine, filepath, x, y, w, h);
 }
 
-Sprite* Sprite::getInstance(GameEngine& engine, const string& filepath,
+Sprite* Sprite::getInstance(GameEngine* engine, const string& filepath,
                             int x, int y, int w, int h,
                             bool collide, bool visible) {
     return new Sprite(engine, filepath, x, y, w, h, collide, visible);
 }
 
 
-void Sprite::draw(GameEngine& engine) {
+void Sprite::draw(GameEngine* engine) {
     if (texture && bVisible)
-        engine.drawTextureToRenderer(texture, rect);
+        engine->drawTextureToRenderer(texture, rect);
 }

@@ -6,12 +6,16 @@
 #include "World.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 
 using namespace std;
 
-GameEngine& GameEngine::getInstance(const string& title, int windowW, int windowH) {
+GameEngine* GameEngine::initialize(const string& title, int windowW, int windowH) {
     static GameEngine engine(title, windowW, windowH);
-    return engine;
+    if (!engine.bInitialized)
+        throw sdl_initialization_error();
+    return &engine;
 }
 
 GameEngine::GameEngine(const string& title, int windowW, int windowH)
@@ -32,28 +36,30 @@ bool GameEngine::init() {
 
 #if __APPLE__
 // necessary on my Mac
-// the default "metal" renderer is extremely laggy for some reason
+// the default "metal" renderer is extremely laggy
 // https://stackoverflow.com/questions/59700423/why-is-sdl-so-much-slower-on-mac-than-linux
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
 #endif
 
     window = SDL_CreateWindow(title.c_str(),SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,windowW,windowH,0);
-    if (!window)
+    if (!window) {
+        SDL_Quit();
         return false;
+    }
 
     rend = SDL_CreateRenderer(window,-1,0);
-    if (!rend)
+    if (!rend) {
+        SDL_DestroyWindow(window);
+        SDL_Quit();
         return false;
+    }
 
-    world = new World(*this);
+    world = new World(this);
     return true;
 }
 
 void GameEngine::run() {
-    if (!bInitialized)
-        ;// throw error
-
     int millisecondsPerTick = 1000 / fps;
     while (!bQuit) {
 
@@ -113,10 +119,6 @@ void GameEngine::run() {
             SDL_Delay(diff);
 
     }
-}
-
-bool GameEngine::initWithErrors() const {
-    return !bInitialized;
 }
 
 void GameEngine::setTitle(const string &newTitle) {

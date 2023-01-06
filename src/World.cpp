@@ -169,6 +169,11 @@ void World::mergeGroups(Group *first, Group *second) {
     groupMergeQueue.insert(make_pair(first, second));
 }
 
+void World::message(const string& message, const string& group) {
+    if (groups.count(group))
+        groups[group]->message(message);
+}
+
 Group* World::getGroup(const string& groupName) {
     return groups.find(groupName)->second;
 }

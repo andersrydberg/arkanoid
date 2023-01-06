@@ -15,7 +15,7 @@ const double PI = 4 * atan(1);
 
 class SpriteSheet {
 public:
-    SpriteSheet(GameEngine& engine);
+    SpriteSheet(GameEngine* engine);
     ~SpriteSheet();
 
     SDL_Texture* getTexture() const;
@@ -43,7 +43,7 @@ public:
     SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y);
     SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y, int w, int h);
     ~SpriteFromSheet() override;
-    void draw(GameEngine& engine) override;
+    void draw(GameEngine* engine) override;
 
 protected:
     SpriteSheet* sheet;
@@ -56,16 +56,16 @@ class Paddle : public SpriteFromSheet {
 public:
     using SpriteFromSheet::SpriteFromSheet;
     friend class Ball;
-    void mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) override;
+    void mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) override;
 };
 
 
 class Ball : public SpriteFromSheet {
 public:
     Ball(SpriteSheet* sheet, const SDL_Rect* sourceRect, Paddle* paddle);
-    void mouseMoved(GameEngine& engine, Group* group, SDL_Event* event) override;
-    void mousePressed(GameEngine& engine, Group* group, SDL_Event* event) override;
-    void tick(GameEngine& engine, Group* group) override;
+    void mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) override;
+    void mousePressed(GameEngine* engine, Group* group, SDL_Event* event) override;
+    void tick(GameEngine* engine, Group* group) override;
 
 private:
     Paddle* paddle;     // not used after the ball is released

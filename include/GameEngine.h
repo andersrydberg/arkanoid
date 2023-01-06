@@ -7,26 +7,23 @@
 
 #include <SDL2/SDL.h>
 #include <string>
+#include <stdexcept>
 #include "World.h"
-
-using namespace std;
 
 class GameEngine {
 
 public:
     ~GameEngine();
-    static GameEngine& getInstance(const string& title, int windowW, int windowH);
+    static GameEngine* initialize(const std::string& title, int windowW, int windowH);
 
     void run();
     void quit();
 
-    bool initWithErrors() const;
-
     int getWindowWidth() const {return windowW;}
     int getWindowHeight() const {return windowH;}
-    const string& getTitle() const {return title;}
+    const std::string& getTitle() const {return title;}
 
-    void setTitle(const string& newTitle);
+    void setTitle(const std::string& newTitle);
 
     SDL_Window* getWindow() const {return window;}
     SDL_Renderer* getRenderer() const {return rend;}
@@ -35,18 +32,18 @@ public:
 
     void setFPS(int framesPerSecond) {fps = framesPerSecond;}
 
-    void addShortcut(const string& key, void(* func)(World*, SDL_Event*));
+    void addShortcut(const std::string& key, void(* func)(World*, SDL_Event*));
 
-    SDL_Texture* getTextureFromImage(const string& filepath);
+    SDL_Texture* getTextureFromImage(const std::string& filepath);
     void drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* rect);
     void drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* sRect, SDL_Rect* dRect);
 
 
 private:
-    GameEngine(const string& title, int windowW, int windowH);
+    GameEngine(const std::string& title, int windowW, int windowH);
     bool init();
 
-    string title;
+    std::string title;
     int windowW;
     int windowH;
 
@@ -60,7 +57,14 @@ private:
     bool bQuit {false};
     int fps {60};
 
-    unordered_map<string, void (*)(World*, SDL_Event*)> functionMap;
+    std::unordered_map<std::string, void (*)(World*, SDL_Event*)> functionMap;
+};
+
+
+class sdl_initialization_error : public std::runtime_error {
+public:
+    explicit sdl_initialization_error(const std::string& what_arg="SDL could not be properly initialized")
+    : std::runtime_error(what_arg) {}
 };
 
 #endif
