@@ -6,6 +6,7 @@
 #include "GameEngine.h"
 #include "Constants.h"
 
+using namespace std;
 
 //// SpriteSheet
 
@@ -56,20 +57,13 @@ void Paddle::mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) {
         dRect->x = maxX;
     else
         dRect->x = newX;
+
+    // send new x-coordinate to the ball (which follows the paddle before being released)
+    group->message(to_string(dRect->x), "ball");
 }
 
 
 //// Ball
-
-Ball::Ball(SpriteSheet* sheet, const SDL_Rect* sourceRect, Paddle* paddle)
-: SpriteFromSheet(sheet, sourceRect, paddle->dRect->x + 20, paddle->dRect->y - sourceRect->h), paddle(paddle) {
-}
-
-void Ball::mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) {
-    if (!bReleased) {
-        dRect->x = paddle->dRect->x + 20;
-    }
-}
 
 void Ball::mousePressed(GameEngine* engine, Group* group, SDL_Event* event) {
     if (!bReleased) {
@@ -82,6 +76,13 @@ void Ball::mousePressed(GameEngine* engine, Group* group, SDL_Event* event) {
 }
 
 void Ball::tick(GameEngine* engine, Group* group) {
-    dRect->x += static_cast<int>(std::round(xVel));
-    dRect->y += static_cast<int>(std::round(yVel));
+    if (bReleased) {
+        dRect->x += static_cast<int>(std::round(xVel));
+        dRect->y += static_cast<int>(std::round(yVel));
+    }
+}
+
+void Ball::receiveMessage(Group* group, const std::string& message) {
+    if (!bReleased)
+        dRect->x = stoi(message) + 20;
 }

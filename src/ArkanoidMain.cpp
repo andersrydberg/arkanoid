@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
         auto paddle = new Paddle(&sheet, &sheet.bluePaddle4, 500, 660);
         world->add(paddle, "paddle");
-        auto ball = new Ball(&sheet, &sheet.ball0x0, paddle);
+        auto ball = new Ball(&sheet, &sheet.ball0x0, 520, 644);
         world->add(ball, "ball");
 
         engine->setFPS(60);

@@ -55,20 +55,18 @@ protected:
 class Paddle : public SpriteFromSheet {
 public:
     using SpriteFromSheet::SpriteFromSheet;
-    friend class Ball;
     void mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) override;
 };
 
 
 class Ball : public SpriteFromSheet {
 public:
-    Ball(SpriteSheet* sheet, const SDL_Rect* sourceRect, Paddle* paddle);
-    void mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) override;
+    using SpriteFromSheet::SpriteFromSheet;
     void mousePressed(GameEngine* engine, Group* group, SDL_Event* event) override;
     void tick(GameEngine* engine, Group* group) override;
+    void receiveMessage(Group* group, const std::string& message) override;
 
 private:
-    Paddle* paddle;     // not used after the ball is released
     bool bReleased {false};
     double velocity, xVel, yVel {0.0};
 };
