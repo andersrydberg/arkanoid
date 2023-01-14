@@ -5,8 +5,7 @@
 #include "SpriteFromSheet.h"
 
 SpriteFromSheet::SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y)
-        : SpriteFromSheet(sheet, sourceRect, x, y, sourceRect->w, sourceRect->h) {
-}
+: SpriteFromSheet(sheet, sourceRect, x, y, sourceRect->w, sourceRect->h) { }
 
 SpriteFromSheet::SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y, int w, int h)
         : sheet(sheet) {

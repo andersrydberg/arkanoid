@@ -31,6 +31,7 @@ public:
     virtual void leftKeyPressed(GameEngine* engine, Group* group, SDL_Event* event) {}
     virtual void rightKeyPressed(GameEngine* engine, Group* group, SDL_Event* event) {}
 
+    virtual SDL_Rect* getDRect() = 0;
 
 protected:
     Component() = default;

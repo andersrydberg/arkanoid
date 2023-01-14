@@ -20,6 +20,8 @@ public:
 
     void draw(GameEngine* engine) override;
 
+    SDL_Rect* getDRect() override {return rect;}
+
     bool bCanCollide;
     bool bVisible;
 

@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 
     //// populate the world
     /// walls
-    Group* walls = world->addGroup("group");
+    Group* walls = world->addGroup("walls");
     walls->bCanCollideInternally = false;
     walls->add(new Wall(&sheet, &sheet.silverWallCorner0x0, 86, 0));
     for (int n = 0; n < 12; n++)

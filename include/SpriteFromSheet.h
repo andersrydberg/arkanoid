@@ -16,6 +16,8 @@ public:
     ~SpriteFromSheet() override;
     void draw(GameEngine* engine) override;
 
+    SDL_Rect* getDRect() override {return dRect;}
+
 protected:
     SpriteSheet* sheet;
     SDL_Rect* sRect;

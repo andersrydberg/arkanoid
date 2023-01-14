@@ -59,6 +59,7 @@ public:
     void mousePressed(GameEngine* engine, Group* group, SDL_Event* event) override;
     void tick(GameEngine* engine, Group* group) override;
     void receiveMessage(Group* group, const std::string& message) override;
+    void checkCollision(GameEngine* engine, Group* group, Component* other, Group* otherGroup) override;
 
 private:
     bool bReleased {false};

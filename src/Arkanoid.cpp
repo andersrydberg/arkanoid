@@ -54,7 +54,7 @@ void Ball::mousePressed(GameEngine* engine, Group* group, SDL_Event* event) {
         xVel = velocity * cos(initialAngle);
         yVel = velocity * sin(initialAngle);
         bReleased = true;
-        group->message("relased!", "paddle");
+        group->message("released!", "paddle");
     }
 }
 
@@ -68,4 +68,16 @@ void Ball::tick(GameEngine* engine, Group* group) {
 void Ball::receiveMessage(Group* group, const std::string& message) {
     if (!bReleased)
         dRect->x = stoi(message) + 20;
+}
+
+void Ball::checkCollision(GameEngine* engine, Group* group, Component* other, Group* otherGroup) {
+    SDL_Rect intersection;
+    if (SDL_IntersectRect(dRect, other->getDRect(), &intersection)) {
+        if (otherGroup->getName() == "paddle") {
+            // check x-position relative to paddle; x*=coefficient; y*=-1
+        }
+        else if (otherGroup->getName() == "walls") {
+            // check wall orientation; y*=-1 or x*=-1
+        }
+    }
 }

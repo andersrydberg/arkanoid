@@ -9,6 +9,7 @@
 #include <string>
 #include <stdexcept>
 #include "World.h"
+#include "Component.h"
 
 class GameEngine {
 
@@ -40,7 +41,6 @@ public:
     void drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* rect);
     void drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* sRect, SDL_Rect* dRect);
 
-
 private:
     GameEngine(const std::string& title, int windowW, int windowH);
     bool init();
@@ -62,6 +62,7 @@ private:
     long int tickCount;
 
     std::unordered_map<std::string, void (*)(World*, SDL_Event*)> functionMap;
+
 };
 
 
