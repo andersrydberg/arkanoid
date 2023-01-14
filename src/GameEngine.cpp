@@ -114,10 +114,11 @@ void GameEngine::run() {
         SDL_RenderPresent(rend);
 
         // sleep the necessary amount of time left until next tick
-        int diff = nextTick - SDL_GetTicks();
-        if (diff > 0)
-            SDL_Delay(diff);
+        Uint32 now = SDL_GetTicks();
+        if (nextTick > now)
+            SDL_Delay(nextTick - now);
 
+        tickCount++;
     }
 }
 
@@ -153,5 +154,3 @@ void GameEngine::drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* rect) {
 void GameEngine::drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* sRect, SDL_Rect* dRect) {
     SDL_RenderCopy(rend, texture, sRect, dRect);
 }
-
-// void getTickNumber()

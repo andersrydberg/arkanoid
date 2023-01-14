@@ -8,7 +8,9 @@
 #include <SDL2/SDL.h>
 #include "Group.h"
 
-
+/**
+ * Base class for all visual components.
+ */
 class Component {
 
 public:

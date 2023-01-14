@@ -29,6 +29,8 @@ public:
     SDL_Renderer* getRenderer() const {return rend;}
     World* getWorld() const {return world;}
     int getFPS() const {return fps;}
+    long int getTickCount() const {return tickCount;}
+
 
     void setFPS(int framesPerSecond) {fps = framesPerSecond;}
 
@@ -56,6 +58,8 @@ private:
 
     bool bQuit {false};
     int fps {60};
+
+    long int tickCount;
 
     std::unordered_map<std::string, void (*)(World*, SDL_Event*)> functionMap;
 };

@@ -7,18 +7,18 @@
 
 #include "Component.h"
 #include "GameEngine.h"
+#include "SpriteSheet.h"
+#include "SpriteFromSheet.h"
 #include "SDL2/SDL.h"
 
 const int windowW = 1024;
 const int windowH = 692;
 const double PI = 4 * atan(1);
 
-class SpriteSheet {
+class ArkanoidSpriteSheet : public SpriteSheet {
 public:
-    SpriteSheet(GameEngine* engine);
-    ~SpriteSheet();
+    ArkanoidSpriteSheet(GameEngine* engine);
 
-    SDL_Texture* getTexture() const;
     const SDL_Rect ball0x0 {32, 128, 16, 16};
     const SDL_Rect bluePaddle4 {58, 302, 90, 30};
     const SDL_Rect vertSilverWall {190, 148, 18, 56};
@@ -32,36 +32,30 @@ public:
     const SDL_Rect silverWallCorner1x0 {170, 148, 20,20};
     const SDL_Rect silverWallCorner0x1 {134, 198, 20,20};
     const SDL_Rect silverWallCorner1x1 {170, 198, 20,20};
-
-private:
-    SDL_Texture* texture;
 };
 
 
-class SpriteFromSheet : public Component {
+class Wall : public SpriteFromSheet {
 public:
-    SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y);
-    SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y, int w, int h);
-    ~SpriteFromSheet() override;
-    void draw(GameEngine* engine) override;
-
-protected:
-    SpriteSheet* sheet;
-    SDL_Rect* sRect;
-    SDL_Rect* dRect;
+    using SpriteFromSheet::SpriteFromSheet;
 };
+
 
 
 class Paddle : public SpriteFromSheet {
 public:
-    using SpriteFromSheet::SpriteFromSheet;
+    Paddle(ArkanoidSpriteSheet* sheet, int x, int y);
     void mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) override;
+    void receiveMessage(Group* group, const std::string& message) override;
+
+private:
+    bool bBallReleased {false};
 };
 
 
 class Ball : public SpriteFromSheet {
 public:
-    using SpriteFromSheet::SpriteFromSheet;
+    Ball(ArkanoidSpriteSheet* sheet, int x, int y);
     void mousePressed(GameEngine* engine, Group* group, SDL_Event* event) override;
     void tick(GameEngine* engine, Group* group) override;
     void receiveMessage(Group* group, const std::string& message) override;
