@@ -209,10 +209,10 @@ void World::_removeGroups() {
 }
 
 void World::_addGroups() {
-    for (auto pair: groupAddQueue) {
+    for (const auto& pair: groupAddQueue) {
         Group* group = pair.first;
         const string& name = group->getName();
-        string& upper = pair.second;
+        const string& upper = pair.second;
 
         auto iter = iterationOrder.begin();
         for (; iter != iterationOrder.end(); iter++)

@@ -8,11 +8,44 @@
 
 using namespace std;
 
+// random device for randomizing brick color
+random_device rd;
+mt19937 gen(rd());
+uniform_int_distribution<> distrib(0, 6);
+
+
+
 //// ArkanoidSpriteSheet
 
 ArkanoidSpriteSheet::ArkanoidSpriteSheet(GameEngine* engine)
 : SpriteSheet(engine, constants::gResPath + constants::spriteSheetRelPath) { }
 
+
+/// Brick
+
+Brick::Brick(ArkanoidSpriteSheet* sheet, int x, int y)
+: SpriteFromSheet(sheet, &sheet->blueBrick1, x, y) {
+    // randomize color
+    sRect->x += distrib(gen) * 54;
+}
+
+void Brick::checkCollision(GameEngine* engine, Group* group, Component* other, Group* otherGroup) {
+    if (!bCollided)
+        if (engine->componentsIntersect(this, other)) {
+            counter = 0;
+            bCollided = true;
+        }
+}
+
+void Brick::tick(GameEngine* engine, Group* group) {
+    if (bCollided) {
+        if (counter == 25)
+            group->remove(this);
+        else if (counter % 5 == 0)
+            sRect->y += 22;
+        counter++;
+    }
+}
 
 
 //// Paddle
@@ -21,8 +54,8 @@ Paddle::Paddle(ArkanoidSpriteSheet* sheet, int x, int y)
 : SpriteFromSheet(sheet, &sheet->bluePaddle4, x, y) { }
 
 void Paddle::mouseMoved(GameEngine* engine, Group* group, SDL_Event* event) {
-    int newX = event->motion.x - dRect->w / 2;     // align mouse to the center of the paddle
-    int maxX = 920 - dRect->w;
+    const int newX = event->motion.x - dRect->w / 2;     // align mouse to the center of the paddle
+    const int maxX = 920 - dRect->w;
 
     if (newX < 104)
         dRect->x = 104;
@@ -50,7 +83,7 @@ Ball::Ball(ArkanoidSpriteSheet* sheet, int x, int y)
 void Ball::mousePressed(GameEngine* engine, Group* group, SDL_Event* event) {
     if (!bReleased) {
         velocity = 10.0;
-        double initialAngle = PI * 1.75;
+        const double initialAngle = PI * 1.75;
         xVel = velocity * cos(initialAngle);
         yVel = velocity * sin(initialAngle);
         bReleased = true;
@@ -60,8 +93,8 @@ void Ball::mousePressed(GameEngine* engine, Group* group, SDL_Event* event) {
 
 void Ball::tick(GameEngine* engine, Group* group) {
     if (bReleased) {
-        dRect->x += static_cast<int>(std::round(xVel));
-        dRect->y += static_cast<int>(std::round(yVel));
+        dRect->x += static_cast<int>(round(xVel));
+        dRect->y += static_cast<int>(round(yVel));
     }
 }
 

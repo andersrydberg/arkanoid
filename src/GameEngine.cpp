@@ -4,7 +4,6 @@
 
 #include "GameEngine.h"
 #include "World.h"
-#include "Component.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -154,4 +153,8 @@ void GameEngine::drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* rect) {
 
 void GameEngine::drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* sRect, SDL_Rect* dRect) {
     SDL_RenderCopy(rend, texture, sRect, dRect);
+}
+
+bool GameEngine::componentsIntersect(Component* first, Component* second) {
+    return SDL_HasIntersection(first->getDRect(), second->getDRect());
 }

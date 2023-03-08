@@ -10,10 +10,12 @@
 #include "SpriteSheet.h"
 #include "SpriteFromSheet.h"
 #include "SDL2/SDL.h"
+#include <random>
 
-const int windowW = 1024;
-const int windowH = 692;
+const int WINDOW_W = 1024;
+const int WINDOW_H = 692;
 const double PI = 4 * atan(1);
+
 
 class ArkanoidSpriteSheet : public SpriteSheet {
 public:
@@ -32,6 +34,8 @@ public:
     const SDL_Rect silverWallCorner1x0 {170, 148, 20,20};
     const SDL_Rect silverWallCorner0x1 {134, 198, 20,20};
     const SDL_Rect silverWallCorner1x1 {170, 198, 20,20};
+
+    const SDL_Rect blueBrick1 {324, 22, 54, 22};
 };
 
 
@@ -40,6 +44,17 @@ public:
     using SpriteFromSheet::SpriteFromSheet;
 };
 
+
+class Brick : public SpriteFromSheet {
+public:
+    Brick(ArkanoidSpriteSheet* sheet, int x, int y);
+    void checkCollision(GameEngine* engine, Group* group, Component* other, Group* otherGroup) override;
+    void tick(GameEngine* engine, Group* group) override;
+
+private:
+    bool bCollided {false};
+    short counter;
+};
 
 
 class Paddle : public SpriteFromSheet {

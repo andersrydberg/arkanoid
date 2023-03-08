@@ -10,12 +10,11 @@ using namespace std;
 
 Sprite::Sprite(GameEngine* engine, const std::string& filepath,
                int x, int y, int w, int h,
-               bool collide, bool visible) {
+               bool visible) {
     if (x == 0 && y == 0 && w == 0 && h == 0)
         rect = nullptr;
     else
         rect = new SDL_Rect {x, y, w, h};
-    bCanCollide = collide;
     bVisible = visible;
     texture = engine->getTextureFromImage(filepath);
 }
@@ -39,8 +38,8 @@ Sprite* Sprite::getInstance(GameEngine* engine, const string& filepath,
 
 Sprite* Sprite::getInstance(GameEngine* engine, const string& filepath,
                             int x, int y, int w, int h,
-                            bool collide, bool visible) {
-    return new Sprite(engine, filepath, x, y, w, h, collide, visible);
+                            bool visible) {
+    return new Sprite(engine, filepath, x, y, w, h, visible);
 }
 
 

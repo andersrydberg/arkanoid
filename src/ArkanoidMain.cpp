@@ -1,5 +1,4 @@
 #include "GameEngine.h"
-#include "SpriteFromSheet.h"
 #include "Constants.h"
 #include "Arkanoid.h"
 
@@ -16,7 +15,7 @@ int main(int argc, char* argv[]) {
      */
     GameEngine* engine;
     try {
-        engine = GameEngine::initialize("Arkanoid", windowW, windowH);
+        engine = GameEngine::initialize("Arkanoid", WINDOW_W, WINDOW_H);
     }
     catch (sdl_initialization_error&) {
         return 1;
@@ -41,6 +40,7 @@ int main(int argc, char* argv[]) {
     /// walls
     Group* walls = world->addGroup("walls");
     walls->bCanCollideInternally = false;
+    walls->bCanCollideExternally = false;
     walls->add(new Wall(&sheet, &sheet.silverWallCorner0x0, 86, 0));
     for (int n = 0; n < 12; n++)
         walls->add(new Wall(&sheet, &sheet.vertSilverWall, 86, 20 + n * 56));
@@ -52,6 +52,13 @@ int main(int argc, char* argv[]) {
     for (int n = 0; n < 11; n++)
         walls->add(new Wall(&sheet, &sheet.vertSilverWall, 920, 48 + n * 56));
     walls->add(new Wall(&sheet, &sheet.vertSilverWallUpperHalf, 920, 664));
+
+    /// bricks
+    Group* bricks = world->addGroup("bricks");
+    bricks->bCanCollideInternally = false;
+    for (int n = 0; n < 13; n++)
+        for (int m = 0; m < 10; m++)
+            bricks->add(new Brick(&sheet, 161 + n * 54, 100 + m * 22));
 
     world->add(new Paddle(&sheet, 500, 660), "paddle");
     world->add(new Ball(&sheet, 520, 644), "ball");
