@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Sprite::Sprite(GameEngine* engine, const std::string& filepath,
+Sprite::Sprite(GameEngine* engine, const string& filepath,
                int x, int y, int w, int h,
                bool visible) {
     if (x == 0 && y == 0 && w == 0 && h == 0)

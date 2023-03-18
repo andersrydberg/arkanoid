@@ -158,3 +158,8 @@ void GameEngine::drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* sRect, SD
 bool GameEngine::componentsIntersect(Component* first, Component* second) {
     return SDL_HasIntersection(first->getDRect(), second->getDRect());
 }
+
+SDL_Rect* GameEngine::getIntersection(Component* first, Component* second) {
+
+}
+

@@ -13,6 +13,7 @@ random_device rd;
 mt19937 gen(rd());
 uniform_int_distribution<> distrib(0, 6);
 
+const int BRICK_PIXEL_WIDTH = 54;
 
 
 //// ArkanoidSpriteSheet
@@ -25,25 +26,26 @@ ArkanoidSpriteSheet::ArkanoidSpriteSheet(GameEngine* engine)
 
 Brick::Brick(ArkanoidSpriteSheet* sheet, int x, int y)
 : SpriteFromSheet(sheet, &sheet->blueBrick1, x, y) {
-    // randomize color
-    sRect->x += distrib(gen) * 54;
+    // randomize color by moving the source rectangle a random amount of steps to the right
+    sRect->x += distrib(gen) * BRICK_PIXEL_WIDTH;
 }
 
 void Brick::checkCollision(GameEngine* engine, Group* group, Component* other, Group* otherGroup) {
-    if (!bCollided)
-        if (engine->componentsIntersect(this, other)) {
-            counter = 0;
-            bCollided = true;
-        }
+    if (!bCollided && engine->componentsIntersect(this, other)) {
+        counter = 0;
+        bCollided = true;
+    }
 }
 
 void Brick::tick(GameEngine* engine, Group* group) {
     if (bCollided) {
-        if (counter == 25)
+        if (counter < 25) {
+            if (counter % 5 == 0)
+                sRect->y += 22;
+            counter++;
+        }
+        else
             group->remove(this);
-        else if (counter % 5 == 0)
-            sRect->y += 22;
-        counter++;
     }
 }
 
@@ -92,6 +94,7 @@ void Ball::mousePressed(GameEngine* engine, Group* group, SDL_Event* event) {
 }
 
 void Ball::tick(GameEngine* engine, Group* group) {
+    bCollided = false;
     if (bReleased) {
         dRect->x += static_cast<int>(round(xVel));
         dRect->y += static_cast<int>(round(yVel));
@@ -104,13 +107,29 @@ void Ball::receiveMessage(Group* group, const std::string& message) {
 }
 
 void Ball::checkCollision(GameEngine* engine, Group* group, Component* other, Group* otherGroup) {
-    SDL_Rect intersection;
-    if (SDL_IntersectRect(dRect, other->getDRect(), &intersection)) {
+    if (bCollided)
+        return;     // do not collide with more than one component per tick
+    if (engine->componentsIntersect(this, other)) {
+        bCollided = true;
         if (otherGroup->getName() == "paddle") {
-            // check x-position relative to paddle; x*=coefficient; y*=-1
+            //Paddle* paddle = dynamic_cast<Paddle*>(other);
+            yVel *= -1;
         }
         else if (otherGroup->getName() == "walls") {
-            // check wall orientation; y*=-1 or x*=-1
+            Wall* wall = dynamic_cast<Wall*>(other);
+            xVel *= wall->x_factor;
+            yVel *= wall->y_factor;
+        }
+        else if (otherGroup->getName() == "bricks") {
+            Brick* brick = dynamic_cast<Brick*>(other);
+
         }
     }
+}
+
+
+//// Wall
+
+Wall::Wall(ArkanoidSpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y, int x_factor, int y_factor)
+: SpriteFromSheet(sheet, sourceRect, x, y), x_factor(x_factor), y_factor(y_factor) {
 }

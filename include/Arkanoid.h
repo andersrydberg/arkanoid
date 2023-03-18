@@ -41,7 +41,10 @@ public:
 
 class Wall : public SpriteFromSheet {
 public:
-    using SpriteFromSheet::SpriteFromSheet;
+    Wall(ArkanoidSpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y, int x_factor, int y_factor);
+    // determine ball bounce direction
+    const int x_factor;
+    const int y_factor;
 };
 
 
@@ -78,6 +81,7 @@ public:
 
 private:
     bool bReleased {false};
+    bool bCollided {false};
     double velocity, xVel, yVel {0.0};
 };
 

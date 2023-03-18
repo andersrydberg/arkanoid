@@ -41,6 +41,7 @@ public:
     void drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* rect);
     void drawTextureToRenderer(SDL_Texture* texture, SDL_Rect* sRect, SDL_Rect* dRect);
     bool componentsIntersect(Component* first, Component* second);
+    SDL_Rect* getIntersection(Component* first, Component* second);
 
 private:
     GameEngine(const std::string& title, int windowW, int windowH);
