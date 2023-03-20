@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
 
     // engine->setFPS(60);      // 60 is the default frame rate
 
-    SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
     engine->run();
 
 

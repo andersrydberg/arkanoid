@@ -14,6 +14,7 @@ mt19937 gen(rd());
 uniform_int_distribution<> distrib(0, 6);
 
 const int BRICK_PIXEL_WIDTH = 54;
+const int BRICK_PIXEL_HEIGHT = 22;
 
 
 //// ArkanoidSpriteSheet
@@ -41,7 +42,7 @@ void Brick::tick(GameEngine* engine, Group* group) {
     if (bCollided) {
         if (counter < 25) {
             if (counter % 5 == 0)
-                sRect->y += 22;
+                sRect->y += BRICK_PIXEL_HEIGHT;
             counter++;
         }
         else
@@ -84,7 +85,7 @@ Ball::Ball(ArkanoidSpriteSheet* sheet, int x, int y)
 
 void Ball::mousePressed(GameEngine* engine, Group* group, SDL_Event* event) {
     if (!bReleased) {
-        velocity = 10.0;
+        velocity = 8.0;
         const double initialAngle = PI * 1.75;
         xVel = velocity * cos(initialAngle);
         yVel = velocity * sin(initialAngle);
@@ -121,8 +122,11 @@ void Ball::checkCollision(GameEngine* engine, Group* group, Component* other, Gr
             yVel *= wall->y_factor;
         }
         else if (otherGroup->getName() == "bricks") {
-            Brick* brick = dynamic_cast<Brick*>(other);
-
+            SDL_Rect* intersection = engine->getIntersection(this, other);
+            if (intersection->w > intersection->h)
+                yVel *= -1;
+            else
+                xVel *= -1;
         }
     }
 }

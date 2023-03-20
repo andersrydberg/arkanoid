@@ -23,17 +23,14 @@ public:
 
     const SDL_Rect ball0x0 {32, 128, 16, 16};
     const SDL_Rect bluePaddle4 {58, 302, 90, 30};
+
     const SDL_Rect vertSilverWall {190, 148, 18, 56};
     const SDL_Rect vertSilverWallUpperHalf {190, 148, 18, 28};
     const SDL_Rect vertSilverWallLowerHalf {190, 176, 18, 28};
-
     const SDL_Rect horSilverWall {190, 204, 56, 18};
     const SDL_Rect horSilverWallLeftHalf {190, 204, 28, 18};
-    const SDL_Rect horSilverWallRightHalf {218, 204, 28, 18};
-    const SDL_Rect silverWallCorner0x0 {134, 148, 20,20};
-    const SDL_Rect silverWallCorner1x0 {170, 148, 20,20};
-    const SDL_Rect silverWallCorner0x1 {134, 198, 20,20};
-    const SDL_Rect silverWallCorner1x1 {170, 198, 20,20};
+    const SDL_Rect silverWallCorner0x0 {134, 148, 20, 20};
+    const SDL_Rect silverWallCorner1x0 {170, 148, 20, 20};
 
     const SDL_Rect blueBrick1 {324, 22, 54, 22};
 };
@@ -56,7 +53,7 @@ public:
 
 private:
     bool bCollided {false};
-    short counter;
+    int counter;
 };
 
 

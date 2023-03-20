@@ -160,6 +160,7 @@ bool GameEngine::componentsIntersect(Component* first, Component* second) {
 }
 
 SDL_Rect* GameEngine::getIntersection(Component* first, Component* second) {
-
+    auto* intersection = new SDL_Rect;
+    SDL_IntersectRect(first->getDRect(), second->getDRect(), intersection);
+    return intersection;
 }
-
