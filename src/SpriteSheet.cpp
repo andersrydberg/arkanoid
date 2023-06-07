@@ -6,14 +6,17 @@
 #include "SpriteSheet.h"
 #include <SDL2/SDL.h>
 
-SpriteSheet::SpriteSheet(GameEngine* engine, const std::string& filePath) {
+SpriteSheet::SpriteSheet(GameEngine *engine, const std::string &filePath)
+{
     texture = engine->getTextureFromImage(filePath);
 }
 
-SpriteSheet::~SpriteSheet() {
+SpriteSheet::~SpriteSheet()
+{
     SDL_DestroyTexture(texture);
 }
 
-SDL_Texture* SpriteSheet::getTexture() const {
+SDL_Texture *SpriteSheet::getTexture() const
+{
     return texture;
 }

@@ -8,16 +8,16 @@
 #include "GameEngine.h"
 #include <SDL2/SDL.h>
 
-class SpriteSheet {
+class SpriteSheet
+{
 public:
-    SpriteSheet(GameEngine* engine, const std::string& filePath);
+    SpriteSheet(GameEngine *engine, const std::string &filePath);
     ~SpriteSheet();
 
-    SDL_Texture* getTexture() const;
+    SDL_Texture *getTexture() const;
 
 private:
-    SDL_Texture* texture;
+    SDL_Texture *texture;
 };
-
 
 #endif

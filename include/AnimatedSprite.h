@@ -7,19 +7,19 @@
 
 #include "Sprite.h"
 
-class AnimatedSprite : public Sprite {
+class AnimatedSprite : public Sprite
+{
 
 public:
     ~AnimatedSprite() override;
 
-    void draw(GameEngine* engine) override;
+    void draw(GameEngine *engine) override;
 
 protected:
     AnimatedSprite();
 
-    std::unordered_map<std::string, SDL_Texture*> textures;
+    std::unordered_map<std::string, SDL_Texture *> textures;
     std::string currentTexture;
 };
-
 
 #endif

@@ -9,20 +9,20 @@
 #include "Component.h"
 #include "SpriteSheet.h"
 
-class SpriteFromSheet : public Component {
+class SpriteFromSheet : public Component
+{
 public:
-    SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y);
-    SpriteFromSheet(SpriteSheet* sheet, const SDL_Rect* sourceRect, int x, int y, int w, int h);
+    SpriteFromSheet(SpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y);
+    SpriteFromSheet(SpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y, int w, int h);
     ~SpriteFromSheet() override;
-    void draw(GameEngine* engine) override;
+    void draw(GameEngine *engine) override;
 
-    SDL_Rect* getDRect() override {return dRect;}
+    SDL_Rect *getDRect() override { return dRect; }
 
 protected:
-    SpriteSheet* sheet;
-    SDL_Rect* sRect;
-    SDL_Rect* dRect;
+    SpriteSheet *sheet;
+    SDL_Rect *sRect;
+    SDL_Rect *dRect;
 };
-
 
 #endif

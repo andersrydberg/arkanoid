@@ -5,11 +5,13 @@
 #include "AnimatedSprite.h"
 #include "GameEngine.h"
 
-AnimatedSprite::~AnimatedSprite() {
-    for (const auto& pair: textures)
+AnimatedSprite::~AnimatedSprite()
+{
+    for (const auto &pair : textures)
         SDL_DestroyTexture(pair.second);
 }
 
-void AnimatedSprite::draw(GameEngine* engine) {
+void AnimatedSprite::draw(GameEngine *engine)
+{
     engine->drawTextureToRenderer(textures.at(currentTexture), rect);
 }

@@ -3,21 +3,24 @@
 #include "Arkanoid.h"
 
 /*
- * note: SDL libraries, if needed, are included in GameEngine.h, so need not be
+ * note: SDL libraries, if needed, are included in GameEngine, so need not be
  * included here
  */
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
 
     /*
      * Initialize the game engine. An exception is thrown if SDL cannot be properly
      * initialized.
      */
-    GameEngine* engine;
-    try {
+    GameEngine *engine;
+    try
+    {
         engine = GameEngine::initialize("Arkanoid", WINDOW_W, WINDOW_H);
     }
-    catch (sdl_initialization_error&) {
+    catch (sdl_initialization_error &)
+    {
         return 1;
     }
 
@@ -27,7 +30,7 @@ int main(int argc, char* argv[]) {
      * of the dedicated member functions results in object deletion, so the user must
      * take care not to leave any dangling references to these objects.
      */
-    World* world = engine->getWorld();
+    World *world = engine->getWorld();
 
     /*
      * Implementations of 'SpriteSheet' are not visual components and are not part of
@@ -38,7 +41,7 @@ int main(int argc, char* argv[]) {
 
     //// populate the world
     /// walls
-    Group* walls = world->addGroup("walls");
+    Group *walls = world->addGroup("walls");
     walls->bCanCollideInternally = false;
     walls->add(new Wall(&sheet, &sheet.silverWallCorner0x0, 86, 0, -1, -1));
     for (int n = 0; n < 12; n++)
@@ -53,7 +56,7 @@ int main(int argc, char* argv[]) {
     walls->add(new Wall(&sheet, &sheet.vertSilverWallUpperHalf, 920, 664, -1, 1));
 
     /// bricks
-    Group* bricks = world->addGroup("bricks");
+    Group *bricks = world->addGroup("bricks");
     bricks->bCanCollideInternally = false;
     for (int n = 0; n < 13; n++)
         for (int m = 0; m < 10; m++)
@@ -67,6 +70,5 @@ int main(int argc, char* argv[]) {
     SDL_SetRelativeMouseMode(SDL_TRUE);
     engine->run();
 
-
-	return 0;
+    return 0;
 }

@@ -1,0 +1,9 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/Users/andersrydberg/vscode/progc-projekt/build/debug",
+            "binaryPath": "/Users/andersrydberg/vscode/progc-projekt/build/debug/play",
+            "binaryArgs": []
+        }
+    ]
+}
