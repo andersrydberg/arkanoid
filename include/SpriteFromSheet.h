@@ -20,6 +20,10 @@ public:
     SDL_Rect *getDRect() override { return dRect; }
 
 protected:
+    SpriteSheet *getSheet() { return sheet; }
+    SDL_Rect *getSRect() { return sRect; }
+
+private:
     SpriteSheet *sheet;
     SDL_Rect *sRect;
     SDL_Rect *dRect;

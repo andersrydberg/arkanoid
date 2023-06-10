@@ -21,13 +21,17 @@ public:
 
     void draw(GameEngine *engine) override;
 
+    bool isVisible() const { return bVisible; }
     SDL_Rect *getDRect() override { return rect; }
 
-    bool bVisible;
+    virtual void setVisible(bool value);
 
 protected:
     Sprite(GameEngine *engine, const std::string &filepath, int x = 0, int y = 0, int w = 0, int h = 0,
            bool visible = true);
+
+private:
+    bool bVisible;
 
     SDL_Rect *rect;
     SDL_Texture *texture;

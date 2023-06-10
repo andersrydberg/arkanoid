@@ -39,9 +39,13 @@ public:
     virtual const std::string &getName() const { return name; }
     virtual std::vector<Component *> &getContents() { return comps; }
 
-    bool bCanCollideInternally;
-    bool bCanCollideExternally;
-    bool bVisible;
+    bool canCollideInternally() const { return bCanCollideInternally; }
+    bool canCollideExternally() const { return bCanCollideExternally; }
+    bool isVisible() const { return bVisible; }
+
+    virtual void setCollideInternally(bool value);
+    virtual void setCollideExternally(bool value);
+    virtual void setVisible(bool value);
 
     // add to this group
     virtual void add(Component *comp);
@@ -61,6 +65,13 @@ protected:
 
     virtual void _addComponents();
     virtual void _removeComponents();
+
+    World *getWorld() { return world; }
+
+private:
+    bool bCanCollideInternally;
+    bool bCanCollideExternally;
+    bool bVisible;
 
     World *world;
     std::string name;

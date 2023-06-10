@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     //// populate the world
     /// walls
     Group *walls = world->addGroup("walls");
-    walls->bCanCollideInternally = false;
+    walls->setCollideInternally(false);
     walls->add(new Wall(&sheet, &sheet.silverWallCorner0x0, 86, 0, -1, -1));
     for (int n = 0; n < 12; n++)
         walls->add(new Wall(&sheet, &sheet.vertSilverWall, 86, 20 + n * 56, -1, 1));
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     /// bricks
     Group *bricks = world->addGroup("bricks");
-    bricks->bCanCollideInternally = false;
+    bricks->setCollideInternally(false);
     for (int n = 0; n < 13; n++)
         for (int m = 0; m < 10; m++)
             bricks->add(new Brick(&sheet, 161 + n * 54, 100 + m * 22));

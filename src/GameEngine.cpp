@@ -38,12 +38,12 @@ bool GameEngine::init()
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         return false;
 
-#if __APPLE__
+    // #if __APPLE__
     // necessary on my older Intel Mac
     // the default "metal" renderer is extremely laggy
     // https://stackoverflow.com/questions/59700423/why-is-sdl-so-much-slower-on-mac-than-linux
-    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
-#endif
+    // SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+    // #endif
 
     window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, windowW, windowH, 0);

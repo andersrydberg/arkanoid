@@ -27,7 +27,7 @@ Brick::Brick(ArkanoidSpriteSheet *sheet, int x, int y)
     : SpriteFromSheet(sheet, &sheet->blueBrick1, x, y)
 {
     // randomize color by moving the source rectangle a random amount of steps to the right
-    sRect->x += distrib(gen) * BRICK_PIXEL_WIDTH;
+    getSRect()->x += distrib(gen) * BRICK_PIXEL_WIDTH;
 }
 
 void Brick::checkCollision(GameEngine *engine, Group *group, Component *other, Group *otherGroup)
@@ -46,7 +46,7 @@ void Brick::tick(GameEngine *engine, Group *group)
         if (counter < 25)
         {
             if (counter % 5 == 0)
-                sRect->y += BRICK_PIXEL_HEIGHT;
+                getSRect()->y += BRICK_PIXEL_HEIGHT;
             counter++;
         }
         else
@@ -61,19 +61,19 @@ Paddle::Paddle(ArkanoidSpriteSheet *sheet, int x, int y)
 
 void Paddle::mouseMoved(GameEngine *engine, Group *group, SDL_Event *event)
 {
-    const int newX = event->motion.x - dRect->w / 2; // align mouse to the center of the paddle
-    const int maxX = 920 - dRect->w;
+    const int newX = event->motion.x - getDRect()->w / 2; // align mouse to the center of the paddle
+    const int maxX = 920 - getDRect()->w;
 
     if (newX < 104)
-        dRect->x = 104;
+        getDRect()->x = 104;
     else if (newX > maxX)
-        dRect->x = maxX;
+        getDRect()->x = maxX;
     else
-        dRect->x = newX;
+        getDRect()->x = newX;
 
     if (!bBallReleased)
         // send new x-coordinate to the ball (which follows the paddle before being released)
-        group->message(to_string(dRect->x), "ball");
+        group->message(to_string(getDRect()->x), "ball");
 }
 
 void Paddle::receiveMessage(Group *group, const string &message)
@@ -105,15 +105,15 @@ void Ball::tick(GameEngine *engine, Group *group)
     bCollided = false;
     if (bReleased)
     {
-        dRect->x += static_cast<int>(round(xVel));
-        dRect->y += static_cast<int>(round(yVel));
+        getDRect()->x += static_cast<int>(round(xVel));
+        getDRect()->y += static_cast<int>(round(yVel));
     }
 }
 
 void Ball::receiveMessage(Group *group, const std::string &message)
 {
     if (!bReleased)
-        dRect->x = stoi(message) + 20;
+        getDRect()->x = stoi(message) + 20;
 }
 
 void Ball::checkCollision(GameEngine *engine, Group *group, Component *other, Group *otherGroup)

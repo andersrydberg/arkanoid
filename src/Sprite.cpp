@@ -51,3 +51,8 @@ void Sprite::draw(GameEngine *engine)
     if (texture && bVisible)
         engine->drawTextureToRenderer(texture, rect);
 }
+
+void Sprite::setVisible(bool value)
+{
+    bVisible = value;
+}

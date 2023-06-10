@@ -39,6 +39,11 @@ void Group::tick(GameEngine *engine)
     _addComponents();
 }
 
+/*
+Collision checking functions do not actually check if the objects called as parameters have
+collided, this is left to the programmer. Use e.g. GameEngine.componentsIntersect to check if
+two objects overlap */
+
 void Group::checkCollisions(GameEngine *engine)
 {
     if (bCanCollideInternally)
@@ -115,6 +120,21 @@ void Group::rightKeyPressed(GameEngine *engine, SDL_Event *event)
 {
     for (Component *comp : comps)
         comp->rightKeyPressed(engine, this, event);
+}
+
+void Group::setCollideInternally(bool value)
+{
+    bCanCollideInternally = value;
+}
+
+void Group::setCollideExternally(bool value)
+{
+    bCanCollideExternally = value;
+}
+
+void Group::setVisible(bool value)
+{
+    bVisible = value;
 }
 
 void Group::add(Component *comp)
