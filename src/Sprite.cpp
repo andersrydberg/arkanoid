@@ -4,7 +4,7 @@
 
 #include "GameEngine.h"
 #include "Sprite.h"
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 
 using namespace std;
 

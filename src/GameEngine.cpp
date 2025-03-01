@@ -4,13 +4,14 @@
 
 #include "GameEngine.h"
 #include "World.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 using namespace std;
 
+/*
 GameEngine *GameEngine::initialize(const string &title, int windowW, int windowH)
 {
     static GameEngine engine(title, windowW, windowH);
@@ -18,6 +19,7 @@ GameEngine *GameEngine::initialize(const string &title, int windowW, int windowH
         throw sdl_initialization_error();
     return &engine;
 }
+*/
 
 GameEngine::GameEngine(const string &title, int windowW, int windowH)
     : title(title), windowW(windowW), windowH(windowH), window(nullptr), rend(nullptr), world(nullptr)

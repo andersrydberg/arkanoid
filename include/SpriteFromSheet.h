@@ -5,9 +5,9 @@
 #ifndef SPRITEFROMSHEET_H
 #define SPRITEFROMSHEET_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "Component.h"
-#include "SpriteSheet.h"
+#include "../include/SpriteSheet.h"
 
 class SpriteFromSheet : public Component
 {

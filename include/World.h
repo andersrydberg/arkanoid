@@ -10,7 +10,7 @@
 #include <vector>
 #include <utility>
 #include <unordered_map>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 class Component;
 class Group;

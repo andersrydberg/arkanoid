@@ -5,7 +5,7 @@
 #ifndef GROUP_H
 #define GROUP_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <vector>
 #include <string>
 #include "World.h"

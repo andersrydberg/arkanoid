@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     /*
      * Initialize the game engine. An exception is thrown if SDL cannot be properly
      * initialized.
-     */
+
     GameEngine *engine;
     try
     {
@@ -23,6 +23,13 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
+    */
+
+    GameEngine engine("Arkanoid", WINDOW_W, WINDOW_H);
+
+    if (!engine.isInitialized())
+        return 1;
+
 
     /*
      * The World object is where all visual components reside. Components are grouped
@@ -30,14 +37,14 @@ int main(int argc, char *argv[])
      * of the dedicated member functions results in object deletion, so the user must
      * take care not to leave any dangling references to these objects.
      */
-    World *world = engine->getWorld();
+    World *world = engine.getWorld();
 
     /*
      * Implementations of 'SpriteSheet' are not visual components and are not part of
      * the 'World'. They are used when instantiating objects of the 'SpriteFromSheet'
      * class.
      */
-    ArkanoidSpriteSheet sheet = ArkanoidSpriteSheet(engine);
+    ArkanoidSpriteSheet sheet = ArkanoidSpriteSheet(&engine);
 
     //// populate the world
     /// walls
@@ -68,7 +75,7 @@ int main(int argc, char *argv[])
     // engine->setFPS(60);      // 60 is the default frame rate
 
     SDL_SetRelativeMouseMode(SDL_TRUE);
-    engine->run();
+    engine.run();
 
     return 0;
 }

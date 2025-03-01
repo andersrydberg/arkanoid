@@ -5,7 +5,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "Group.h"
 
 /**
@@ -20,7 +20,7 @@ public:
     Component &operator=(const Component &other) = delete;
 
     virtual void tick(GameEngine *engine, Group *group) {}
-    virtual void checkCollision(GameEngine *engine, Group *group, Component *other, Group *otherGroup) {}
+    virtual void checkCollision(Group *group, Component *other, Group *otherGroup) {}
     virtual void draw(GameEngine *engine) {}
     virtual void receiveMessage(Group *group, const std::string &message) {}
 

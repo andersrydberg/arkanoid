@@ -5,7 +5,7 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <string>
 #include "Component.h"
 

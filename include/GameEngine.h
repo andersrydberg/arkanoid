@@ -5,7 +5,7 @@
 #ifndef GAMEENGINE_H
 #define GAMEENGINE_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <string>
 #include <stdexcept>
 #include "World.h"
@@ -15,8 +15,9 @@ class GameEngine
 {
 
 public:
+    GameEngine(const std::string &title, int windowW, int windowH);
     ~GameEngine();
-    static GameEngine *initialize(const std::string &title, int windowW, int windowH);
+    // static GameEngine *initialize(const std::string &title, int windowW, int windowH);
 
     void run();
     void quit();
@@ -24,6 +25,8 @@ public:
     int getWindowWidth() const { return windowW; }
     int getWindowHeight() const { return windowH; }
     const std::string &getTitle() const { return title; }
+
+    bool isInitialized() const { return bInitialized; }
 
     void setTitle(const std::string &newTitle);
 
@@ -40,11 +43,10 @@ public:
     SDL_Texture *getTextureFromImage(const std::string &filepath);
     void drawTextureToRenderer(SDL_Texture *texture, SDL_Rect *rect);
     void drawTextureToRenderer(SDL_Texture *texture, SDL_Rect *sRect, SDL_Rect *dRect);
-    bool componentsIntersect(Component *first, Component *second);
-    SDL_Rect *getIntersection(Component *first, Component *second);
+    static bool componentsIntersect(Component *first, Component *second);
+    static SDL_Rect *getIntersection(Component *first, Component *second);
 
 private:
-    GameEngine(const std::string &title, int windowW, int windowH);
     bool init();
 
     std::string title;
@@ -61,7 +63,7 @@ private:
     bool bQuit{false};
     int fps{60};
 
-    long int tickCount;
+    long int tickCount{0};
 
     std::unordered_map<std::string, void (*)(World *, SDL_Event *)> functionMap;
 };

@@ -4,7 +4,7 @@
 
 #include "GameEngine.h"
 #include "SpriteSheet.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 SpriteSheet::SpriteSheet(GameEngine *engine, const std::string &filePath)
 {

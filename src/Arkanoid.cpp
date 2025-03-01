@@ -30,9 +30,9 @@ Brick::Brick(ArkanoidSpriteSheet *sheet, int x, int y)
     getSRect()->x += distrib(gen) * BRICK_PIXEL_WIDTH;
 }
 
-void Brick::checkCollision(GameEngine *engine, Group *group, Component *other, Group *otherGroup)
+void Brick::checkCollision(Group *group, Component *other, Group *otherGroup)
 {
-    if (!bCollided && engine->componentsIntersect(this, other))
+    if (!bCollided && GameEngine::componentsIntersect(this, other))
     {
         counter = 0;
         bCollided = true;
@@ -116,11 +116,11 @@ void Ball::receiveMessage(Group *group, const std::string &message)
         getDRect()->x = stoi(message) + 20;
 }
 
-void Ball::checkCollision(GameEngine *engine, Group *group, Component *other, Group *otherGroup)
+void Ball::checkCollision(Group *group, Component *other, Group *otherGroup)
 {
     if (bCollided)
         return; // do not collide with more than one component per tick
-    if (engine->componentsIntersect(this, other))
+    if (GameEngine::componentsIntersect(this, other))
     {
         bCollided = true;
         if (otherGroup->getName() == "paddle")
@@ -135,7 +135,7 @@ void Ball::checkCollision(GameEngine *engine, Group *group, Component *other, Gr
         }
         else if (otherGroup->getName() == "bricks")
         {
-            SDL_Rect *intersection = engine->getIntersection(this, other);
+            SDL_Rect *intersection = GameEngine::getIntersection(this, other);
             if (intersection->w > intersection->h)
                 yVel *= -1;
             else

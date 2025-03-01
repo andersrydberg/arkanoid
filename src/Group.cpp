@@ -53,7 +53,7 @@ void Group::checkCollisions(GameEngine *engine)
             for (Component *secondComp : comps)
             {
                 if (firstComp != secondComp)
-                    firstComp->checkCollision(engine, this, secondComp, this);
+                    firstComp->checkCollision(this, secondComp, this);
             }
         }
     }
@@ -66,7 +66,7 @@ void Group::checkCollisions(GameEngine *engine, Group *otherGroup)
         for (Component *internalComp : comps)
         {
             for (Component *externalComp : otherGroup->getContents())
-                internalComp->checkCollision(engine, this, externalComp, otherGroup);
+                internalComp->checkCollision(this, externalComp, otherGroup);
         }
     }
 }

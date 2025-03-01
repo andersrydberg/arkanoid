@@ -5,11 +5,11 @@
 #ifndef ARKANOID_H
 #define ARKANOID_H
 
-#include "Component.h"
+#include "../include/Component.h"
 #include "GameEngine.h"
-#include "SpriteSheet.h"
+#include "../include/SpriteSheet.h"
 #include "SpriteFromSheet.h"
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #include <random>
 
 const int WINDOW_W = 1024;
@@ -48,7 +48,7 @@ class Brick : public SpriteFromSheet
 {
 public:
     Brick(ArkanoidSpriteSheet *sheet, int x, int y);
-    void checkCollision(GameEngine *engine, Group *group, Component *other, Group *otherGroup) override;
+    void checkCollision(Group *group, Component *other, Group *otherGroup) override;
     void tick(GameEngine *engine, Group *group) override;
 
 private:
@@ -74,7 +74,7 @@ public:
     void mousePressed(GameEngine *engine, Group *group, SDL_Event *event) override;
     void tick(GameEngine *engine, Group *group) override;
     void receiveMessage(Group *group, const std::string &message) override;
-    void checkCollision(GameEngine *engine, Group *group, Component *other, Group *otherGroup) override;
+    void checkCollision(Group *group, Component *other, Group *otherGroup) override;
 
 private:
     bool bReleased{false};

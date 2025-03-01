@@ -3,7 +3,7 @@
 //
 
 #include "World.h"
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 #include "Component.h"
 #include "Group.h"
 #include "GameEngine.h"
