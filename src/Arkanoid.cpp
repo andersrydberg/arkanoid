@@ -6,12 +6,11 @@
 #include "GameEngine.h"
 #include "Constants.h"
 
-using namespace std;
 
 // random device for randomizing brick color
-random_device rd;
-mt19937 gen(rd());
-uniform_int_distribution<> distrib(0, 6);
+std::random_device rd;
+std::mt19937 gen(rd());
+std::uniform_int_distribution<> distrib(0, 6);
 
 const int BRICK_PIXEL_WIDTH = 54;
 const int BRICK_PIXEL_HEIGHT = 22;
@@ -73,10 +72,10 @@ void Paddle::mouseMoved(GameEngine *engine, Group *group, SDL_Event *event)
 
     if (!bBallReleased)
         // send new x-coordinate to the ball (which follows the paddle before being released)
-        group->message(to_string(getDRect()->x), "ball");
+        group->message(std::to_string(getDRect()->x), "ball");
 }
 
-void Paddle::receiveMessage(Group *group, const string &message)
+void Paddle::receiveMessage(Group *group, const std::string &message)
 {
     if (message == "released!")
         bBallReleased = true;

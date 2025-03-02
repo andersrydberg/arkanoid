@@ -68,11 +68,13 @@ private:
     std::unordered_map<std::string, void (*)(World *, SDL_Event *)> functionMap;
 };
 
+/*
 class sdl_initialization_error : public std::runtime_error
 {
 public:
     explicit sdl_initialization_error(const std::string &what_arg = "SDL could not be properly initialized")
         : std::runtime_error(what_arg) {}
 };
+*/
 
 #endif

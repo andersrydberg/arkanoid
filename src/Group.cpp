@@ -5,20 +5,19 @@
 #include "Group.h"
 #include "Component.h"
 
-using namespace std;
 
-Group *Group::getInstance(World *world, const string &name)
+Group *Group::getInstance(World *world, const std::string &name)
 {
     return new Group(world, name);
 }
 
-Group *Group::getInstance(World *world, const string &name, bool collideInternally, bool collideExternally,
+Group *Group::getInstance(World *world, const std::string &name, bool collideInternally, bool collideExternally,
                           bool visible)
 {
     return new Group(world, name, collideInternally, collideExternally, visible);
 }
 
-Group::Group(World *world, const string &name, bool collideInternally, bool collideExternally, bool visible)
+Group::Group(World *world, const std::string &name, bool collideInternally, bool collideExternally, bool visible)
     : bCanCollideInternally(collideInternally), bCanCollideExternally(collideExternally), bVisible(visible), world(world),
       name(name)
 {
@@ -142,7 +141,7 @@ void Group::add(Component *comp)
     addQueue.push_back(comp);
 }
 
-void Group::add(Component *comp, const string &groupName)
+void Group::add(Component *comp, const std::string &groupName)
 {
     world->add(comp, groupName);
 }
@@ -152,19 +151,19 @@ void Group::remove(Component *comp)
     removeQueue.push_back(comp);
 }
 
-void Group::move(Component *comp, const string &groupName)
+void Group::move(Component *comp, const std::string &groupName)
 {
     removeQueue.push_back(comp);
     world->add(comp, groupName);
 }
 
-void Group::message(const string &message)
+void Group::message(const std::string &message)
 {
     for (Component *comp : comps)
         comp->receiveMessage(this, message);
 }
 
-void Group::message(const string &message, const string &group)
+void Group::message(const std::string &message, const std::string &group)
 {
     world->message(message, group);
 }

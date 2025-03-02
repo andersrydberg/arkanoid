@@ -3,25 +3,18 @@
 //
 
 #include "GameEngine.h"
+
+#include <iostream>
+
 #include "World.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
-using namespace std;
 
-/*
-GameEngine *GameEngine::initialize(const string &title, int windowW, int windowH)
-{
-    static GameEngine engine(title, windowW, windowH);
-    if (!engine.bInitialized)
-        throw sdl_initialization_error();
-    return &engine;
-}
-*/
 
-GameEngine::GameEngine(const string &title, int windowW, int windowH)
+GameEngine::GameEngine(const std::string &title, int windowW, int windowH)
     : title(title), windowW(windowW), windowH(windowH), window(nullptr), rend(nullptr), world(nullptr)
 {
     bInitialized = init();
@@ -134,7 +127,7 @@ void GameEngine::run()
     }
 }
 
-void GameEngine::setTitle(const string &newTitle)
+void GameEngine::setTitle(const std::string &newTitle)
 {
     title = newTitle;
     SDL_SetWindowTitle(window, newTitle.c_str());
@@ -145,15 +138,15 @@ void GameEngine::quit()
     bQuit = true;
 }
 
-void GameEngine::addShortcut(const string &key, void (*func)(World *, SDL_Event *))
+void GameEngine::addShortcut(const std::string &key, void (*func)(World *, SDL_Event *))
 {
     if (functionMap.count(key) == 0)
-        functionMap.insert(make_pair(key, func));
+        functionMap.insert(std::make_pair(key, func));
 }
 
 //// convenience methods
 
-SDL_Texture *GameEngine::getTextureFromImage(const string &filepath)
+SDL_Texture *GameEngine::getTextureFromImage(const std::string &filepath)
 {
     SDL_Surface *surface = IMG_Load(filepath.c_str());
     SDL_Texture *texture = SDL_CreateTextureFromSurface(rend, surface);

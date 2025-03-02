@@ -6,9 +6,8 @@
 #include "Sprite.h"
 #include <SDL_image.h>
 
-using namespace std;
 
-Sprite::Sprite(GameEngine *engine, const string &filepath,
+Sprite::Sprite(GameEngine *engine, const std::string &filepath,
                int x, int y, int w, int h,
                bool visible)
 {
@@ -27,19 +26,19 @@ Sprite::~Sprite()
 }
 
 // returns a sprite that stretches to fill the entire window
-Sprite *Sprite::getInstance(GameEngine *engine, const string &filepath)
+Sprite *Sprite::getInstance(GameEngine *engine, const std::string &filepath)
 {
     return new Sprite(engine, filepath);
 }
 
 // returns a "typical" sprite with a size and relative position
-Sprite *Sprite::getInstance(GameEngine *engine, const string &filepath,
+Sprite *Sprite::getInstance(GameEngine *engine, const std::string &filepath,
                             int x, int y, int w, int h)
 {
     return new Sprite(engine, filepath, x, y, w, h);
 }
 
-Sprite *Sprite::getInstance(GameEngine *engine, const string &filepath,
+Sprite *Sprite::getInstance(GameEngine *engine, const std::string &filepath,
                             int x, int y, int w, int h,
                             bool visible)
 {
