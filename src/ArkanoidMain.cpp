@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
      * the 'World'. They are used when instantiating objects of the 'SpriteFromSheet'
      * class.
      */
-    ArkanoidSpriteSheet sheet = ArkanoidSpriteSheet(&engine);
+    ArkanoidSpriteSheet sheet = ArkanoidSpriteSheet(engine);
 
     //// populate the world
     /// walls
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     world->add(new Paddle(&sheet, 500, 660), "paddle");
     world->add(new Ball(&sheet, 520, 644), "ball");
 
-    // engine->setFPS(60);      // 60 is the default frame rate
+    // engine.setFPS(60);      // 60 is the default frame rate
 
     SDL_SetRelativeMouseMode(SDL_TRUE);
     engine.run();

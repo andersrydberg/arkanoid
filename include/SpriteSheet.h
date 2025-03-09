@@ -11,7 +11,7 @@
 class SpriteSheet
 {
 public:
-    SpriteSheet(GameEngine *engine, const std::string &filePath);
+    SpriteSheet(GameEngine &engine, const std::string &filePath);
     ~SpriteSheet();
 
     SDL_Texture *getTexture() const;

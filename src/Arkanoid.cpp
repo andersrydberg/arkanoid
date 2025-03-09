@@ -17,7 +17,7 @@ const int BRICK_PIXEL_HEIGHT = 22;
 
 //// ArkanoidSpriteSheet
 
-ArkanoidSpriteSheet::ArkanoidSpriteSheet(GameEngine *engine)
+ArkanoidSpriteSheet::ArkanoidSpriteSheet(GameEngine &engine)
     : SpriteSheet(engine, constants::gResPath + constants::spriteSheetRelPath) {}
 
 /// Brick

@@ -5,21 +5,20 @@
 #ifndef ARKANOID_H
 #define ARKANOID_H
 
-#include "../include/Component.h"
 #include "GameEngine.h"
-#include "../include/SpriteSheet.h"
+#include "SpriteSheet.h"
 #include "SpriteFromSheet.h"
 #include "SDL.h"
 #include <random>
 
-const int WINDOW_W = 1024;
-const int WINDOW_H = 692;
-const double PI = 4 * atan(1);
+inline const int WINDOW_W = 1024;
+inline const int WINDOW_H = 692;
+inline const double PI = 4 * std::atan(1);
 
 class ArkanoidSpriteSheet : public SpriteSheet
 {
 public:
-    ArkanoidSpriteSheet(GameEngine *engine);
+    ArkanoidSpriteSheet(GameEngine &engine);
 
     const SDL_Rect ball0x0{32, 128, 16, 16};
     const SDL_Rect bluePaddle4{58, 302, 90, 30};

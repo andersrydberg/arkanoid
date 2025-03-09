@@ -6,9 +6,9 @@
 #include "SpriteSheet.h"
 #include <SDL.h>
 
-SpriteSheet::SpriteSheet(GameEngine *engine, const std::string &filePath)
+SpriteSheet::SpriteSheet(GameEngine &engine, const std::string &filePath)
 {
-    texture = engine->getTextureFromImage(filePath);
+    texture = engine.getTextureFromImage(filePath);
 }
 
 SpriteSheet::~SpriteSheet()
