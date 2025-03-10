@@ -12,21 +12,20 @@
 class SpriteFromSheet : public Component
 {
 public:
-    SpriteFromSheet(SpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y);
-    SpriteFromSheet(SpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y, int w, int h);
-    ~SpriteFromSheet() override;
+    SpriteFromSheet(SpriteSheet *sheet, const SDL_Rect &sourceRect, int x, int y);
+    SpriteFromSheet(SpriteSheet *sheet, const SDL_Rect &sourceRect, int x, int y, int w, int h);
     void draw(GameEngine *engine) override;
 
-    SDL_Rect *getDRect() override { return dRect; }
+    SDL_Rect &getDRect() override { return dRect; }
 
 protected:
-    SpriteSheet *getSheet() { return sheet; }
-    SDL_Rect *getSRect() { return sRect; }
+    SpriteSheet *getSheet() const { return sheet; }
+    SDL_Rect &getSRect() { return sRect; }
 
 private:
     SpriteSheet *sheet;
-    SDL_Rect *sRect;
-    SDL_Rect *dRect;
+    SDL_Rect sRect;
+    SDL_Rect dRect;
 };
 
 #endif

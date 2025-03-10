@@ -22,7 +22,7 @@ public:
     void draw(GameEngine *engine) override;
 
     bool isVisible() const { return bVisible; }
-    SDL_Rect *getDRect() override { return rect; }
+    SDL_Rect &getDRect() override { return rect; }
 
     virtual void setVisible(bool value);
 
@@ -33,7 +33,7 @@ protected:
 private:
     bool bVisible;
 
-    SDL_Rect *rect;
+    SDL_Rect rect;
     SDL_Texture *texture;
 };
 

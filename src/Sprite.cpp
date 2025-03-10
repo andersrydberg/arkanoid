@@ -9,12 +9,8 @@
 
 Sprite::Sprite(GameEngine *engine, const std::string &filepath,
                int x, int y, int w, int h,
-               bool visible)
-{
-    if (x == 0 && y == 0 && w == 0 && h == 0)
-        rect = nullptr;
-    else
-        rect = new SDL_Rect{x, y, w, h};
+               bool visible) {
+    rect = SDL_Rect{x, y, w, h};
     bVisible = visible;
     texture = engine->getTextureFromImage(filepath);
 }
@@ -22,7 +18,6 @@ Sprite::Sprite(GameEngine *engine, const std::string &filepath,
 Sprite::~Sprite()
 {
     SDL_DestroyTexture(texture);
-    delete rect;
 }
 
 // returns a sprite that stretches to fill the entire window
@@ -48,7 +43,7 @@ Sprite *Sprite::getInstance(GameEngine *engine, const std::string &filepath,
 void Sprite::draw(GameEngine *engine)
 {
     if (texture && bVisible)
-        engine->drawTextureToRenderer(texture, rect);
+        engine->drawTextureToRenderer(texture, &rect);
 }
 
 void Sprite::setVisible(bool value)

@@ -15,10 +15,10 @@ std::uniform_int_distribution<> distrib(0, 6);
 /// Brick
 
 Brick::Brick(SpriteSheet *sheet, int x, int y)
-    : SpriteFromSheet(sheet, &blueBrick1, x, y)
+    : SpriteFromSheet(sheet, blueBrick1, x, y)
 {
     // randomize color by moving the source rectangle a random amount of steps to the right
-    getSRect()->x += distrib(gen) * BRICK_PIXEL_WIDTH;
+    getSRect().x += distrib(gen) * BRICK_PIXEL_WIDTH;
 }
 
 void Brick::checkCollision(Group *group, Component *other, Group *otherGroup)
@@ -37,7 +37,7 @@ void Brick::tick(GameEngine *engine, Group *group)
         if (counter < 25)
         {
             if (counter % 5 == 0)
-                getSRect()->y += BRICK_PIXEL_HEIGHT;
+                getSRect().y += BRICK_PIXEL_HEIGHT;
             counter++;
         }
         else
@@ -48,23 +48,23 @@ void Brick::tick(GameEngine *engine, Group *group)
 //// Paddle
 
 Paddle::Paddle(SpriteSheet *sheet, int x, int y)
-    : SpriteFromSheet(sheet, &bluePaddle4, x, y) {}
+    : SpriteFromSheet(sheet, bluePaddle4, x, y) {}
 
 void Paddle::mouseMoved(GameEngine *engine, Group *group, SDL_Event *event)
 {
-    const int newX = event->motion.x - getDRect()->w / 2; // align mouse to the center of the paddle
-    const int maxX = 920 - getDRect()->w;
+    const int newX = event->motion.x - getDRect().w / 2; // align mouse to the center of the paddle
+    const int maxX = 920 - getDRect().w;
 
     if (newX < 104)
-        getDRect()->x = 104;
+        getDRect().x = 104;
     else if (newX > maxX)
-        getDRect()->x = maxX;
+        getDRect().x = maxX;
     else
-        getDRect()->x = newX;
+        getDRect().x = newX;
 
     if (!bBallReleased)
         // send new x-coordinate to the ball (which follows the paddle before being released)
-        group->message(std::to_string(getDRect()->x), "ball");
+        group->message(std::to_string(getDRect().x), "ball");
 }
 
 void Paddle::receiveMessage(Group *group, const std::string &message)
@@ -76,7 +76,7 @@ void Paddle::receiveMessage(Group *group, const std::string &message)
 //// Ball
 
 Ball::Ball(SpriteSheet *sheet, int x, int y)
-    : SpriteFromSheet(sheet, &ball0x0, x, y) {}
+    : SpriteFromSheet(sheet, ball0x0, x, y) {}
 
 void Ball::mousePressed(GameEngine *engine, Group *group, SDL_Event *event)
 {
@@ -96,15 +96,15 @@ void Ball::tick(GameEngine *engine, Group *group)
     bCollided = false;
     if (bReleased)
     {
-        getDRect()->x += static_cast<int>(round(xVel));
-        getDRect()->y += static_cast<int>(round(yVel));
+        getDRect().x += static_cast<int>(round(xVel));
+        getDRect().y += static_cast<int>(round(yVel));
     }
 }
 
 void Ball::receiveMessage(Group *group, const std::string &message)
 {
     if (!bReleased)
-        getDRect()->x = stoi(message) + 20;
+        getDRect().x = stoi(message) + 20;
 }
 
 void Ball::checkCollision(Group *group, Component *other, Group *otherGroup)
@@ -137,7 +137,7 @@ void Ball::checkCollision(Group *group, Component *other, Group *otherGroup)
 
 //// Wall
 
-Wall::Wall(SpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y, int x_factor, int y_factor)
+Wall::Wall(SpriteSheet *sheet, const SDL_Rect &sourceRect, int x, int y, int x_factor, int y_factor)
     : SpriteFromSheet(sheet, sourceRect, x, y), x_factor(x_factor), y_factor(y_factor)
 {
 }

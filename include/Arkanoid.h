@@ -34,7 +34,7 @@ constexpr SDL_Rect blueBrick1{324, 22, 54, 22};
 class Wall : public SpriteFromSheet
 {
 public:
-    Wall(SpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y, int x_factor, int y_factor);
+    Wall(SpriteSheet *sheet, const SDL_Rect &sourceRect, int x, int y, int x_factor, int y_factor);
     // determine ball bounce direction
     const int x_factor;
     const int y_factor;
