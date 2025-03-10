@@ -10,24 +10,9 @@ const std::string RESOURCES_PATH = "../resources/";
 const std::string SPRITESHEET_REL_PATH =
         "images/arkanoid_breakout_high_definition_spritesheet_by_netroco_ddbkgym.png";
 
+
 int main(int argc, char *argv[])
 {
-
-    /*
-     * Initialize the game engine. An exception is thrown if SDL cannot be properly
-     * initialized.
-
-    GameEngine *engine;
-    try
-    {
-        engine = GameEngine::initialize("Arkanoid", WINDOW_W, WINDOW_H);
-    }
-    catch (sdl_initialization_error &)
-    {
-        return 1;
-    }
-    */
-
     GameEngine engine("Arkanoid", WINDOW_W, WINDOW_H);
 
     if (!engine.isInitialized())

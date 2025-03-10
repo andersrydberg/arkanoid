@@ -75,7 +75,7 @@ public:
 private:
     bool bReleased{false};
     bool bCollided{false};
-    double velocity, xVel, yVel{0.0};
+    double velocity{0.0}, xVel{0.0}, yVel{0.0};
 };
 
 #endif
