@@ -27,7 +27,6 @@ set(SOURCES
 set(HEADER_FILES
         include/Arkanoid.h
         include/Component.h
-        include/Constants.h
         include/GameEngine.h
         include/Group.h
         include/Sprite.h

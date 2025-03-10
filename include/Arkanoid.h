@@ -11,37 +11,30 @@
 #include <SDL.h>
 #include <random>
 
+constexpr double PI = 3.14159265359;
+
 constexpr int WINDOW_W = 1024;
 constexpr int WINDOW_H = 692;
-constexpr double PI = 3.14159265359;
 
 constexpr int BRICK_PIXEL_WIDTH = 54;
 constexpr int BRICK_PIXEL_HEIGHT = 22;
 
+constexpr SDL_Rect ball0x0{32, 128, 16, 16};
+constexpr SDL_Rect bluePaddle4{58, 302, 90, 30};
+constexpr SDL_Rect vertSilverWall{190, 148, 18, 56};
+constexpr SDL_Rect vertSilverWallUpperHalf{190, 148, 18, 28};
+constexpr SDL_Rect vertSilverWallLowerHalf{190, 176, 18, 28};
+constexpr SDL_Rect horSilverWall{190, 204, 56, 18};
+constexpr SDL_Rect horSilverWallLeftHalf{190, 204, 28, 18};
+constexpr SDL_Rect silverWallCorner0x0{134, 148, 20, 20};
+constexpr SDL_Rect silverWallCorner1x0{170, 148, 20, 20};
+constexpr SDL_Rect blueBrick1{324, 22, 54, 22};
 
-class ArkanoidSpriteSheet : public SpriteSheet
-{
-public:
-    ArkanoidSpriteSheet(GameEngine &engine);
-
-    const SDL_Rect ball0x0{32, 128, 16, 16};
-    const SDL_Rect bluePaddle4{58, 302, 90, 30};
-
-    const SDL_Rect vertSilverWall{190, 148, 18, 56};
-    const SDL_Rect vertSilverWallUpperHalf{190, 148, 18, 28};
-    const SDL_Rect vertSilverWallLowerHalf{190, 176, 18, 28};
-    const SDL_Rect horSilverWall{190, 204, 56, 18};
-    const SDL_Rect horSilverWallLeftHalf{190, 204, 28, 18};
-    const SDL_Rect silverWallCorner0x0{134, 148, 20, 20};
-    const SDL_Rect silverWallCorner1x0{170, 148, 20, 20};
-
-    const SDL_Rect blueBrick1{324, 22, 54, 22};
-};
 
 class Wall : public SpriteFromSheet
 {
 public:
-    Wall(ArkanoidSpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y, int x_factor, int y_factor);
+    Wall(SpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y, int x_factor, int y_factor);
     // determine ball bounce direction
     const int x_factor;
     const int y_factor;
@@ -50,19 +43,19 @@ public:
 class Brick : public SpriteFromSheet
 {
 public:
-    Brick(ArkanoidSpriteSheet *sheet, int x, int y);
+    Brick(SpriteSheet *sheet, int x, int y);
     void checkCollision(Group *group, Component *other, Group *otherGroup) override;
     void tick(GameEngine *engine, Group *group) override;
 
 private:
     bool bCollided{false};
-    int counter;
+    int counter{0};
 };
 
 class Paddle : public SpriteFromSheet
 {
 public:
-    Paddle(ArkanoidSpriteSheet *sheet, int x, int y);
+    Paddle(SpriteSheet *sheet, int x, int y);
     void mouseMoved(GameEngine *engine, Group *group, SDL_Event *event) override;
     void receiveMessage(Group *group, const std::string &message) override;
 
@@ -73,7 +66,7 @@ private:
 class Ball : public SpriteFromSheet
 {
 public:
-    Ball(ArkanoidSpriteSheet *sheet, int x, int y);
+    Ball(SpriteSheet *sheet, int x, int y);
     void mousePressed(GameEngine *engine, Group *group, SDL_Event *event) override;
     void tick(GameEngine *engine, Group *group) override;
     void receiveMessage(Group *group, const std::string &message) override;

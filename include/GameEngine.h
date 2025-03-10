@@ -17,7 +17,6 @@ class GameEngine
 public:
     GameEngine(const std::string &title, int windowW, int windowH);
     ~GameEngine();
-    // static GameEngine *initialize(const std::string &title, int windowW, int windowH);
 
     void run();
     void quit();

@@ -4,7 +4,6 @@
 
 #include "Arkanoid.h"
 #include "GameEngine.h"
-#include "Constants.h"
 
 
 // random device for randomizing brick color
@@ -12,15 +11,11 @@ std::random_device rd;
 std::mt19937 gen(rd());
 std::uniform_int_distribution<> distrib(0, 6);
 
-//// ArkanoidSpriteSheet
-
-ArkanoidSpriteSheet::ArkanoidSpriteSheet(GameEngine &engine)
-    : SpriteSheet(engine, constants::gResPath + constants::spriteSheetRelPath) {}
 
 /// Brick
 
-Brick::Brick(ArkanoidSpriteSheet *sheet, int x, int y)
-    : SpriteFromSheet(sheet, &sheet->blueBrick1, x, y)
+Brick::Brick(SpriteSheet *sheet, int x, int y)
+    : SpriteFromSheet(sheet, &blueBrick1, x, y)
 {
     // randomize color by moving the source rectangle a random amount of steps to the right
     getSRect()->x += distrib(gen) * BRICK_PIXEL_WIDTH;
@@ -52,8 +47,8 @@ void Brick::tick(GameEngine *engine, Group *group)
 
 //// Paddle
 
-Paddle::Paddle(ArkanoidSpriteSheet *sheet, int x, int y)
-    : SpriteFromSheet(sheet, &sheet->bluePaddle4, x, y) {}
+Paddle::Paddle(SpriteSheet *sheet, int x, int y)
+    : SpriteFromSheet(sheet, &bluePaddle4, x, y) {}
 
 void Paddle::mouseMoved(GameEngine *engine, Group *group, SDL_Event *event)
 {
@@ -80,15 +75,15 @@ void Paddle::receiveMessage(Group *group, const std::string &message)
 
 //// Ball
 
-Ball::Ball(ArkanoidSpriteSheet *sheet, int x, int y)
-    : SpriteFromSheet(sheet, &sheet->ball0x0, x, y) {}
+Ball::Ball(SpriteSheet *sheet, int x, int y)
+    : SpriteFromSheet(sheet, &ball0x0, x, y) {}
 
 void Ball::mousePressed(GameEngine *engine, Group *group, SDL_Event *event)
 {
     if (!bReleased)
     {
         velocity = 8.0;
-        const double initialAngle = PI * 1.75;
+        constexpr double initialAngle = PI * 1.75;
         xVel = velocity * cos(initialAngle);
         yVel = velocity * sin(initialAngle);
         bReleased = true;
@@ -142,7 +137,7 @@ void Ball::checkCollision(Group *group, Component *other, Group *otherGroup)
 
 //// Wall
 
-Wall::Wall(ArkanoidSpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y, int x_factor, int y_factor)
+Wall::Wall(SpriteSheet *sheet, const SDL_Rect *sourceRect, int x, int y, int x_factor, int y_factor)
     : SpriteFromSheet(sheet, sourceRect, x, y), x_factor(x_factor), y_factor(y_factor)
 {
 }
