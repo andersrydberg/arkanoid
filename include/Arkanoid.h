@@ -8,12 +8,16 @@
 #include "GameEngine.h"
 #include "SpriteSheet.h"
 #include "SpriteFromSheet.h"
-#include "SDL.h"
+#include <SDL.h>
 #include <random>
 
-inline const int WINDOW_W = 1024;
-inline const int WINDOW_H = 692;
-inline const double PI = 4 * std::atan(1);
+constexpr int WINDOW_W = 1024;
+constexpr int WINDOW_H = 692;
+constexpr double PI = 3.14159265359;
+
+constexpr int BRICK_PIXEL_WIDTH = 54;
+constexpr int BRICK_PIXEL_HEIGHT = 22;
+
 
 class ArkanoidSpriteSheet : public SpriteSheet
 {

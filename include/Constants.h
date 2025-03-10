@@ -7,7 +7,8 @@
 namespace constants
 {
     inline const std::string gResPath = "../resources/";
-    inline const std::string spriteSheetRelPath = "images/arkanoid_breakout_high_definition_spritesheet_by_netroco_ddbkgym.png";
+    inline const std::string spriteSheetRelPath =
+            "images/arkanoid_breakout_high_definition_spritesheet_by_netroco_ddbkgym.png";
 }
 
 #endif
